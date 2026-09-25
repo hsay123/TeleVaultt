@@ -44,10 +44,12 @@ body {
   height: 100vh;
   border-radius: 0;
   border: none;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--paper);
   background-image: url("assets/Gemini_Generated_Image_qkn3rdqkn3rdqkn3.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
 }
