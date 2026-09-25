@@ -7,12 +7,15 @@
   --muted-ink: rgba(20, 24, 31, 0.65);
 }
 
-html {
-  scrollbar-gutter: stable;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0;
   font-family: "Inter", sans-serif;
   background: var(--paper);
 }
@@ -22,18 +25,18 @@ body {
   width: 1728px;
   height: 1117px;
   margin: 0 auto;
-  background: var(--paper);
+  background: transparent;
   transform-origin: top center;
 }
 
 .hero__bg {
-  position: absolute;
-  left: 21px;
+  position: fixed;
+  left: 0;
   top: 0;
-  width: 1685px;
-  height: 1126px;
-  border-radius: 61px 61px 40px 40px;
-  border: 1px solid var(--paper);
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
   overflow: hidden;
   background-image: url("assets/Gemini_Generated_Image_qkn3rdqkn3rdqkn3.png");
   background-size: cover;
@@ -41,12 +44,12 @@ body {
 }
 
 .hero__wash {
-  position: absolute;
-  left: 21px;
-  right: 21px;
+  position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
   height: 220px;
-  border-radius: 61px 61px 0 0;
+  border-radius: 0;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
   pointer-events: none;
 }
@@ -288,12 +291,12 @@ body {
 
   .hero__bg,
   .hero__wash {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     border-radius: 0;
     border: none;
   }
