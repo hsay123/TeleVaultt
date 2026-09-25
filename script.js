@@ -4,22 +4,29 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   const hero = document.getElementById('hero');
+  const heroPin = document.getElementById('heroPin');
   const header = document.getElementById('siteHeader');
   const keywords = gsap.utils.toArray('.hl-word');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isDesktop = () => window.innerWidth > 768;
 
-  const scaleHero = () => {
-    if (window.innerWidth <= 768) {
+  const scaleCanvas = () => {
+    if (!isDesktop()) {
       hero.style.transform = '';
-      hero.style.width = '';
+      header.style.transform = '';
       return;
     }
     const scale = Math.min(1, window.innerWidth / 1728);
     hero.style.transform = `scale(${scale})`;
-    hero.style.width = `${1728 * scale}px`;
+    header.style.transform = `scale(${scale})`;
   };
-  scaleHero();
-  window.addEventListener('resize', scaleHero);
+  scaleCanvas();
+  window.addEventListener('resize', () => {
+    scaleCanvas();
+    if (window.ScrollTrigger) {
+      ScrollTrigger.refresh();
+    }
+  });
 
   if (reducedMotion) {
     header.classList.remove('is-blurred');
@@ -27,21 +34,37 @@ window.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  gsap.registerPlugin(ScrollTrigger);
+
   const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 
-  gsap.registerPlugin(ScrollTrigger);
+  if (isDesktop()) {
+    const scale = Math.min(1, window.innerWidth / 1728);
+    const settleY = Math.max(-400, Math.min(-20, window.innerHeight / (2 * scale) - 838));
 
-  ScrollTrigger.create({
-    trigger: hero,
-    start: 'top top',
-    end: 'bottom top',
-    onToggle: (self) => {
-      header.classList.toggle('is-blurred', self.isActive);
-    },
-  });
+    const pinTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroPin,
+        start: 'top top',
+        end: () => '+=' + window.innerHeight,
+        scrub: true,
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          header.classList.toggle('is-blurred', self.progress > 0.03);
+        },
+      },
+    });
+
+    pinTl
+      .to('.headline', { yPercent: -140, autoAlpha: 0, ease: 'power2.in', duration: 0.4 }, 0)
+      .to('.subhead', { yPercent: -140, autoAlpha: 0, ease: 'power2.in', duration: 0.4 }, 0)
+      .to('.cta-row', { yPercent: -140, autoAlpha: 0, ease: 'power2.in', duration: 0.4 }, 0)
+      .to('.glass-panel', { y: settleY, ease: 'power2.out', duration: 1 }, 0);
+  }
 
   gsap.fromTo(
     keywords,
