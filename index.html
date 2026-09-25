@@ -1,0 +1,80 @@
+S<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeleVault — Your files. Your Telegram. Your vault.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Inter:wght@400;500&family=Lily+Script+One&family=Poppins:wght@500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            lily: ['"Lily Script One"', 'cursive'],
+            poppins: ['Poppins', 'sans-serif'],
+            ibm: ['"IBM Plex Sans"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-white antialiased">
+  <main class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__wash" aria-hidden="true"></div>
+
+    <header class="site-header" id="siteHeader">
+      <a href="#" class="header__logo" aria-label="TeleVault home">
+        <img src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png" alt="" />
+      </a>
+      <nav class="header__nav" aria-label="Primary">
+        <a class="nav__link" style="left:24px" href="#features">Features</a>
+        <a class="nav__link nav__link--warm" style="left:129px" href="#how-it-works">How it Works</a>
+        <a class="nav__link" style="left:277px" href="#security">Security</a>
+        <a class="nav__link" style="left:378px" href="#pricing">Pricing</a>
+      </nav>
+      <a href="#pricing" class="header__cta">Get TeleVault</a>
+      <button class="header__avatar" type="button" aria-label="Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </header>
+
+    <h1 class="headline">
+      <span class="hl-line">
+        <span class="hl-word">Your</span>
+        <span class="hl-word">files.</span>
+        <span class="hl-word">Your</span>
+        <span class="hl-word">Telegram.</span>
+      </span>
+      <span class="hl-line">
+        <span class="hl-word">Your</span>
+        <span class="hl-word hl-script">vault</span><span class="hl-word">.</span>
+      </span>
+    </h1>
+
+    <p class="subhead">
+      TeleVault gives your Telegram storage a proper desktop file management experience. Organize, search, preview,
+      upload and manage your files from one clean interface&nbsp;.
+    </p>
+
+    <div class="cta-row">
+      <a href="#pricing" class="hero__cta">Get TeleVault</a>
+      <a href="#pricing" class="cta__alt">Already bought it?</a>
+    </div>
+
+    <div class="glass-panel" aria-hidden="true"></div>
+  </main>
+
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="script.js"></script>
+</body>
+</html>
