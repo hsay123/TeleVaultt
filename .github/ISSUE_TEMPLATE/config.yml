@@ -10,5 +10,5 @@ contact_links:
     url: https://github.com/hsay123/TeleVaultt/issues/new/choose
     about: Ask a question or discuss an idea before opening a formal issue.
   - name: Contributing guide
-    url: https://hsay123.github.io/TeleVaultt/contribute.html
+    url: https://televault-silk.vercel.app/contribute.html
     about: Read how to set up the project and open your first pull request.

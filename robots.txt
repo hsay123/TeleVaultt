@@ -1,6 +1,6 @@
 # TeleVault — robots.txt
-# The canonical host is assumed to be GitHub Pages. Update the sitemap URL if
-# the site moves to a custom domain.
+# Production host: https://televault-silk.vercel.app (Vercel). Update this file
+# if the site moves to a custom domain.
 
 User-agent: *
 Allow: /
@@ -10,4 +10,4 @@ Disallow: /node_modules/
 Disallow: /.github/
 Disallow: /scripts/
 
-Sitemap: https://hsay123.github.io/TeleVaultt/sitemap.xml
+Sitemap: https://televault-silk.vercel.app/sitemap.xml
