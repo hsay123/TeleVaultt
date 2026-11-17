@@ -43,6 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contribute: the dark panel is narrower and centred, with tighter padding and
   internal spacing, so the heading, stats, terminal and cards read as one
   compact card without losing any content.
+- Contribute: the whole section now fits in one desktop viewport below the fixed
+  header (1920×1080, 1440×900, 1366×768). Desktop spacing is derived from the
+  viewport height, and from 1200px the quick-start terminal, issue list and
+  contributor avatars share a single row instead of stacking. Tablet and mobile
+  keep the stacked layout and scroll normally.
 
 ### Fixed
 
