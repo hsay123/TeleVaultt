@@ -19,3 +19,5 @@ package-lock.json
 .lighthouseci/
 coverage/
 dist/
+test-results/
+playwright-report/
