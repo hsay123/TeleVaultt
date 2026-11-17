@@ -1618,7 +1618,14 @@ body.menu-open {
 
 .contribute__panel {
   position: relative;
-  padding: clamp(28px, 5vw, 64px);
+  /*
+   * Slightly narrower than the page container and centred: the card reads as
+   * one composed unit instead of stretching edge to edge, while the terminal
+   * and the three-up cards still have room to breathe.
+   */
+  max-width: 1040px;
+  margin-inline: auto;
+  padding: clamp(24px, 3.6vw, 48px);
   border-radius: var(--radius-xl);
   background: var(--ink);
   color: #fff;
@@ -1641,14 +1648,27 @@ body.menu-open {
   color: #fff;
 }
 
+/* Keep the header, stats and cards as one compact composition. */
+.contribute__panel .section__head {
+  margin-bottom: clamp(28px, 3vw, 40px);
+}
+
+.contribute__panel .eyebrow {
+  margin-bottom: 14px;
+}
+
+.contribute__panel .section__lede {
+  margin-top: 16px;
+}
+
 .repo {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 32px;
-  padding: 22px 24px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
   border-radius: var(--radius-m);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1710,15 +1730,15 @@ body.menu-open {
 .paths {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 28px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .path {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 24px;
+  gap: 8px;
+  padding: 20px;
   border-radius: var(--radius-m);
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1753,7 +1773,7 @@ body.menu-open {
 }
 
 .path h3 {
-  margin: 6px 0 0;
+  margin: 4px 0 0;
   font-family: var(--font-sans);
   font-size: 19px;
   font-weight: 500;
@@ -1773,7 +1793,7 @@ body.menu-open {
   align-items: center;
   gap: 6px;
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: 10px;
   font-family: var(--font-ui);
   font-size: 14px;
   color: #7fd1f8;
@@ -1792,7 +1812,7 @@ body.menu-open {
 /* Terminal ----------------------------------------------------------------- */
 
 .terminal-wrap {
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .terminal {
@@ -1873,8 +1893,8 @@ body.menu-open {
 
 .terminal__body {
   margin: 0;
-  padding: 20px 22px 24px;
-  min-height: calc(3 * 1.85em + 44px);
+  padding: 16px 18px 18px;
+  min-height: calc(3 * 1.85em + 34px);
   font-family: var(--font-mono);
   font-size: 13.5px;
   line-height: 1.85;
@@ -1896,8 +1916,8 @@ body.menu-open {
 .contrib__split {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: 28px;
-  margin-bottom: 32px;
+  gap: 24px;
+  margin-bottom: 20px;
 }
 
 .contrib__head {
