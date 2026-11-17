@@ -22,7 +22,7 @@ TeleVault turns your Telegram cloud storage into a proper desktop file manager. 
 
 These steps are for the website. For the desktop app, see [TGDrive](https://github.com/hsay123/TGDrive).
 
-You need [Node.js](https://nodejs.org/) 20 or newer and Git.
+You need [Node.js](https://nodejs.org/) 22.22 or newer and Git.
 
 ```bash
 git clone https://github.com/hsay123/TeleVaultt.git

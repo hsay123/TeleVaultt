@@ -29,7 +29,7 @@ You can also help by triaging issues, answering questions in the [app issue trac
 
 ## Set up locally
 
-Pick the repository you are working on. Both need [Node.js](https://nodejs.org/) 20 or newer and Git.
+Pick the repository you are working on. The app needs [Node.js](https://nodejs.org/) 20 or newer, this website needs Node.js 22.22 or newer, and both need Git.
 
 ### Desktop app (TGDrive)
 
