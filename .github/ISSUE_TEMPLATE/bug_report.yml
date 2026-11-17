@@ -1,0 +1,78 @@
+name: Bug report
+description: Something is broken or does not behave as documented.
+title: 'bug: '
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please search existing issues first.
+        If this is a security problem, **do not** open a public issue — use
+        [Security Advisories](https://github.com/hsay123/TeleVaultt/security/advisories/new) instead.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, including what you expected instead.
+      placeholder: When I open the site at 768px, the mobile menu...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The shortest sequence that reliably shows the bug.
+      placeholder: |
+        1. Open index.html
+        2. Resize to 768px
+        3. Click the menu button
+        4. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the project is affected?
+      options:
+        - Landing page (index.html)
+        - Contributor guide (contribute.html)
+        - Not-found page (404.html)
+        - Styles (styles.css)
+        - Behaviour (script.js)
+        - Build, CI or tooling
+        - Documentation
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system and browser (or Node version for tooling bugs).
+      placeholder: macOS 15, Chrome 141
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots, console log or recording
+      description: Drag files in here, or paste the console output.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: I have read the contributing guide.
+          required: true

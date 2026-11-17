@@ -1,0 +1,25 @@
+# Default owners for everything in the repository.
+# Replace the placeholder handle with the real maintainer before launch.
+#
+# VERIFY: CODEOWNERS handle. The placeholder below must be replaced with the
+# GitHub username of the maintainer who should review changes.
+
+* @hsay123
+
+# Documentation and contributor experience.
+/CONTRIBUTING.md @hsay123
+/CODE_OF_CONDUCT.md @hsay123
+/SECURITY.md @hsay123
+/contribute.html @hsay123
+/docs/ @hsay123
+
+# Site code.
+/index.html @hsay123
+/styles.css @hsay123
+/script.js @hsay123
+/assets/ @hsay123
+
+# CI and repository configuration.
+/.github/ @hsay123
+/package.json @hsay123
+/scripts/ @hsay123

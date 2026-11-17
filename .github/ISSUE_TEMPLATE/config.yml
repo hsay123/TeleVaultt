@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: App bug or feature request
+    url: https://github.com/hsay123/TGDrive/issues
+    about: Report a bug or request a feature in the TeleVault desktop app (TGDrive).
+  - name: Security report
+    url: https://github.com/hsay123/TeleVaultt/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue.
+  - name: Questions and ideas
+    url: https://github.com/hsay123/TeleVaultt/issues/new/choose
+    about: Ask a question or discuss an idea before opening a formal issue.
+  - name: Contributing guide
+    url: https://hsay123.github.io/TeleVaultt/contribute.html
+    about: Read how to set up the project and open your first pull request.
