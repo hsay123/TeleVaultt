@@ -24,3 +24,27 @@ test('hero hands off to the next section without an empty scroll runway', async 
   // After the pin and the hero fade, the trust strip is the next thing.
   expect(trustTop).toBeLessThanOrEqual(pinHeight + viewport + fadeHeight + 2);
 });
+
+test('the sky background covers the full hero pin', async ({ page }) => {
+  await page.goto('/index.html');
+
+  const { pinHeight, bgHeight, pinBottom, bgBottom, overflow } = await page.evaluate(() => {
+    const pin = document.getElementById('heroPin');
+    const bg = document.querySelector('.hero__bg');
+    const pinRect = pin.getBoundingClientRect();
+    const bgRect = bg.getBoundingClientRect();
+    return {
+      pinHeight: pin.offsetHeight,
+      bgHeight: bg.offsetHeight,
+      pinBottom: pinRect.bottom,
+      bgBottom: bgRect.bottom,
+      overflow: document.documentElement.scrollWidth > window.innerWidth,
+    };
+  });
+
+  // The sky must fill the pin exactly, so no band of page background can show
+  // between the bottom of the image and the hero fade.
+  expect(bgHeight).toBe(pinHeight);
+  expect(Math.abs(bgBottom - pinBottom)).toBeLessThanOrEqual(1);
+  expect(overflow).toBe(false);
+});

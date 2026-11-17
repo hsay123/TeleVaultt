@@ -115,7 +115,12 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100vh;
+  /*
+   * Fill the pin, not one viewport: on laptop/desktop ratios the scaled
+   * 1728×1117 canvas is taller than 100vh, so a 100vh sky stopped short of
+   * the hero's bottom edge and left a band of white above the hero fade.
+   */
+  height: 100%;
   border-radius: 0;
   border: none;
   margin: 0;
@@ -131,6 +136,29 @@ body {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+}
+
+/*
+ * Hand-off at the bottom edge of the sky. The photo fades into the same pale
+ * blue the hero fade starts with, so the image never meets the white page
+ * with a hard edge. It sits inside the background layer (behind the hero
+ * content) and adds no layout height.
+ */
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(140px, 16vh, 220px);
+  background: linear-gradient(
+    to bottom,
+    rgba(238, 244, 249, 0) 0%,
+    rgba(238, 244, 249, 0.28) 45%,
+    rgba(238, 244, 249, 0.72) 76%,
+    #eef4f9 100%
+  );
+  pointer-events: none;
 }
 
 .hero__wash {
@@ -452,6 +480,24 @@ body {
     height: 100vh;
     border-radius: 0;
     border: none;
+  }
+
+  /*
+   * Keep the fixed sky behind the page content. Positioned elements paint
+   * above static ones, so without this the sky covered the hero fade and the
+   * trust strip as they scrolled past it.
+   */
+  .hero__bg {
+    z-index: -1;
+  }
+
+  /*
+   * The mobile sky is fixed to the viewport, so a bottom band on it would sit
+   * at the bottom of the screen instead of the bottom of the hero. The hand-off
+   * gradient is carried by .hero-fade here instead.
+   */
+  .hero__bg::after {
+    display: none;
   }
 
   .site-header {
@@ -854,6 +900,24 @@ body.menu-open {
   height: clamp(120px, 18vh, 220px);
   margin-top: -1px;
   background: linear-gradient(to bottom, #eef4f9 0%, #f9fbfd 46%, var(--paper) 100%);
+}
+
+/*
+ * On mobile the sky is fixed to the viewport, so the fade scrolls over it
+ * rather than starting after it. Start the fade transparent and let it melt
+ * into the sky, then carry on to the same pale blue → white hand-off.
+ */
+@media (max-width: 768px) {
+  .hero-fade {
+    background: linear-gradient(
+      to bottom,
+      rgba(238, 244, 249, 0) 0%,
+      rgba(238, 244, 249, 0.6) 30%,
+      #eef4f9 58%,
+      #f9fbfd 78%,
+      var(--paper) 100%
+    );
+  }
 }
 
 /* Trust strip -------------------------------------------------------------- */

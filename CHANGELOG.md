@@ -49,6 +49,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the empty viewport of paper between the hero and the trust strip: the
   hero pin trigger is sized to the scaled 1728×1117 canvas instead of a fixed
   `200vh`, so the hero scrolls out exactly as the next section arrives.
+- Closed the white band that could still appear under the sky: the hero
+  background now fills the full pin instead of `100vh`, and its bottom edge
+  fades through pale blue into the hero fade so the image never meets the page
+  with a hard line. The mobile fade carries the same hand-off, and the fixed
+  mobile sky no longer paints over the fade and trust strip.
 
 <!-- VERIFY: release dates and version numbers. This project has no tagged release yet; the section above is a draft. -->
 
