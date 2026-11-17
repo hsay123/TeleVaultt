@@ -1,0 +1,64 @@
+# Label definitions for the TeleVault repository.
+# Apply with a label-sync tool, or create them by hand in the GitHub UI.
+#
+# Suggested tool: https://github.com/EndBug/label-sync
+
+- name: bug
+  color: 'd73a4a'
+  description: Something is broken or behaves differently from the docs.
+
+- name: enhancement
+  color: 'a2eeef'
+  description: A new feature or an improvement to existing behaviour.
+
+- name: documentation
+  color: '0075ca'
+  description: Improvements or additions to documentation.
+
+- name: design
+  color: 'c5def5'
+  description: Visual design, layout or design-token changes.
+
+- name: a11y
+  color: '5319e7'
+  description: Accessibility issue or improvement (WCAG 2.2 AA).
+
+- name: performance
+  color: 'fbca04'
+  description: Load, render or runtime performance.
+
+- name: good first issue
+  color: '7057ff'
+  description: Small, well-scoped and reviewed quickly. A good entry point.
+
+- name: help wanted
+  color: '008672'
+  description: The maintainers would welcome a contributor for this.
+
+- name: needs triage
+  color: 'ededed'
+  description: Not yet reviewed by a maintainer.
+
+- name: needs reproduction
+  color: 'fef2c0'
+  description: Waiting for a reliable set of reproduction steps.
+
+- name: blocked
+  color: 'b60205'
+  description: Waiting on an external decision or another change.
+
+- name: duplicate
+  color: 'cfd3d7'
+  description: This issue or pull request already exists.
+
+- name: wontfix
+  color: 'ffffff'
+  description: This will not be worked on.
+
+- name: ci
+  color: '1d76db'
+  description: Continuous integration and workflows.
+
+- name: dependencies
+  color: '0366d6'
+  description: Dependency updates.

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/hsay123/TeleVaultt/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue.
+  - name: Questions and ideas
+    url: https://github.com/hsay123/TeleVaultt/discussions
+    about: Ask a question or discuss an idea before opening a formal issue.
+  - name: Contributing guide
+    url: https://hsay123.github.io/TeleVaultt/contribute.html
+    about: Read how to set up the project and open your first pull request.
