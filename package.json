@@ -14,9 +14,10 @@
     "format:check": "prettier --check .",
     "lint": "html-validate index.html contribute.html 404.html",
     "check:links": "start-server-and-test dev http://127.0.0.1:4173 check:links:run",
-    "check:links:run": "linkinator http://127.0.0.1:4173 --recurse --skip \"github\\.com|github\\.io|shields\\.io\" --silent",
+    "check:links:run": "linkinator http://127.0.0.1:4173 --recurse --skip \"github\\.com|github\\.io|shields\\.io|opensource\\.org\" --silent",
+    "check:repos": "node scripts/check-repo-links.mjs",
     "lighthouse": "lhci autorun",
-    "check": "npm run format:check && npm run lint && npm run check:links",
+    "check": "npm run format:check && npm run lint && npm run check:repos && npm run check:links",
     "vendor": "node scripts/vendor.mjs"
   },
   "dependencies": {
