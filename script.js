@@ -4,11 +4,14 @@
  */
 
 const CONFIG = {
-  REPO: 'hsay123/TeleVaultt',
-  REPO_URL: 'https://github.com/hsay123/TeleVaultt',
-  // VERIFY: the repository has no published releases yet, so downloads point at the repo.
-  DOWNLOAD_URL: 'https://github.com/hsay123/TeleVaultt',
-  APP_REPO_URL: 'https://github.com/hsay123/TeleVaultt',
+  // The desktop app repository (the product).
+  APP_REPO: 'hsay123/TGDrive',
+  APP_URL: 'https://github.com/hsay123/TGDrive',
+  // This website and its contributor documentation.
+  WEB_REPO: 'hsay123/TeleVaultt',
+  WEB_URL: 'https://github.com/hsay123/TeleVaultt',
+  // TGDrive has no published release yet, so downloads point at the app repository.
+  DOWNLOAD_URL: 'https://github.com/hsay123/TGDrive',
 };
 
 const CACHE_KEY = 'televault:github:v1';
@@ -522,7 +525,7 @@ async function initGithubStats() {
       if ($('.repo__stats [data-skeleton]')) hideRepoStats();
     }, 10000);
 
-    const base = `https://api.github.com/repos/${CONFIG.REPO}`;
+    const base = `https://api.github.com/repos/${CONFIG.APP_REPO}`;
 
     const [repo, contributors, issues] = await Promise.allSettled([
       fetchJson(base),
