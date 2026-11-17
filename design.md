@@ -118,7 +118,7 @@ All vendor files are pinned in `package.json`, copied by `npm run vendor`, and c
   1. **Problem → solution sort** (`#problem`) — the loose message list fades back while the sorted file list fades in.
   2. **How it works** (`#how-it-works`) — sticky steps, one active per scroll segment.
   3. **Terminal typing** (`#contribute`) — the quick-start command types itself once the block is in view.
-- **Hero:** the load-in and the pinned scrub are unchanged from the frozen spec. The pin trigger is sized to the scaled 1728×1117 canvas so the hero scrolls out exactly as the next section arrives, with no empty scroll runway. The hero is the only place with a bespoke timeline.
+- **Hero:** the load-in and the pinned scrub are unchanged from the frozen spec. The pin trigger is sized to the scaled 1728×1117 canvas so the hero scrolls out exactly as the next section arrives, with no empty scroll runway. The sky background fills the full pin and fades into the hero fade at its bottom edge, so the photo never meets the page with a hard line. The hero is the only place with a bespoke timeline.
 - **Header:** chrome gains glass (`.is-blurred`) once the hero has scrolled past; before that it is transparent.
 - **Scrollspy:** the nav pill slides to the active link (`.is-active` + `aria-current="true"`); the docs TOC uses the same class/attribute contract.
 - **Counters:** repo stat numbers count up once, only when they have a real value from the API.
