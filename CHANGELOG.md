@@ -46,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Restored a single `<main>` landmark by turning the hero wrapper into a `div`.
 - Removed the Google Fonts request in favour of self-hosted files, eliminating a
   third-party render-blocking request.
+- Removed the empty viewport of paper between the hero and the trust strip: the
+  hero pin trigger is sized to the scaled 1728×1117 canvas instead of a fixed
+  `200vh`, so the hero scrolls out exactly as the next section arrives.
 
 <!-- VERIFY: release dates and version numbers. This project has no tagged release yet; the section above is a draft. -->
 

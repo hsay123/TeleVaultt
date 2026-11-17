@@ -88,7 +88,15 @@ body {
 
 .hero-pin {
   position: relative;
-  height: 200vh;
+  /*
+   * The pin trigger is the hero itself, not a fixed 200vh runway: the hero
+   * canvas is 1728×1117 and scaled down with a transform (which does not
+   * affect layout), so its rendered height is min(1117px, 100vw × 1117/1728).
+   * Matching that height (and never going below the 100vh background) means
+   * the hero scrolls out exactly as the next section arrives, instead of
+   * leaving an empty viewport of paper between them.
+   */
+  height: max(100vh, min(1117px, calc(100vw * 1117 / 1728)));
   width: 100%;
   overflow: hidden;
 }
