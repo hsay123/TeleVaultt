@@ -40,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed all pricing and purchase language. Download links point at the
   repository because no releases are published yet.
 - Removed the Tailwind CDN; the page ships hand-written CSS only.
+- Contribute: the dark panel is narrower and centred, with tighter padding and
+  internal spacing, so the heading, stats, terminal and cards read as one
+  compact card without losing any content.
 
 ### Fixed
 
