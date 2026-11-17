@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Contributing — TeleVault</title>
+    <meta
+      name="description"
+      content="How to contribute to TeleVault: set up the project locally, pick a good first issue, follow the commit conventions, and get your pull request reviewed."
+    />
+    <link rel="canonical" href="https://hsay123.github.io/TeleVaultt/contribute.html" />
+    <!-- VERIFY: canonical base URL is assumed to be https://hsay123.github.io/TeleVaultt/ -->
+
+    <meta name="theme-color" content="#14181F" />
+    <meta name="color-scheme" content="light" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="TeleVault" />
+    <meta property="og:title" content="Contributing — TeleVault" />
+    <meta
+      property="og:description"
+      content="Set up TeleVault locally, pick a good first issue, and open a pull request."
+    />
+    <meta property="og:url" content="https://hsay123.github.io/TeleVaultt/contribute.html" />
+    <meta property="og:image" content="https://hsay123.github.io/TeleVaultt/assets/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contributing — TeleVault" />
+    <meta
+      name="twitter:description"
+      content="Set up TeleVault locally, pick a good first issue, and open a pull request."
+    />
+    <meta name="twitter:image" content="https://hsay123.github.io/TeleVaultt/assets/img/og.jpg" />
+
+    <link rel="icon" href="assets/img/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <link rel="preload" href="assets/fonts/inter-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/vendor/lenis/lenis.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#docs-content">Skip to content</a>
+
+    <header class="doc-header">
+      <div class="container doc-header__inner">
+        <a class="doc-header__logo" href="index.html" aria-label="TeleVault home">
+          <img
+            src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+            alt="TeleVault"
+            width="148"
+            height="34"
+          />
+        </a>
+        <nav class="doc-header__nav" aria-label="Secondary">
+          <a href="index.html" aria-label="Back to site"
+            ><i data-lucide="arrow-left" aria-hidden="true"></i><span>Back to site</span></a
+          >
+          <a
+            href="https://github.com/hsay123/TeleVaultt"
+            target="_blank"
+            rel="noopener"
+            aria-label="TeleVault on GitHub"
+            ><i data-lucide="star" aria-hidden="true"></i><span>GitHub</span></a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="docs-hero">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li><a href="index.html">TeleVault</a></li>
+            <li aria-hidden="true"><i data-lucide="chevron-right"></i></li>
+            <li aria-current="page">Contributing</li>
+          </ol>
+          <h1>Contributing to TeleVault</h1>
+          <p>
+            Thanks for taking the time to contribute. TeleVault is built in public, and every issue, pull
+            request and review makes it better. This page is the designed version of
+            <a
+              href="https://github.com/hsay123/TeleVaultt/blob/main/CONTRIBUTING.md"
+              target="_blank"
+              rel="noopener"
+              >CONTRIBUTING.md</a
+            >.
+          </p>
+          <a
+            class="docs__edit"
+            href="https://github.com/hsay123/TeleVaultt/edit/main/contribute.html"
+            target="_blank"
+            rel="noopener"
+          >
+            <i data-lucide="pencil" aria-hidden="true"></i>Edit this page on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="docs">
+        <div class="container docs__layout">
+          <aside class="docs__toc">
+            <h2>On this page</h2>
+            <nav aria-label="On this page">
+              <ol>
+                <li><a href="#welcome">Welcome</a></li>
+                <li><a href="#ways">Ways to contribute</a></li>
+                <li><a href="#setup">Set up locally</a></li>
+                <li><a href="#structure">Project structure</a></li>
+                <li><a href="#first-pr">Your first PR</a></li>
+                <li><a href="#conventions">Branch &amp; commit conventions</a></li>
+                <li><a href="#style">Code &amp; design style</a></li>
+                <li><a href="#testing">Testing &amp; checks</a></li>
+                <li><a href="#review">Review process</a></li>
+                <li><a href="#bugs">Reporting bugs</a></li>
+                <li><a href="#security">Security reports</a></li>
+                <li><a href="#conduct">Code of Conduct</a></li>
+                <li><a href="#recognition">Recognition</a></li>
+              </ol>
+            </nav>
+          </aside>
+
+          <article class="docs__content" id="docs-content">
+            <details class="docs__mobile-toc">
+              <summary>On this page <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+              <nav aria-label="Sections on this page">
+                <ol>
+                  <li><a href="#welcome">Welcome</a></li>
+                  <li><a href="#ways">Ways to contribute</a></li>
+                  <li><a href="#setup">Set up locally</a></li>
+                  <li><a href="#structure">Project structure</a></li>
+                  <li><a href="#first-pr">Your first PR</a></li>
+                  <li><a href="#conventions">Branch &amp; commit conventions</a></li>
+                  <li><a href="#style">Code &amp; design style</a></li>
+                  <li><a href="#testing">Testing &amp; checks</a></li>
+                  <li><a href="#review">Review process</a></li>
+                  <li><a href="#bugs">Reporting bugs</a></li>
+                  <li><a href="#security">Security reports</a></li>
+                  <li><a href="#conduct">Code of Conduct</a></li>
+                  <li><a href="#recognition">Recognition</a></li>
+                </ol>
+              </nav>
+            </details>
+
+            <section id="welcome">
+              <h2>Welcome</h2>
+              <p>
+                You do not need permission to start. Read an issue, ask a question, open a pull request. Small
+                contributions are welcome: a typo fix, a better screenshot, one accessibility fix.
+              </p>
+              <p>
+                Before you start, please read the
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/blob/main/CODE_OF_CONDUCT.md"
+                  target="_blank"
+                  rel="noopener"
+                  >Code of Conduct</a
+                >. By participating you agree to follow it.
+              </p>
+              <div class="callout">
+                <i data-lucide="info" aria-hidden="true"></i>
+                <p>
+                  <strong>Scope of this repository.</strong> This repository currently contains the TeleVault
+                  website and this contributor documentation. If the desktop application lives in a separate
+                  repository, link it in <code>README.md</code> before promoting the project.
+                </p>
+              </div>
+              <!-- VERIFY: location of the desktop app source code -->
+            </section>
+
+            <section id="ways">
+              <h2>Ways to contribute</h2>
+              <p>Pick the path that matches what you enjoy. All three are equally useful.</p>
+              <ul>
+                <li>
+                  <strong>Fix a bug.</strong> Start with an issue labelled
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"
+                    target="_blank"
+                    rel="noopener"
+                    >good first issue</a
+                  >.
+                </li>
+                <li>
+                  <strong>Build a feature.</strong> Open a
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/issues/new?template=feature_request.yml"
+                    target="_blank"
+                    rel="noopener"
+                    >feature request</a
+                  >
+                  first so the approach can be agreed before you write code.
+                </li>
+                <li>
+                  <strong>Improve docs and design.</strong> Anything in <code>README.md</code>,
+                  <code>contribute.html</code> or <code>styles.css</code> is fair game.
+                </li>
+              </ul>
+              <p>
+                You can also help by triaging issues, answering questions in
+                <a href="https://github.com/hsay123/TeleVaultt/discussions" target="_blank" rel="noopener"
+                  >Discussions</a
+                >, or reviewing another contributor's pull request.
+              </p>
+            </section>
+
+            <section id="setup">
+              <h2>Set up locally</h2>
+              <p>
+                You need <a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a> 20 or newer
+                and Git.
+              </p>
+              <div class="code-block">
+                <div class="code-block__bar">
+                  <span>bash</span>
+                  <button
+                    class="code-block__copy"
+                    type="button"
+                    data-copy="git clone https://github.com/hsay123/TeleVaultt.git&#10;cd TeleVaultt&#10;npm install &amp;&amp; npm run dev"
+                    aria-label="Copy setup commands"
+                  >
+                    <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                  </button>
+                </div>
+                <pre><code>git clone https://github.com/hsay123/TeleVaultt.git
+cd TeleVaultt
+npm install &amp;&amp; npm run dev</code></pre>
+              </div>
+              <p>
+                The site is served at <code>http://127.0.0.1:4173</code>. There is no build step: the browser
+                loads <code>index.html</code>, <code>styles.css</code> and <code>script.js</code> directly.
+              </p>
+              <h3>Useful commands</h3>
+              <div class="code-block">
+                <div class="code-block__bar"><span>bash</span></div>
+                <pre><code>npm run dev            # static server on port 4173
+npm run format         # format every file with Prettier
+npm run format:check   # fail if anything is unformatted
+npm run lint           # validate the HTML
+npm run check:links    # crawl the local site for broken links
+npm run lighthouse     # run Lighthouse CI
+npm run vendor         # re-copy pinned browser libraries</code></pre>
+              </div>
+              <div class="callout">
+                <i data-lucide="lightbulb" aria-hidden="true"></i>
+                <p>If port 4173 is busy, run <code>npx http-server . -p 5000 -c-1</code> instead.</p>
+              </div>
+            </section>
+
+            <section id="structure">
+              <h2>Project structure</h2>
+              <div class="code-block">
+                <div class="code-block__bar"><span>text</span></div>
+                <pre><code>.
+├── index.html            Landing page
+├── contribute.html       This guide, designed
+├── 404.html              Not-found page
+├── styles.css            Every style for both pages
+├── script.js             One ES module, one CONFIG block
+├── assets/
+│   ├── fonts.css         Generated @font-face rules
+│   ├── fonts/            Self-hosted woff2 files
+│   ├── img/              Stills, Open Graph image, icons
+│   ├── vendor/           Lenis, GSAP, ScrollTrigger, Lucide
+│   └── videos/           Showcase video and poster
+├── scripts/vendor.mjs    Copies pinned libraries from npm
+├── docs/seed-issues.md   Drafts for good first issues
+├── design.md             Design tokens, type and motion rules
+└── package.json          Scripts and pinned dependencies</code></pre>
+              </div>
+              <p>Keep <code>styles.css</code> as the single stylesheet. Do not add a second CSS pipeline.</p>
+            </section>
+
+            <section id="first-pr">
+              <h2>Your first PR</h2>
+              <ol>
+                <li>
+                  <strong>Find or open an issue.</strong> Comment on it so nobody duplicates the work. For
+                  anything larger than a typo, wait for a maintainer to agree on the approach.
+                </li>
+                <li><strong>Fork and branch.</strong> <code>git switch -c fix/footer-focus-ring</code></li>
+                <li><strong>Make the change.</strong> Keep it scoped to one concern.</li>
+                <li>
+                  <strong>Run the checks.</strong>
+                  <code>npm run format &amp;&amp; npm run lint &amp;&amp; npm run check:links</code>
+                </li>
+                <li><strong>Commit</strong> using the convention below.</li>
+                <li>
+                  <strong>Open a pull request</strong> and fill in the template. Link the issue with
+                  <code>Closes #123</code>.
+                </li>
+                <li>
+                  <strong>Respond to review.</strong> Push follow-up commits; do not force-push during review.
+                </li>
+              </ol>
+            </section>
+
+            <section id="conventions">
+              <h2>Branch &amp; commit conventions</h2>
+              <p>Branches use <code>&lt;type&gt;/&lt;short-slug&gt;</code>:</p>
+              <div class="code-block">
+                <div class="code-block__bar"><span>text</span></div>
+                <pre><code>feat/contribute-terminal
+fix/mobile-menu-focus
+docs/setup-instructions
+a11y/accordion-labels
+perf/lazy-feature-images</code></pre>
+              </div>
+              <p>
+                Commits follow
+                <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener"
+                  >Conventional Commits</a
+                >:
+              </p>
+              <div class="code-block">
+                <div class="code-block__bar"><span>text</span></div>
+                <pre><code>&lt;type&gt;(&lt;optional scope&gt;): &lt;short imperative summary&gt;
+
+feat(contribute): load repo stats from the GitHub API
+fix(nav): keep the scrollspy pill inside the header at 1024px
+docs(contributing): explain how to run the link checker</code></pre>
+              </div>
+              <p>
+                Common types: <code>feat</code>, <code>fix</code>, <code>docs</code>, <code>style</code>,
+                <code>refactor</code>, <code>perf</code>, <code>test</code>, <code>build</code>,
+                <code>ci</code>, <code>chore</code>, <code>a11y</code>. Write the summary in the imperative
+                mood, keep it under 72 characters, and use the body to explain <em>why</em>.
+              </p>
+            </section>
+
+            <section id="style">
+              <h2>Code &amp; design style</h2>
+              <ul>
+                <li>
+                  <strong>HTML:</strong> semantic elements, one <code>h1</code> per page, logical heading
+                  order, <code>alt</code> on every meaningful image, <code>aria-*</code> only where native
+                  semantics are not enough.
+                </li>
+                <li>
+                  <strong>CSS:</strong> use the tokens in
+                  <a href="design.md">design.md</a> (<code>--ink</code>, <code>--surface</code>,
+                  <code>--line</code>, <code>--accent</code>, radii, spacing). Do not hard-code a new colour
+                  if a token exists.
+                </li>
+                <li>
+                  <strong>JavaScript:</strong> one ES module. Every initialiser must feature-detect its DOM
+                  and fail silently. Never add a library for something the platform already does.
+                </li>
+                <li>
+                  <strong>Copy:</strong> plain, confident, no exclamation points. Buttons say what happens.
+                </li>
+                <li>
+                  <strong>Motion:</strong> one reveal pattern, at most three scrubbed moments. Respect
+                  <code>prefers-reduced-motion</code>.
+                </li>
+                <li><strong>Formatting:</strong> Prettier decides. Do not argue with it in review.</li>
+              </ul>
+              <div class="callout callout--warn">
+                <i data-lucide="triangle-alert" aria-hidden="true"></i>
+                <p>
+                  <strong>The hero layout is frozen.</strong> Do not change its sizing, positions or
+                  background. The only accepted hero changes are copy edits approved in an issue.
+                </p>
+              </div>
+            </section>
+
+            <section id="testing">
+              <h2>Testing &amp; checks</h2>
+              <p>Run before every pull request:</p>
+              <div class="code-block">
+                <div class="code-block__bar">
+                  <span>bash</span>
+                  <button
+                    class="code-block__copy"
+                    type="button"
+                    data-copy="npm run format:check&#10;npm run lint&#10;npm run check:links"
+                    aria-label="Copy check commands"
+                  >
+                    <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                  </button>
+                </div>
+                <pre><code>npm run format:check
+npm run lint
+npm run check:links</code></pre>
+              </div>
+              <p>For visual changes, also check:</p>
+              <ul>
+                <li>360 px, 768 px, 1280 px and 1920 px widths</li>
+                <li>keyboard-only navigation (Tab, Shift+Tab, Enter, Space, Escape)</li>
+                <li>
+                  <code>prefers-reduced-motion: reduce</code> (no smooth scroll, no scrubbed animation, no
+                  tilt)
+                </li>
+                <li>no console errors and no horizontal scrollbar</li>
+                <li>Lighthouse mobile: Performance ≥ 90, Accessibility ≥ 95, SEO ≥ 95</li>
+              </ul>
+              <div class="callout">
+                <i data-lucide="lightbulb" aria-hidden="true"></i>
+                <p>
+                  The GitHub data layer caches responses in <code>localStorage</code> for one hour. To test
+                  the loading and error states, clear <code>televault:github:v1</code> in DevTools and
+                  throttle the network.
+                </p>
+              </div>
+            </section>
+
+            <section id="review">
+              <h2>Review process</h2>
+              <ol>
+                <li>A maintainer reviews within the response-time expectation below.</li>
+                <li>CI must pass: Prettier, <code>html-validate</code>, link check and Lighthouse.</li>
+                <li>
+                  One approval is enough for docs, copy and small fixes. Larger changes need a second review.
+                </li>
+                <li>Squash-merge with a Conventional Commit title.</li>
+              </ol>
+              <div class="callout">
+                <i data-lucide="clock" aria-hidden="true"></i>
+                <p>
+                  <strong>Response-time expectation (owner decision):</strong> maintainers aim to respond to a
+                  new issue or pull request within <strong>7 days</strong>. If a pull request has had no
+                  response after 7 days, mention the maintainer in the thread. This is a best-effort target
+                  for a volunteer project, not a service-level agreement.
+                </p>
+              </div>
+            </section>
+
+            <section id="bugs">
+              <h2>Reporting bugs</h2>
+              <p>
+                Use the
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/issues/new?template=bug_report.yml"
+                  target="_blank"
+                  rel="noopener"
+                  >bug report template</a
+                >. Include:
+              </p>
+              <ul>
+                <li>what you expected and what happened</li>
+                <li>steps to reproduce, as short as possible</li>
+                <li>your operating system, browser or app version</li>
+                <li>screenshots or a console log if they help</li>
+              </ul>
+              <p>Please search existing issues first. Do not open a public issue for a security problem.</p>
+            </section>
+
+            <section id="security">
+              <h2>Security reports</h2>
+              <p>
+                Do not report vulnerabilities in a public issue. Use GitHub's private
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/security/advisories/new"
+                  target="_blank"
+                  rel="noopener"
+                  >Security Advisories</a
+                >
+                flow. See
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/blob/main/SECURITY.md"
+                  target="_blank"
+                  rel="noopener"
+                  >SECURITY.md</a
+                >
+                for supported versions and the disclosure timeline.
+              </p>
+            </section>
+
+            <section id="conduct">
+              <h2>Code of Conduct</h2>
+              <p>
+                All participation is covered by the
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/blob/main/CODE_OF_CONDUCT.md"
+                  target="_blank"
+                  rel="noopener"
+                  >Code of Conduct</a
+                >. Report unacceptable behaviour to the contact listed there. Maintainers will review reports
+                confidentially.
+              </p>
+            </section>
+
+            <section id="recognition">
+              <h2>Recognition</h2>
+              <p>
+                Every contributor is listed on the GitHub contributors graph and in the Contribute section of
+                the site. Significant contributions are credited in
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/blob/main/CHANGELOG.md"
+                  target="_blank"
+                  rel="noopener"
+                  >CHANGELOG.md</a
+                >. There is no contributor licence agreement: by opening a pull request you agree that your
+                contribution is released under the
+                <a
+                  href="https://github.com/hsay123/TeleVaultt/blob/main/LICENSE"
+                  target="_blank"
+                  rel="noopener"
+                  >MIT License</a
+                >.
+              </p>
+            </section>
+
+            <nav class="prevnext" aria-label="Pagination">
+              <a href="index.html">
+                <span>Previous</span>
+                <strong>← Back to TeleVault</strong>
+              </a>
+              <a
+                href="https://github.com/hsay123/TeleVaultt/blob/main/CONTRIBUTING.md"
+                target="_blank"
+                rel="noopener"
+              >
+                <span>Next</span>
+                <strong>CONTRIBUTING.md on GitHub →</strong>
+              </a>
+            </nav>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <img
+              src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+              alt="TeleVault"
+              width="193"
+              height="44"
+              loading="lazy"
+            />
+            <p>A desktop file manager for the storage you already have.</p>
+          </div>
+          <nav class="footer__cols" aria-label="Footer">
+            <div class="footer__col">
+              <h2 class="footer__heading">Product</h2>
+              <ul>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#how-it-works">How it works</a></li>
+                <li><a href="index.html#security">Security</a></li>
+                <li><a href="https://github.com/hsay123/TeleVaultt" data-download>Download</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Open source</h2>
+              <ul>
+                <li><a href="index.html#contribute">Contribute</a></li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener">GitHub</a>
+                </li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt/issues" target="_blank" rel="noopener"
+                    >Issues</a
+                  >
+                </li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt/discussions" target="_blank" rel="noopener"
+                    >Discussions</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Community</h2>
+              <ul>
+                <li><a href="contribute.html">Contributing guide</a></li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/CODE_OF_CONDUCT.md"
+                    target="_blank"
+                    rel="noopener"
+                    >Code of Conduct</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/SECURITY.md"
+                    target="_blank"
+                    rel="noopener"
+                    >Security policy</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/LICENSE"
+                    target="_blank"
+                    rel="noopener"
+                    >License</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <p class="footer__legal">
+          TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram.
+        </p>
+        <p class="footer__copy">© 2026 TeleVault contributors · MIT License</p>
+      </div>
+      <svg class="footer__wordmark" aria-hidden="true" focusable="false" role="none">
+        <text x="50%" y="0.78em" text-anchor="middle">TeleVault</text>
+      </svg>
+    </footer>
+
+    <script src="assets/vendor/lenis/lenis.min.js"></script>
+    <script src="assets/vendor/gsap/gsap.min.js"></script>
+    <script src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
+    <script src="assets/vendor/lucide/lucide-subset.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
