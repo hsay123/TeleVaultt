@@ -43,9 +43,11 @@ agreement. We will keep you informed if a fix takes longer.
 
 ## Scope
 
-This repository contains the TeleVault website. In-scope issues include, for
-example, cross-site scripting in page scripts, dependency vulnerabilities that
-affect the shipped bundle, and leaked secrets.
+This policy covers the TeleVault website in the `TeleVaultt` repository. The
+desktop app lives in `hsay123/TGDrive`; it does not have a security policy of
+its own yet. In-scope website issues include, for example, cross-site scripting
+in page scripts, dependency vulnerabilities that affect the shipped bundle, and
+leaked secrets.
 
 Out of scope: findings that require a compromised device or browser extension,
 denial of service from unrealistic traffic volumes, and reports about the

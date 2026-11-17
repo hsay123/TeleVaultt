@@ -2629,6 +2629,134 @@ body.menu-open {
   height: 14px;
 }
 
+/* Repo picker --------------------------------------------------------------- */
+
+.repo-picker {
+  margin: 0 0 24px;
+  padding: 22px;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.repo-picker__intro h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.repo-picker__intro p {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted-ink);
+}
+
+.repo-picker__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.repo-picker__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.repo-picker__card h4 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.repo-picker__card p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted-ink);
+}
+
+.repo-picker__card .btn {
+  margin-top: auto;
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+/* Setup tabs ---------------------------------------------------------------- */
+
+.setup-tabs {
+  margin: 0 0 20px;
+}
+
+.setup-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.setup-tabs__tab {
+  flex: 1 1 auto;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted-ink);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.setup-tabs__tab:hover {
+  color: var(--ink);
+}
+
+.setup-tabs__tab[aria-selected='true'] {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.setup-tabs__tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.setup-tabs__panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .repo-picker__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .setup-tabs__tab {
+    flex: 1 1 100%;
+  }
+}
+
 .prevnext {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

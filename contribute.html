@@ -68,7 +68,7 @@
             ><i data-lucide="arrow-left" aria-hidden="true"></i><span>Back to site</span></a
           >
           <a
-            href="https://github.com/hsay123/TeleVaultt"
+            href="https://github.com/hsay123/TGDrive"
             target="_blank"
             rel="noopener"
             aria-label="TeleVault on GitHub"
@@ -155,6 +155,40 @@
 
             <section id="welcome">
               <h2>Welcome</h2>
+              <div class="repo-picker" id="which-repo">
+                <div class="repo-picker__intro">
+                  <h3>Which repo?</h3>
+                  <p>
+                    TeleVault is two repositories. <strong>TGDrive</strong> is the desktop app's repository
+                    name; the app it ships is called TeleVault. This website and its documentation live in
+                    <strong>TeleVaultt</strong>.
+                  </p>
+                </div>
+                <div class="repo-picker__cards">
+                  <div class="repo-picker__card">
+                    <h4>App bug or feature</h4>
+                    <p>Anything in the desktop app: sign-in, sync, uploads, encryption, the interface.</p>
+                    <a
+                      class="btn btn--primary"
+                      href="https://github.com/hsay123/TGDrive/issues"
+                      target="_blank"
+                      rel="noopener"
+                      >Open TGDrive issues</a
+                    >
+                  </div>
+                  <div class="repo-picker__card">
+                    <h4>Website, docs or design</h4>
+                    <p>Anything on this site: copy, layout, accessibility, this contributor guide.</p>
+                    <a
+                      class="btn btn--ghost"
+                      href="https://github.com/hsay123/TeleVaultt/issues"
+                      target="_blank"
+                      rel="noopener"
+                      >Open TeleVaultt issues</a
+                    >
+                  </div>
+                </div>
+              </div>
               <p>
                 You do not need permission to start. Read an issue, ask a question, open a pull request. Small
                 contributions are welcome: a typo fix, a better screenshot, one accessibility fix.
@@ -168,15 +202,6 @@
                   >Code of Conduct</a
                 >. By participating you agree to follow it.
               </p>
-              <div class="callout">
-                <i data-lucide="info" aria-hidden="true"></i>
-                <p>
-                  <strong>Scope of this repository.</strong> This repository currently contains the TeleVault
-                  website and this contributor documentation. If the desktop application lives in a separate
-                  repository, link it in <code>README.md</code> before promoting the project.
-                </p>
-              </div>
-              <!-- VERIFY: location of the desktop app source code -->
             </section>
 
             <section id="ways">
@@ -186,7 +211,7 @@
                 <li>
                   <strong>Fix a bug.</strong> Start with an issue labelled
                   <a
-                    href="https://github.com/hsay123/TeleVaultt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"
+                    href="https://github.com/hsay123/TGDrive/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"
                     target="_blank"
                     rel="noopener"
                     >good first issue</a
@@ -194,10 +219,7 @@
                 </li>
                 <li>
                   <strong>Build a feature.</strong> Open a
-                  <a
-                    href="https://github.com/hsay123/TeleVaultt/issues/new?template=feature_request.yml"
-                    target="_blank"
-                    rel="noopener"
+                  <a href="https://github.com/hsay123/TGDrive/issues/new" target="_blank" rel="noopener"
                     >feature request</a
                   >
                   first so the approach can be agreed before you write code.
@@ -208,9 +230,9 @@
                 </li>
               </ul>
               <p>
-                You can also help by triaging issues, answering questions in
-                <a href="https://github.com/hsay123/TeleVaultt/discussions" target="_blank" rel="noopener"
-                  >Discussions</a
+                You can also help by triaging issues, answering questions in the
+                <a href="https://github.com/hsay123/TGDrive/issues" target="_blank" rel="noopener"
+                  >issue tracker</a
                 >, or reviewing another contributor's pull request.
               </p>
             </section>
@@ -218,48 +240,181 @@
             <section id="setup">
               <h2>Set up locally</h2>
               <p>
-                You need <a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a> 20 or newer
-                and Git.
+                Pick the repository you are working on. Both need
+                <a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a> 20 or newer and Git.
               </p>
-              <div class="code-block">
-                <div class="code-block__bar">
-                  <span>bash</span>
+
+              <div class="setup-tabs" data-setup-tabs>
+                <div class="setup-tabs__list" role="tablist" aria-label="Set up locally">
                   <button
-                    class="code-block__copy"
+                    class="setup-tabs__tab"
                     type="button"
-                    data-copy="git clone https://github.com/hsay123/TeleVaultt.git&#10;cd TeleVaultt&#10;npm install &amp;&amp; npm run dev"
-                    aria-label="Copy setup commands"
+                    role="tab"
+                    id="setup-tab-app"
+                    aria-controls="setup-app"
+                    aria-selected="true"
+                    tabindex="0"
+                    data-setup-tab="app"
                   >
-                    <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                    Desktop app (TGDrive)
+                  </button>
+                  <button
+                    class="setup-tabs__tab"
+                    type="button"
+                    role="tab"
+                    id="setup-tab-website"
+                    aria-controls="setup-website"
+                    aria-selected="false"
+                    tabindex="-1"
+                    data-setup-tab="website"
+                  >
+                    Website (TeleVaultt)
                   </button>
                 </div>
-                <pre><code>git clone https://github.com/hsay123/TeleVaultt.git
+
+                <div
+                  class="setup-tabs__panel"
+                  role="tabpanel"
+                  id="setup-app"
+                  aria-labelledby="setup-tab-app"
+                  tabindex="0"
+                  data-setup-panel="app"
+                >
+                  <p>
+                    The app is an Electron 29 + React 18 + TypeScript client. You also need Python 3 and a C++
+                    toolchain for <code>better-sqlite3</code> and <code>keytar</code>:
+                    <code>sudo apt install python3 python3-pip build-essential</code> on Debian/Ubuntu, or
+                    <code>xcode-select --install</code> on macOS.
+                  </p>
+                  <p>
+                    Create a Telegram application at
+                    <a href="https://my.telegram.org/apps" target="_blank" rel="noopener"
+                      >my.telegram.org/apps</a
+                    >
+                    and copy its API ID and API hash.
+                  </p>
+                  <div class="code-block">
+                    <div class="code-block__bar">
+                      <span>bash</span>
+                      <button
+                        class="code-block__copy"
+                        type="button"
+                        data-copy="git clone https://github.com/hsay123/TGDrive.git&#10;cd TGDrive/televault&#10;cp .env.example .env&#10;npm install&#10;npm run dev"
+                        aria-label="Copy app setup commands"
+                      >
+                        <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                      </button>
+                    </div>
+                    <pre><code>git clone https://github.com/hsay123/TGDrive.git
+cd TGDrive/televault
+cp .env.example .env
+# add TELEGRAM_API_ID and TELEGRAM_API_HASH to .env
+npm install
+npm run dev</code></pre>
+                  </div>
+                  <p>
+                    <code>npm install</code> rebuilds the native modules through
+                    <code>electron-rebuild</code>; if that fails, run <code>npm run rebuild</code>.
+                    <code>npm run dev</code> starts Vite on <code>http://localhost:5173</code>, the TypeScript
+                    watcher and Electron.
+                  </p>
+                  <h3>App checks and builds</h3>
+                  <div class="code-block">
+                    <div class="code-block__bar"><span>bash</span></div>
+                    <pre><code>npx tsc --noEmit              # type check
+npx vite build                # renderer build
+npx electron-builder --dir    # package without an installer
+npm run build:win             # Windows .exe
+npm run build:mac             # macOS .dmg
+npm run build:linux           # Linux .AppImage</code></pre>
+                  </div>
+                  <p>
+                    TGDrive has no test script yet; its CI runs the first three commands above. The full guide
+                    is
+                    <a
+                      href="https://github.com/hsay123/TGDrive/blob/main/televault/docs/SETUP.md"
+                      target="_blank"
+                      rel="noopener"
+                      >televault/docs/SETUP.md</a
+                    >.
+                  </p>
+                </div>
+
+                <div
+                  class="setup-tabs__panel"
+                  role="tabpanel"
+                  id="setup-website"
+                  aria-labelledby="setup-tab-website"
+                  tabindex="0"
+                  data-setup-panel="website"
+                  hidden
+                >
+                  <div class="code-block">
+                    <div class="code-block__bar">
+                      <span>bash</span>
+                      <button
+                        class="code-block__copy"
+                        type="button"
+                        data-copy="git clone https://github.com/hsay123/TeleVaultt.git&#10;cd TeleVaultt&#10;npm install &amp;&amp; npm run dev"
+                        aria-label="Copy website setup commands"
+                      >
+                        <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                      </button>
+                    </div>
+                    <pre><code>git clone https://github.com/hsay123/TeleVaultt.git
 cd TeleVaultt
 npm install &amp;&amp; npm run dev</code></pre>
-              </div>
-              <p>
-                The site is served at <code>http://127.0.0.1:4173</code>. There is no build step: the browser
-                loads <code>index.html</code>, <code>styles.css</code> and <code>script.js</code> directly.
-              </p>
-              <h3>Useful commands</h3>
-              <div class="code-block">
-                <div class="code-block__bar"><span>bash</span></div>
-                <pre><code>npm run dev            # static server on port 4173
+                  </div>
+                  <p>
+                    The site is served at <code>http://127.0.0.1:4173</code>. There is no build step: the
+                    browser loads <code>index.html</code>, <code>styles.css</code> and <code>script.js</code>
+                    directly.
+                  </p>
+                  <h3>Useful commands</h3>
+                  <div class="code-block">
+                    <div class="code-block__bar"><span>bash</span></div>
+                    <pre><code>npm run dev            # static server on port 4173
 npm run format         # format every file with Prettier
 npm run format:check   # fail if anything is unformatted
 npm run lint           # validate the HTML
 npm run check:links    # crawl the local site for broken links
+npm run check          # format, lint, links and the repo-link guard
 npm run lighthouse     # run Lighthouse CI
 npm run vendor         # re-copy pinned browser libraries</code></pre>
+                  </div>
+                  <div class="callout">
+                    <i data-lucide="lightbulb" aria-hidden="true"></i>
+                    <p>If port 4173 is busy, run <code>npx http-server . -p 5000 -c-1</code> instead.</p>
+                  </div>
+                </div>
               </div>
-              <div class="callout">
-                <i data-lucide="lightbulb" aria-hidden="true"></i>
-                <p>If port 4173 is busy, run <code>npx http-server . -p 5000 -c-1</code> instead.</p>
-              </div>
+              <noscript>
+                <p>
+                  JavaScript is off, so the tabs cannot switch. The website steps are also in
+                  <a href="https://github.com/hsay123/TeleVaultt/blob/main/CONTRIBUTING.md#set-up-locally"
+                    >CONTRIBUTING.md</a
+                  >.
+                </p>
+              </noscript>
             </section>
 
             <section id="structure">
               <h2>Project structure</h2>
+              <h3>Desktop app — TGDrive</h3>
+              <div class="code-block">
+                <div class="code-block__bar"><span>text</span></div>
+                <pre><code>TGDrive/
+├── assets/                 Repository logos
+└── televault/              The Electron app
+    ├── electron/           Main process, preload, updater, IPC handlers
+    ├── core/               Database, Telegram client, crypto, sync, filesystem
+    ├── src/                React renderer (pages, components, stores, hooks)
+    ├── server/             Optional licence server
+    ├── scripts/            Maintenance and licence scripts
+    ├── bench/              Performance harnesses
+    └── docs/               Setup and internal notes</code></pre>
+              </div>
+              <h3>Website — TeleVaultt</h3>
               <div class="code-block">
                 <div class="code-block__bar"><span>text</span></div>
                 <pre><code>.
@@ -284,6 +439,10 @@ npm run vendor         # re-copy pinned browser libraries</code></pre>
 
             <section id="first-pr">
               <h2>Your first PR</h2>
+              <p>
+                These steps apply to both repositories. Use the one you picked in
+                <a href="#which-repo">Which repo?</a> above; the checks differ.
+              </p>
               <ol>
                 <li>
                   <strong>Find or open an issue.</strong> Comment on it so nobody duplicates the work. For
@@ -292,8 +451,8 @@ npm run vendor         # re-copy pinned browser libraries</code></pre>
                 <li><strong>Fork and branch.</strong> <code>git switch -c fix/footer-focus-ring</code></li>
                 <li><strong>Make the change.</strong> Keep it scoped to one concern.</li>
                 <li>
-                  <strong>Run the checks.</strong>
-                  <code>npm run format &amp;&amp; npm run lint &amp;&amp; npm run check:links</code>
+                  <strong>Run the checks.</strong> Website: <code>npm run check</code>. App:
+                  <code>npx tsc --noEmit &amp;&amp; npx vite build</code>.
                 </li>
                 <li><strong>Commit</strong> using the convention below.</li>
                 <li>
@@ -337,6 +496,10 @@ docs(contributing): explain how to run the link checker</code></pre>
                 <code>ci</code>, <code>chore</code>, <code>a11y</code>. Write the summary in the imperative
                 mood, keep it under 72 characters, and use the body to explain <em>why</em>.
               </p>
+              <p>
+                The same convention applies to both repositories. TGDrive has no contributing rules of its own
+                yet, so use this guide there too.
+              </p>
             </section>
 
             <section id="style">
@@ -379,22 +542,25 @@ docs(contributing): explain how to run the link checker</code></pre>
 
             <section id="testing">
               <h2>Testing &amp; checks</h2>
-              <p>Run before every pull request:</p>
+              <p>
+                Website pull requests must pass <code>npm run check</code>: Prettier,
+                <code>html-validate</code>, the link check and the repo-link guard. App pull requests must
+                pass TGDrive's build workflow: <code>npx tsc --noEmit</code>, <code>npx vite build</code> and
+                <code>npx electron-builder --dir</code>.
+              </p>
               <div class="code-block">
                 <div class="code-block__bar">
                   <span>bash</span>
                   <button
                     class="code-block__copy"
                     type="button"
-                    data-copy="npm run format:check&#10;npm run lint&#10;npm run check:links"
+                    data-copy="npm run check"
                     aria-label="Copy check commands"
                   >
                     <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
                   </button>
                 </div>
-                <pre><code>npm run format:check
-npm run lint
-npm run check:links</code></pre>
+                <pre><code>npm run check</code></pre>
               </div>
               <p>For visual changes, also check:</p>
               <ul>
@@ -421,7 +587,14 @@ npm run check:links</code></pre>
               <h2>Review process</h2>
               <ol>
                 <li>A maintainer reviews within the response-time expectation below.</li>
-                <li>CI must pass: Prettier, <code>html-validate</code>, link check and Lighthouse.</li>
+                <li>
+                  Website PRs must pass <code>npm run check</code>: Prettier, <code>html-validate</code>, the
+                  link check and the repo-link guard, plus Lighthouse.
+                </li>
+                <li>
+                  App PRs must pass TGDrive's build workflow: <code>npx tsc --noEmit</code>,
+                  <code>npx vite build</code> and <code>npx electron-builder --dir</code>.
+                </li>
                 <li>
                   One approval is enough for docs, copy and small fixes. Larger changes need a second review.
                 </li>
@@ -441,12 +614,15 @@ npm run check:links</code></pre>
             <section id="bugs">
               <h2>Reporting bugs</h2>
               <p>
-                Use the
+                App bugs go to the
+                <a href="https://github.com/hsay123/TGDrive/issues/new" target="_blank" rel="noopener"
+                  >TGDrive issue tracker</a
+                >. Website and documentation bugs go to the
                 <a
                   href="https://github.com/hsay123/TeleVaultt/issues/new?template=bug_report.yml"
                   target="_blank"
                   rel="noopener"
-                  >bug report template</a
+                  >TeleVaultt bug report template</a
                 >. Include:
               </p>
               <ul>
@@ -496,21 +672,35 @@ npm run check:links</code></pre>
             <section id="recognition">
               <h2>Recognition</h2>
               <p>
-                Every contributor is listed on the GitHub contributors graph and in the Contribute section of
-                the site. Significant contributions are credited in
+                Every contributor is listed on the contributors graph of the repository they contributed to.
+                Significant website contributions are credited in
                 <a
                   href="https://github.com/hsay123/TeleVaultt/blob/main/CHANGELOG.md"
                   target="_blank"
                   rel="noopener"
-                  >CHANGELOG.md</a
+                  >the site changelog</a
+                >; app changes are recorded in
+                <a
+                  href="https://github.com/hsay123/TGDrive/blob/main/televault/CHANGELOG.md"
+                  target="_blank"
+                  rel="noopener"
+                  >TGDrive's changelog</a
                 >. There is no contributor licence agreement: by opening a pull request you agree that your
-                contribution is released under the
+                contribution is released under the MIT License — the
                 <a
                   href="https://github.com/hsay123/TeleVaultt/blob/main/LICENSE"
                   target="_blank"
                   rel="noopener"
-                  >MIT License</a
-                >.
+                  >website LICENSE</a
+                >
+                (© TeleVault contributors) for this repository, and
+                <a
+                  href="https://github.com/hsay123/TGDrive/blob/main/televault/LICENSE"
+                  target="_blank"
+                  rel="noopener"
+                  >televault/LICENSE</a
+                >
+                (© TeleVault) for the app.
               </p>
             </section>
 
@@ -553,7 +743,7 @@ npm run check:links</code></pre>
                 <li><a href="index.html#features">Features</a></li>
                 <li><a href="index.html#how-it-works">How it works</a></li>
                 <li><a href="index.html#security">Security</a></li>
-                <li><a href="https://github.com/hsay123/TeleVaultt" data-download>Download</a></li>
+                <li><a href="https://github.com/hsay123/TGDrive" data-download>Download</a></li>
               </ul>
             </div>
             <div class="footer__col">
@@ -561,16 +751,11 @@ npm run check:links</code></pre>
               <ul>
                 <li><a href="index.html#contribute">Contribute</a></li>
                 <li>
-                  <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener">GitHub</a>
+                  <a href="https://github.com/hsay123/TGDrive" target="_blank" rel="noopener">GitHub</a>
                 </li>
                 <li>
-                  <a href="https://github.com/hsay123/TeleVaultt/issues" target="_blank" rel="noopener"
+                  <a href="https://github.com/hsay123/TGDrive/issues" target="_blank" rel="noopener"
                     >Issues</a
-                  >
-                </li>
-                <li>
-                  <a href="https://github.com/hsay123/TeleVaultt/discussions" target="_blank" rel="noopener"
-                    >Discussions</a
                   >
                 </li>
               </ul>
@@ -579,6 +764,11 @@ npm run check:links</code></pre>
               <h2 class="footer__heading">Community</h2>
               <ul>
                 <li><a href="contribute.html">Contributing guide</a></li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener"
+                    >Website source</a
+                  >
+                </li>
                 <li>
                   <a
                     href="https://github.com/hsay123/TeleVaultt/blob/main/CODE_OF_CONDUCT.md"

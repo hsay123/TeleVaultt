@@ -25,6 +25,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Split repository links: product links (Contribute, downloads, issues, stats,
+  JSON-LD) now point at the app repository `hsay123/TGDrive`, while website and
+  documentation links stay on `hsay123/TeleVaultt`.
+- `contribute.html` and `CONTRIBUTING.md` now explain which repository to use and
+  separate app and website setup steps.
+- Removed Discussions links because Discussions is not enabled on either
+  repository.
 - Navigation: "Pricing" is replaced by "Contribute"; the hero secondary action
   now reads "View on GitHub" and opens the repository in a new tab.
 - Removed all pricing and purchase language. Download links point at the

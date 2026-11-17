@@ -11,9 +11,16 @@ TeleVault turns your Telegram cloud storage into a proper desktop file manager. 
 - **No new cloud.** Your files stay in the Telegram account you already use.
 - **No account with us.** TeleVault is a client, not a storage provider.
 
-> **Repository scope.** This repository currently contains the TeleVault marketing site and contributor documentation. If the desktop app lives in a separate repository, link it here before promoting the project. <!-- VERIFY: location of the desktop app source code -->
+## Repositories
+
+| What                                           | Repository                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------- |
+| Desktop app (the product)                      | [hsay123/TGDrive](https://github.com/hsay123/TGDrive)       |
+| Website and contributor docs (this repository) | [hsay123/TeleVaultt](https://github.com/hsay123/TeleVaultt) |
 
 ## Quick start
+
+These steps are for the website. For the desktop app, see [TGDrive](https://github.com/hsay123/TGDrive).
 
 You need [Node.js](https://nodejs.org/) 20 or newer and Git.
 
@@ -61,7 +68,7 @@ The site is served at <http://127.0.0.1:4173>. There is no build step: the brows
 - **Copy and layout** live in `index.html`. Sections are in reading order and each one is commented.
 - **Styling** is a single stylesheet, `styles.css`. Tokens are defined once in `:root` and reused.
 - **Behaviour** is `script.js`. Every initialiser feature-detects its DOM and fails silently.
-- **Live GitHub data** (stars, forks, issues, contributors) is fetched client-side and cached in `localStorage` for one hour. To point the site at a different repository, edit `CONFIG` at the top of `script.js`.
+- **Live GitHub data** (stars, forks, issues, contributors) is fetched client-side and cached in `localStorage` for one hour. `CONFIG` at the top of `script.js` keeps the app repo (`APP_REPO`/`APP_URL`) and this site's repo (`WEB_REPO`/`WEB_URL`) separate; change the matching constant, never one shared one.
 
 The hero layout is intentionally frozen. Its canvas is a 1728 × 1117 design scaled with a transform, so changing its internal spacing breaks the match. See `design.md` §1a.
 
@@ -92,7 +99,7 @@ Contributions of every size are welcome. Start with [CONTRIBUTING.md](CONTRIBUTI
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security policy](SECURITY.md)
 - [Changelog](CHANGELOG.md)
-- [Good first issues](https://github.com/hsay123/TeleVaultt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+- [Good first issues](https://github.com/hsay123/TGDrive/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 ## License
 

@@ -4,7 +4,12 @@ Thanks for taking the time to contribute. TeleVault is an open-source project bu
 
 This guide is the single source of truth for contributing. The designed version lives at [contribute.html](contribute.html) and says the same thing.
 
-> **A note on scope:** this repository currently contains the TeleVault website and this contributor documentation. If the desktop application lives in a separate repository, add the link here before promoting the project. <!-- VERIFY: location of the desktop app source code -->
+> **Which repo?** TeleVault is two repositories. **TGDrive** is the desktop app's repository name; the app it ships is called TeleVault. This website and its documentation live in **TeleVaultt**.
+
+| You want to report…                                                         | Open an issue in                                                  |
+| --------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| An app bug or feature (sign-in, sync, uploads, encryption, the interface)   | [TGDrive issues](https://github.com/hsay123/TGDrive/issues)       |
+| A website, docs or design problem (copy, layout, accessibility, this guide) | [TeleVaultt issues](https://github.com/hsay123/TeleVaultt/issues) |
 
 ## Welcome
 
@@ -14,17 +19,49 @@ Before you start, please read the [Code of Conduct](CODE_OF_CONDUCT.md). By part
 
 ## Ways to contribute
 
-| Path                  | Good for                                    | Where to start                                                                                                                           |
-| --------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Fix a bug             | People who like a clear reproduction        | Issues labelled [`good first issue`](https://github.com/hsay123/TeleVaultt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) |
-| Build a feature       | People who want to shape the product        | Open a [feature request](https://github.com/hsay123/TeleVaultt/issues/new?template=feature_request.yml) first                            |
-| Improve docs & design | Writers, designers, accessibility reviewers | Anything in `README.md`, `contribute.html` or `styles.css`                                                                               |
+| Path                  | Repository           | Good for                                    | Where to start                                                                                                                        |
+| --------------------- | -------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Fix a bug             | TGDrive (app)        | People who like a clear reproduction        | Issues labelled [`good first issue`](https://github.com/hsay123/TGDrive/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) |
+| Build a feature       | TGDrive (app)        | People who want to shape the product        | Open a [feature request](https://github.com/hsay123/TGDrive/issues/new) first                                                         |
+| Improve docs & design | TeleVaultt (website) | Writers, designers, accessibility reviewers | Anything in `README.md`, `contribute.html` or `styles.css`                                                                            |
 
-You can also help by triaging issues, answering questions in [Discussions](https://github.com/hsay123/TeleVaultt/discussions), or reviewing another contributor's pull request.
+You can also help by triaging issues, answering questions in the [app issue tracker](https://github.com/hsay123/TGDrive/issues), or reviewing another contributor's pull request.
 
 ## Set up locally
 
-You need [Node.js](https://nodejs.org/) 20 or newer and Git.
+Pick the repository you are working on. Both need [Node.js](https://nodejs.org/) 20 or newer and Git.
+
+### Desktop app (TGDrive)
+
+The app is an Electron 29 + React 18 + TypeScript client. You also need Python 3 and a C++ toolchain for `better-sqlite3` and `keytar`: `sudo apt install python3 python3-pip build-essential` on Debian/Ubuntu, or `xcode-select --install` on macOS.
+
+Create a Telegram application at [my.telegram.org/apps](https://my.telegram.org/apps) and copy its API ID and API hash.
+
+```bash
+git clone https://github.com/hsay123/TGDrive.git
+cd TGDrive/televault
+cp .env.example .env
+# add TELEGRAM_API_ID and TELEGRAM_API_HASH to .env
+npm install
+npm run dev
+```
+
+`npm install` rebuilds the native modules through `electron-rebuild`; if that fails, run `npm run rebuild`. `npm run dev` starts Vite on <http://localhost:5173>, the TypeScript watcher and Electron.
+
+App checks and builds:
+
+```bash
+npx tsc --noEmit              # type check
+npx vite build                # renderer build
+npx electron-builder --dir    # package without an installer
+npm run build:win             # Windows .exe
+npm run build:mac             # macOS .dmg
+npm run build:linux           # Linux .AppImage
+```
+
+TGDrive has no test script yet; its CI runs the first three commands above. The full guide is [`televault/docs/SETUP.md`](https://github.com/hsay123/TGDrive/blob/main/televault/docs/SETUP.md).
+
+### Website (TeleVaultt)
 
 ```bash
 git clone https://github.com/hsay123/TeleVaultt.git
@@ -43,12 +80,30 @@ Useful commands:
 | `npm run format:check` | Fail if anything is unformatted                           |
 | `npm run lint`         | Validate the HTML with `html-validate`                    |
 | `npm run check:links`  | Crawl the local site and report broken links              |
+| `npm run check`        | Format, lint, links and the repo-link guard               |
 | `npm run lighthouse`   | Run Lighthouse CI against the local build                 |
 | `npm run vendor`       | Re-copy the pinned browser libraries into `assets/vendor` |
 
 > **Tip:** if port 4173 is busy, run `npx http-server . -p 5000 -c-1` instead.
 
 ## Project structure
+
+### Desktop app — TGDrive
+
+```text
+TGDrive/
+├── assets/                 Repository logos
+└── televault/              The Electron app
+    ├── electron/           Main process, preload, updater, IPC handlers
+    ├── core/               Database, Telegram client, crypto, sync, filesystem
+    ├── src/                React renderer (pages, components, stores, hooks)
+    ├── server/             Optional licence server
+    ├── scripts/            Maintenance and licence scripts
+    ├── bench/              Performance harnesses
+    └── docs/               Setup and internal notes
+```
+
+### Website — TeleVaultt
 
 ```text
 .
@@ -73,10 +128,12 @@ Keep `styles.css` as the single stylesheet. Do not add a second CSS pipeline.
 
 ## Your first PR
 
+These steps apply to both repositories. Use the one you picked above; the checks differ.
+
 1. **Find or open an issue.** Comment on it so nobody duplicates the work. For anything larger than a typo, wait for a maintainer to agree on the approach.
 2. **Fork and branch.** `git switch -c fix/footer-focus-ring`
 3. **Make the change.** Keep it scoped to one concern.
-4. **Run the checks.** `npm run format && npm run lint && npm run check:links`
+4. **Run the checks.** Website: `npm run check`. App: `npx tsc --noEmit && npx vite build`.
 5. **Commit** using the convention below.
 6. **Open a pull request** and fill in the template. Link the issue with `Closes #123`.
 7. **Respond to review.** Push follow-up commits; do not force-push during review.
@@ -109,6 +166,8 @@ docs(contributing): explain how to run the link checker
 
 Write the summary in the imperative mood, keep it under 72 characters, and use the body to explain _why_.
 
+The same convention applies to both repositories. TGDrive has no contributing rules of its own yet, so use this guide there too.
+
 ## Code & design style
 
 - **HTML:** semantic elements, one `h1` per page, logical heading order, `alt` on every meaningful image, `aria-*` only where native semantics are not enough.
@@ -122,12 +181,10 @@ Write the summary in the imperative mood, keep it under 72 characters, and use t
 
 ## Testing & checks
 
-Run before every pull request:
+Website pull requests must pass `npm run check`: Prettier, `html-validate`, the link check and the repo-link guard. App pull requests must pass TGDrive's build workflow: `npx tsc --noEmit`, `npx vite build` and `npx electron-builder --dir`.
 
 ```bash
-npm run format:check
-npm run lint
-npm run check:links
+npm run check
 ```
 
 For visual changes, also check:
@@ -143,7 +200,7 @@ For visual changes, also check:
 ## Review process
 
 1. A maintainer reviews within the response-time expectation below.
-2. CI must pass: Prettier, `html-validate`, link check and Lighthouse.
+2. Website PRs must pass `npm run check` (Prettier, `html-validate`, link check, repo-link guard) and Lighthouse. App PRs must pass TGDrive's build workflow.
 3. One approval is enough for docs, copy and small fixes. Larger changes need a second review.
 4. Squash-merge with a Conventional Commit title.
 
@@ -151,7 +208,7 @@ For visual changes, also check:
 
 ## Reporting bugs
 
-Use the [bug report template](https://github.com/hsay123/TeleVaultt/issues/new?template=bug_report.yml). Include:
+App bugs go to the [TGDrive issue tracker](https://github.com/hsay123/TGDrive/issues/new). Website and documentation bugs go to the [TeleVaultt bug report template](https://github.com/hsay123/TeleVaultt/issues/new?template=bug_report.yml). Include:
 
 - what you expected and what happened
 - steps to reproduce, as short as possible
@@ -170,4 +227,4 @@ All participation is covered by the [Code of Conduct](CODE_OF_CONDUCT.md). Repor
 
 ## Recognition
 
-Every contributor is listed on the GitHub contributors graph and in the Contribute section of the site. Significant contributions are credited in [CHANGELOG.md](CHANGELOG.md). There is no contributor licence agreement: by opening a pull request you agree that your contribution is released under the [MIT License](LICENSE).
+Every contributor is listed on the contributors graph of the repository they contributed to. Significant website contributions are credited in [CHANGELOG.md](CHANGELOG.md); app changes are recorded in [TGDrive's changelog](https://github.com/hsay123/TGDrive/blob/main/televault/CHANGELOG.md). There is no contributor licence agreement: by opening a pull request you agree that your contribution is released under the MIT License — the [website LICENSE](LICENSE) (© TeleVault contributors) for this repository, and [`televault/LICENSE`](https://github.com/hsay123/TGDrive/blob/main/televault/LICENSE) (© TeleVault) for the app.

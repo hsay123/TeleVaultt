@@ -993,6 +993,63 @@ function initDocsToc() {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Setup tabs (contribute.html)                                               */
+/* -------------------------------------------------------------------------- */
+
+function initSetupTabs() {
+  const root = $('[data-setup-tabs]');
+  if (!root) return;
+
+  const tabs = $$('[data-setup-tab]', root);
+  const panels = $$('[data-setup-panel]', root);
+  if (!tabs.length || !panels.length) return;
+
+  const activate = (name, moveFocus = false) => {
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.setupTab === name;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected && moveFocus) tab.focus();
+    });
+
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.setupPanel !== name;
+    });
+  };
+
+  const nameFromHash = () => (window.location.hash === '#setup-website' ? 'website' : 'app');
+
+  // Deep links: #setup-app and #setup-website select the matching panel.
+  activate(nameFromHash());
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      const name = tab.dataset.setupTab;
+      activate(name);
+      history.replaceState(null, '', `#setup-${name}`);
+    });
+
+    tab.addEventListener('keydown', (event) => {
+      const last = tabs.length - 1;
+      let next = null;
+
+      if (event.key === 'ArrowRight') next = index === last ? 0 : index + 1;
+      else if (event.key === 'ArrowLeft') next = index === 0 ? last : index - 1;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = last;
+
+      if (next === null) return;
+      event.preventDefault();
+      const target = tabs[next];
+      activate(target.dataset.setupTab, true);
+      history.replaceState(null, '', `#setup-${target.dataset.setupTab}`);
+    });
+  });
+
+  window.addEventListener('hashchange', () => activate(nameFromHash()));
+}
+
+/* -------------------------------------------------------------------------- */
 /* Boot                                                                       */
 /* -------------------------------------------------------------------------- */
 
@@ -1015,6 +1072,7 @@ function boot() {
   initHowItWorks();
   initTilt();
   initDocsToc();
+  initSetupTabs();
 }
 
 if (document.readyState === 'loading') {
