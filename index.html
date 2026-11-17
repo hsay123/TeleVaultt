@@ -1,82 +1,1279 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TeleVault — Your files. Your Telegram. Your vault.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Inter:wght@400;500&family=Lily+Script+One&family=Poppins:wght@500&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            inter: ['Inter', 'sans-serif'],
-            lily: ['"Lily Script One"', 'cursive'],
-            poppins: ['Poppins', 'sans-serif'],
-            ibm: ['"IBM Plex Sans"', 'sans-serif'],
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>TeleVault — an open-source file manager for your Telegram storage</title>
+    <meta
+      name="description"
+      content="TeleVault turns your Telegram cloud storage into a proper desktop file manager. Organize, search, preview and upload from one clean interface. Free, open source, MIT licensed."
+    />
+    <link rel="canonical" href="https://hsay123.github.io/TeleVaultt/" />
+    <!-- VERIFY: canonical base URL is assumed to be https://hsay123.github.io/TeleVaultt/ -->
+
+    <meta name="theme-color" content="#14181F" />
+    <meta name="color-scheme" content="light" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TeleVault" />
+    <meta property="og:title" content="TeleVault — your Telegram storage, organized" />
+    <meta
+      property="og:description"
+      content="A free, open-source desktop file manager for your Telegram storage. Organize, search, preview and upload from one clean interface."
+    />
+    <meta property="og:url" content="https://hsay123.github.io/TeleVaultt/" />
+    <meta property="og:image" content="https://hsay123.github.io/TeleVaultt/assets/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The TeleVault desktop app window" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TeleVault — your Telegram storage, organized" />
+    <meta
+      name="twitter:description"
+      content="A free, open-source desktop file manager for your Telegram storage."
+    />
+    <meta name="twitter:image" content="https://hsay123.github.io/TeleVaultt/assets/img/og.jpg" />
+
+    <link rel="icon" href="assets/img/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <link rel="preload" href="assets/fonts/inter-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="assets/fonts/lily-script-one-400-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="assets/img/hero-sky.avif" as="image" type="image/avif" />
+
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/vendor/lenis/lenis.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "TeleVault",
+        "description": "An open-source desktop file manager for your Telegram cloud storage. Organize, search, preview and upload from one interface.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "url": "https://hsay123.github.io/TeleVaultt/",
+        "downloadUrl": "https://github.com/hsay123/TeleVaultt",
+        "codeRepository": "https://github.com/hsay123/TeleVaultt",
+        "license": "https://opensource.org/licenses/MIT",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is TeleVault?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TeleVault is an open-source desktop file manager for your Telegram cloud storage. It gives your files folders, search, previews and drag-and-drop upload in one window."
+            }
           },
-        },
-      },
-    };
-  </script>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body class="bg-white antialiased">
-  <header class="site-header" id="siteHeader">
-    <a href="#" class="header__logo" aria-label="TeleVault home">
-      <img src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png" alt="" />
-    </a>
-    <nav class="header__nav" aria-label="Primary">
-      <a class="nav__link" style="left:24px" href="#features">Features</a>
-      <a class="nav__link nav__link--warm" style="left:129px" href="#how-it-works">How it Works</a>
-      <a class="nav__link" style="left:277px" href="#security">Security</a>
-      <a class="nav__link" style="left:378px" href="#pricing">Pricing</a>
-    </nav>
-    <a href="#pricing" class="header__cta">Get TeleVault</a>
-    <button class="header__avatar" type="button" aria-label="Menu">
-      <i data-lucide="menu"></i>
-    </button>
-  </header>
+          {
+            "@type": "Question",
+            "name": "Is TeleVault free and open source?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. TeleVault is free and released under the MIT license. The source code is on GitHub, so you can read it, build it and change it."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a Telegram account?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. TeleVault works with the Telegram account you already have, and your files stay in your own Telegram storage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where are my files stored?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In your Telegram account. TeleVault is a client for the storage you already have, not a separate cloud drive."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can TeleVault see my files?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TeleVault talks to Telegram on your behalf and does not run a server that stores your files. Because it is open source, you can audit exactly what it sends and receives."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which platforms are supported?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TeleVault is a desktop app. Check the releases page on GitHub for the current list of supported platforms and builds."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is TeleVault affiliated with Telegram?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are there file size limits?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Any limit comes from Telegram and your account, not from TeleVault. The app uses the same limits Telegram applies to your uploads."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I report a bug or request a feature?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open an issue on the TeleVault GitHub repository. The bug report and feature request templates ask for the details maintainers need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I contribute?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Read the contributing guide, pick an open issue labelled good first issue, and open a pull request. Documentation and design contributions are welcome too."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I build it from source?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Clone the repository, install the dependencies with npm install, and run the development command. The contributing guide walks through the full setup."
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
 
-  <section class="hero-pin" id="heroPin" aria-label="Intro">
-    <div class="hero__bg" aria-hidden="true"></div>
-    <div class="hero__wash" aria-hidden="true"></div>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <main class="hero" id="hero">
-      <h1 class="headline">
-      <span class="hl-line">
-        <span class="hl-word">Your</span>
-        <span class="hl-word">files.</span>
-        <span class="hl-word">Your</span>
-        <span class="hl-word">Telegram.</span>
-      </span>
-      <span class="hl-line">
-        <span class="hl-word">Your</span>
-        <span class="hl-word hl-script">vault</span><span class="hl-word">.</span>
-      </span>
-    </h1>
+    <header class="site-header" id="siteHeader">
+      <a href="#top" class="header__logo" aria-label="TeleVault home">
+        <img
+          src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+          alt="TeleVault"
+          width="193"
+          height="44"
+        />
+      </a>
+      <nav class="header__nav" aria-label="Primary">
+        <span class="nav__pill" aria-hidden="true"></span>
+        <a class="nav__link" href="#features">Features</a>
+        <a class="nav__link nav__link--warm" href="#how-it-works">How it Works</a>
+        <a class="nav__link" href="#security">Security</a>
+        <a class="nav__link" href="#contribute">Contribute</a>
+      </nav>
+      <a href="https://github.com/hsay123/TeleVaultt" class="header__cta" data-download>Get TeleVault</a>
+      <button
+        class="header__avatar"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="menuSheet"
+        id="menuToggle"
+      >
+        <i data-lucide="menu"></i>
+      </button>
+    </header>
 
-    <p class="subhead">
-      TeleVault gives your Telegram storage a proper desktop file management experience. Organize, search, preview,
-      upload and manage your files from one clean interface&nbsp;.
-    </p>
-
-    <div class="cta-row">
-      <a href="#pricing" class="hero__cta">Get TeleVault</a>
-      <a href="#pricing" class="cta__alt">Already bought it?</a>
+    <div class="menu-sheet" id="menuSheet" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
+      <div class="menu-sheet__top">
+        <span class="menu-sheet__brand">TeleVault</span>
+        <button class="menu-sheet__close" type="button" aria-label="Close menu" id="menuClose">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <nav class="menu-sheet__nav" aria-label="Mobile">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#security">Security</a>
+        <a href="#contribute">Contribute</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn--primary menu-sheet__cta" href="https://github.com/hsay123/TeleVaultt" data-download
+        >Get TeleVault</a
+      >
+      <a class="menu-sheet__gh" href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener">
+        View on GitHub
+      </a>
     </div>
 
-    <div class="glass-panel" aria-hidden="true"></div>
-    </main>
-  </section>
+    <section class="hero-pin" id="heroPin" aria-label="Intro">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__wash" aria-hidden="true"></div>
 
-  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="script.js"></script>
-</body>
+      <div class="hero" id="hero">
+        <h1 class="headline">
+          <span class="hl-line">
+            <span class="hl-word">Your</span>
+            <span class="hl-word">files.</span>
+            <span class="hl-word">Your</span>
+            <span class="hl-word">Telegram.</span>
+          </span>
+          <span class="hl-line">
+            <span class="hl-word">Your</span>
+            <span class="hl-word hl-script">vault</span><span class="hl-word">.</span>
+          </span>
+        </h1>
+
+        <p class="subhead">
+          TeleVault gives your Telegram storage a proper desktop file management experience. Organize, search,
+          preview, upload and manage your files from one clean interface&nbsp;.
+        </p>
+
+        <div class="cta-row">
+          <a href="https://github.com/hsay123/TeleVaultt" class="hero__cta" data-download>Get TeleVault</a>
+          <a href="https://github.com/hsay123/TeleVaultt" class="cta__alt" target="_blank" rel="noopener"
+            >View on GitHub</a
+          >
+        </div>
+
+        <div class="glass-panel" aria-hidden="true">
+          <img
+            class="vault-poster"
+            src="assets/videos/televault-poster.jpg"
+            alt=""
+            aria-hidden="true"
+            fetchpriority="high"
+          />
+          <video
+            class="vault-video"
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="assets/videos/televault-poster.jpg"
+            aria-hidden="true"
+            tabindex="-1"
+            disablepictureinpicture
+            disableremoteplayback
+          >
+            <source src="assets/videos/televault-showcase.webm" type="video/webm" />
+            <source src="assets/videos/televault-showcase.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <main id="main">
+      <div class="hero-fade" aria-hidden="true"></div>
+
+      <!-- 3.1 Trust strip -->
+      <section class="trust" aria-label="Project facts">
+        <ul class="trust__list">
+          <li class="trust__item"><i data-lucide="git-branch" aria-hidden="true"></i>Open source</li>
+          <li class="trust__item"><i data-lucide="scale" aria-hidden="true"></i>MIT licensed</li>
+          <li class="trust__item trust__item--stars" data-github-stars hidden>
+            <i data-lucide="star" aria-hidden="true"></i><span data-stat="stars">0</span> on GitHub
+          </li>
+          <!-- VERIFY: supported desktop platforms (Windows, macOS, Linux) — not documented in the repo -->
+          <li class="trust__item"><i data-lucide="monitor" aria-hidden="true"></i>Windows · macOS · Linux</li>
+          <li class="trust__item">
+            <i data-lucide="code-2" aria-hidden="true"></i>
+            <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener"
+              >hsay123/TeleVaultt</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <!-- 3.2 Problem → solution -->
+      <section class="section section--paper problem" id="problem">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">The problem</p>
+            <h2 class="section__title">Telegram stores everything. Finding anything is the hard part.</h2>
+            <p class="section__lede">
+              Your files are safe in Telegram. They are just scattered across one endless chat, with no
+              folders and no structure.
+            </p>
+          </header>
+
+          <div class="sort" data-sort>
+            <div class="sort__pane sort__pane--before" data-sort-before>
+              <div class="sort__label">
+                <i data-lucide="message-square" aria-hidden="true"></i>Saved Messages
+              </div>
+              <div class="chat">
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"
+                      ><i data-lucide="file-text" aria-hidden="true"></i>invoice-final-v3.pdf</span
+                    >
+                  </div>
+                </div>
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"><i data-lucide="image" aria-hidden="true"></i>IMG_2041.jpg</span>
+                  </div>
+                </div>
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"
+                      ><i data-lucide="film" aria-hidden="true"></i>demo-cut-2.mov</span
+                    >
+                  </div>
+                </div>
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"
+                      ><i data-lucide="file-text" aria-hidden="true"></i>notes-2026.txt</span
+                    >
+                  </div>
+                </div>
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"
+                      ><i data-lucide="archive" aria-hidden="true"></i>backup-08.zip</span
+                    >
+                  </div>
+                </div>
+                <div class="chat__row" data-sort-row>
+                  <span class="chat__avatar" aria-hidden="true"></span>
+                  <div class="chat__body">
+                    <span class="chat__name">Saved Messages</span>
+                    <span class="chat__file"
+                      ><i data-lucide="image" aria-hidden="true"></i>screenshot (14).png</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <p class="sort__hint">One stream. Every file type. No folders.</p>
+            </div>
+
+            <div class="sort__arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></div>
+
+            <div class="sort__pane sort__pane--after" data-sort-after>
+              <div class="sort__label"><i data-lucide="vault" aria-hidden="true"></i>TeleVault</div>
+              <div class="app">
+                <aside class="app__side" aria-hidden="true">
+                  <span class="app__side-item is-active"></span>
+                  <span class="app__side-item"></span>
+                  <span class="app__side-item"></span>
+                  <span class="app__side-item"></span>
+                </aside>
+                <div class="app__main">
+                  <div class="app__search" aria-hidden="true">
+                    <i data-lucide="search"></i><span>Search your vault</span>
+                  </div>
+                  <div class="app__grid">
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Invoices</span>
+                    </div>
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Photos</span>
+                    </div>
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Video</span>
+                    </div>
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Notes</span>
+                    </div>
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Backups</span>
+                    </div>
+                    <div class="app__card" data-sort-card>
+                      <i data-lucide="folder" aria-hidden="true"></i><span>Screenshots</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="sort__hint">Same files. Folders, search, previews.</p>
+            </div>
+          </div>
+          <!-- VERIFY: the before/after panes are illustrative mockups of the app UI, not screenshots -->
+        </div>
+      </section>
+
+      <!-- 3.3 Why not… -->
+      <section class="section section--surface compare" id="compare">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">Why TeleVault</p>
+            <h2 class="section__title">Three ways to store files. One is built for finding them.</h2>
+            <p class="section__lede">
+              TeleVault is not a new cloud. It is a better front door to the storage you already have.
+            </p>
+          </header>
+
+          <div class="compare__grid" data-reveal-stagger>
+            <article class="compare__col" data-reveal>
+              <h3 class="compare__name">Saved Messages</h3>
+              <p class="compare__tag">Built for quick notes, not file management.</p>
+              <ul class="compare__list">
+                <li class="is-no"><i data-lucide="x" aria-hidden="true"></i>No folders or file tree</li>
+                <li class="is-yes">
+                  <i data-lucide="check" aria-hidden="true"></i>Search across your messages
+                </li>
+                <li class="is-no"><i data-lucide="x" aria-hidden="true"></i>No desktop file browser</li>
+                <li class="is-yes">
+                  <i data-lucide="check" aria-hidden="true"></i>Free with your Telegram account
+                </li>
+              </ul>
+            </article>
+
+            <article class="compare__col" data-reveal>
+              <h3 class="compare__name">Cloud drives</h3>
+              <p class="compare__tag">Great structure, separate storage and a bill.</p>
+              <ul class="compare__list">
+                <li class="is-yes"><i data-lucide="check" aria-hidden="true"></i>Folders and previews</li>
+                <li class="is-yes"><i data-lucide="check" aria-hidden="true"></i>Desktop sync clients</li>
+                <li class="is-no"><i data-lucide="x" aria-hidden="true"></i>Another account and quota</li>
+                <li class="is-no"><i data-lucide="x" aria-hidden="true"></i>Paid storage tiers</li>
+              </ul>
+            </article>
+
+            <article class="compare__col compare__col--hero" data-reveal>
+              <span class="compare__badge">Open source</span>
+              <h3 class="compare__name">TeleVault</h3>
+              <p class="compare__tag">A file manager on top of your Telegram storage.</p>
+              <ul class="compare__list">
+                <li class="is-yes">
+                  <i data-lucide="check" aria-hidden="true"></i>Folders and a real file tree
+                </li>
+                <li class="is-yes">
+                  <i data-lucide="check" aria-hidden="true"></i>Search, previews and drag-and-drop upload
+                </li>
+                <li class="is-yes">
+                  <i data-lucide="check" aria-hidden="true"></i>Files stay in your Telegram account
+                </li>
+                <li class="is-yes"><i data-lucide="check" aria-hidden="true"></i>Free and MIT licensed</li>
+              </ul>
+            </article>
+          </div>
+          <!-- VERIFY: comparative claims about Saved Messages and cloud drives (folders, previews, quotas, pricing) -->
+        </div>
+      </section>
+
+      <!-- 3.4 Features -->
+      <section class="section section--paper features" id="features">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">Features</p>
+            <h2 class="section__title">Everything a file manager should do.</h2>
+            <p class="section__lede">
+              Four jobs, done properly. Nothing you have to configure before it is useful.
+            </p>
+          </header>
+
+          <div class="bento" data-reveal-stagger>
+            <article class="bento__card bento__card--wide" data-reveal data-tilt>
+              <div class="bento__copy">
+                <span class="bento__icon"><i data-lucide="folder-tree" aria-hidden="true"></i></span>
+                <h3>Organize</h3>
+                <p>Folders, a sidebar and a file tree that mirror how you already think about your files.</p>
+              </div>
+              <div class="bento__media">
+                <picture>
+                  <source srcset="assets/img/feat-image.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-image.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-image.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </article>
+
+            <article class="bento__card" data-reveal data-tilt>
+              <div class="bento__copy">
+                <span class="bento__icon"><i data-lucide="search" aria-hidden="true"></i></span>
+                <h3>Search</h3>
+                <p>Find a file by name or type without scrolling through a chat history.</p>
+              </div>
+              <div class="bento__media">
+                <picture>
+                  <source srcset="assets/img/feat-video.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-video.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-video.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </article>
+
+            <article class="bento__card" data-reveal data-tilt>
+              <div class="bento__copy">
+                <span class="bento__icon"><i data-lucide="eye" aria-hidden="true"></i></span>
+                <h3>Preview</h3>
+                <p>Open images, video and documents in place, before you download anything.</p>
+              </div>
+              <div class="bento__media">
+                <picture>
+                  <source srcset="assets/img/feat-pdf.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-pdf.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-pdf.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </article>
+
+            <article class="bento__card bento__card--wide" data-reveal data-tilt>
+              <div class="bento__copy">
+                <span class="bento__icon"><i data-lucide="upload-cloud" aria-hidden="true"></i></span>
+                <h3>Upload</h3>
+                <p>Drag files in and they land in your Telegram storage, sorted the way you set them up.</p>
+              </div>
+              <div class="bento__media">
+                <picture>
+                  <source srcset="assets/img/feat-upload.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-upload.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-upload.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </article>
+          </div>
+          <!-- VERIFY: drag-and-drop upload, in-place previews and folder support are product claims not verifiable from this repository -->
+        </div>
+      </section>
+
+      <!-- 3.5 How it works -->
+      <section class="section section--surface how" id="how-it-works">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">How it works</p>
+            <h2 class="section__title">Three steps. Then it is just a drive.</h2>
+            <p class="section__lede">
+              Connect once, sync, and work with your files like any other folder on your desktop.
+            </p>
+          </header>
+
+          <div class="how__layout" data-how>
+            <ol class="how__steps">
+              <li class="how__step is-active" data-how-step="0">
+                <span class="how__num">01</span>
+                <div class="how__text">
+                  <h3>Connect Telegram</h3>
+                  <p>Sign in with your own Telegram account. No new account, no separate storage.</p>
+                </div>
+              </li>
+              <li class="how__step" data-how-step="1">
+                <span class="how__num">02</span>
+                <div class="how__text">
+                  <h3>Sync your files</h3>
+                  <p>TeleVault reads the files already in your Telegram storage and lays them out for you.</p>
+                </div>
+              </li>
+              <li class="how__step" data-how-step="2">
+                <span class="how__num">03</span>
+                <div class="how__text">
+                  <h3>Manage them like a drive</h3>
+                  <p>Create folders, search, preview and upload without leaving the window.</p>
+                </div>
+              </li>
+            </ol>
+
+            <div class="how__visual" data-how-visual>
+              <div class="how__frame is-active" data-how-frame="0">
+                <picture>
+                  <source srcset="assets/img/feat-upload.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-upload.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-upload.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <div class="how__frame" data-how-frame="1">
+                <picture>
+                  <source srcset="assets/img/feat-image.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-image.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-image.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+              <div class="how__frame" data-how-frame="2">
+                <picture>
+                  <source srcset="assets/img/feat-pdf.avif" type="image/avif" />
+                  <source srcset="assets/img/feat-pdf.webp" type="image/webp" />
+                  <img
+                    src="assets/img/feat-pdf.jpg"
+                    alt="The TeleVault desktop app interface"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </div>
+            </div>
+          </div>
+          <!-- VERIFY: sign-in flow and sync behaviour are product claims not verifiable from this repository -->
+        </div>
+      </section>
+
+      <!-- 3.6 Security -->
+      <section class="section section--paper security" id="security">
+        <div class="container">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">Security</p>
+            <h2 class="section__title">Your files stay in your Telegram.</h2>
+            <p class="section__lede">
+              TeleVault is a client, not a cloud. It does not ask you to trust another place with your files.
+            </p>
+          </header>
+
+          <div class="security__grid" data-reveal-stagger>
+            <article class="security__card" data-reveal>
+              <h3><i data-lucide="check" aria-hidden="true"></i>What TeleVault does</h3>
+              <ul class="security__list">
+                <li>
+                  <i data-lucide="check" aria-hidden="true"></i>Talks to Telegram on your behalf, using your
+                  account
+                </li>
+                <li>
+                  <i data-lucide="check" aria-hidden="true"></i>Keeps files in your existing Telegram storage
+                </li>
+                <li>
+                  <i data-lucide="check" aria-hidden="true"></i>Publishes its source so you can audit it
+                </li>
+              </ul>
+            </article>
+
+            <article class="security__card security__card--no" data-reveal>
+              <h3><i data-lucide="shield-off" aria-hidden="true"></i>What it never does</h3>
+              <ul class="security__list">
+                <li><i data-lucide="x" aria-hidden="true"></i>Runs a server that stores your files</li>
+                <li><i data-lucide="x" aria-hidden="true"></i>Creates an account with us</li>
+                <li><i data-lucide="x" aria-hidden="true"></i>Claims encryption beyond what the code does</li>
+              </ul>
+            </article>
+          </div>
+
+          <ul class="security__trust" data-reveal-stagger>
+            <li data-reveal><i data-lucide="code" aria-hidden="true"></i>Open source you can read</li>
+            <li data-reveal><i data-lucide="user-x" aria-hidden="true"></i>No account with us</li>
+            <li data-reveal>
+              <i data-lucide="server-off" aria-hidden="true"></i>Nothing stored on our servers
+            </li>
+          </ul>
+          <!-- VERIFY: all security claims. The repository contains the website only, so the app's data handling cannot be confirmed here. -->
+        </div>
+      </section>
+
+      <!-- 3.7 Contribute -->
+      <section class="section section--paper contribute" id="contribute">
+        <div class="container">
+          <div class="contribute__panel" data-reveal>
+            <div class="contribute__glow" aria-hidden="true"></div>
+
+            <header class="section__head section__head--dark">
+              <p class="eyebrow eyebrow--light">Contribute</p>
+              <h2 class="section__title">TeleVault is open source.</h2>
+              <p class="section__lede">
+                Read the code, report a bug, or ship a feature. We review every pull request.
+              </p>
+            </header>
+
+            <div class="repo" data-github-panel>
+              <div class="repo__stats">
+                <div class="repo__stat">
+                  <span class="repo__value" data-stat="stars" data-skeleton>—</span>
+                  <span class="repo__label">Stars</span>
+                </div>
+                <div class="repo__stat">
+                  <span class="repo__value" data-stat="forks" data-skeleton>—</span>
+                  <span class="repo__label">Forks</span>
+                </div>
+                <div class="repo__stat">
+                  <span class="repo__value" data-stat="issues" data-skeleton>—</span>
+                  <span class="repo__label">Open issues</span>
+                </div>
+                <div class="repo__stat">
+                  <span class="repo__value" data-stat="contributors" data-skeleton>—</span>
+                  <span class="repo__label">Contributors</span>
+                </div>
+              </div>
+              <a
+                class="btn btn--light"
+                href="https://github.com/hsay123/TeleVaultt"
+                target="_blank"
+                rel="noopener"
+              >
+                <i data-lucide="star" aria-hidden="true"></i>Star on GitHub
+              </a>
+            </div>
+
+            <div class="paths" data-reveal-stagger>
+              <a
+                class="path"
+                data-reveal
+                href="https://github.com/hsay123/TeleVaultt/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"
+                target="_blank"
+                rel="noopener"
+              >
+                <span class="path__icon"><i data-lucide="bug" aria-hidden="true"></i></span>
+                <h3>Fix a bug</h3>
+                <p>Start with an issue labelled good first issue. Small, scoped, reviewed quickly.</p>
+                <span class="path__cta"
+                  >Browse issues <i data-lucide="arrow-up-right" aria-hidden="true"></i
+                ></span>
+              </a>
+
+              <a
+                class="path"
+                data-reveal
+                href="https://github.com/hsay123/TeleVaultt/issues/new?template=feature_request.yml"
+                target="_blank"
+                rel="noopener"
+              >
+                <span class="path__icon"><i data-lucide="sparkles" aria-hidden="true"></i></span>
+                <h3>Build a feature</h3>
+                <p>Propose it first in an issue, then open a pull request against main.</p>
+                <span class="path__cta"
+                  >Request a feature <i data-lucide="arrow-up-right" aria-hidden="true"></i
+                ></span>
+              </a>
+
+              <a class="path" data-reveal href="contribute.html#style">
+                <span class="path__icon"><i data-lucide="pen-tool" aria-hidden="true"></i></span>
+                <h3>Improve docs &amp; design</h3>
+                <p>Fix a confusing sentence, add a screenshot, or refine the interface.</p>
+                <span class="path__cta"
+                  >Read the style guide <i data-lucide="arrow-up-right" aria-hidden="true"></i
+                ></span>
+              </a>
+            </div>
+
+            <div class="terminal-wrap" data-reveal>
+              <div class="terminal" data-terminal>
+                <div class="terminal__bar">
+                  <span class="terminal__dot" aria-hidden="true"></span>
+                  <span class="terminal__dot" aria-hidden="true"></span>
+                  <span class="terminal__dot" aria-hidden="true"></span>
+                  <span class="terminal__title">quick start</span>
+                  <button
+                    class="terminal__copy"
+                    type="button"
+                    data-copy-target="terminalCode"
+                    aria-label="Copy quick start commands"
+                  >
+                    <i data-lucide="copy" aria-hidden="true"></i><span>Copy</span>
+                  </button>
+                </div>
+                <pre
+                  class="terminal__body"
+                ><code id="terminalCode" data-typing>git clone https://github.com/hsay123/TeleVaultt.git
+cd TeleVaultt
+npm install &amp;&amp; npm run dev</code></pre>
+              </div>
+            </div>
+
+            <div class="contrib__split">
+              <div class="issues" data-reveal>
+                <div class="contrib__head">
+                  <h3>Good first issues</h3>
+                  <a href="https://github.com/hsay123/TeleVaultt/issues" target="_blank" rel="noopener"
+                    >All issues <i data-lucide="arrow-up-right" aria-hidden="true"></i
+                  ></a>
+                </div>
+                <ul class="issues__list" data-issues-list aria-busy="true">
+                  <li class="issues__skeleton" aria-hidden="true"></li>
+                  <li class="issues__skeleton" aria-hidden="true"></li>
+                  <li class="issues__skeleton" aria-hidden="true"></li>
+                </ul>
+                <p class="issues__empty" data-issues-empty hidden>
+                  No open good-first issues right now.
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/issues/new?template=feature_request.yml"
+                    target="_blank"
+                    rel="noopener"
+                    >Open one and tell us what you would build.</a
+                  >
+                </p>
+              </div>
+
+              <div class="people" data-reveal>
+                <div class="contrib__head">
+                  <h3>Contributors</h3>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/graphs/contributors"
+                    target="_blank"
+                    rel="noopener"
+                    >All contributors <i data-lucide="arrow-up-right" aria-hidden="true"></i
+                  ></a>
+                </div>
+                <div class="marquee" data-marquee>
+                  <div class="marquee__track" data-avatars aria-busy="true"></div>
+                </div>
+                <p class="people__empty" data-avatars-empty hidden>
+                  <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener"
+                    >Be the first contributor.</a
+                  >
+                </p>
+              </div>
+            </div>
+
+            <div class="contribute__actions">
+              <a class="btn btn--light" href="contribute.html">Read the contributing guide</a>
+              <a
+                class="btn btn--ghost"
+                href="https://github.com/hsay123/TeleVaultt/issues"
+                target="_blank"
+                rel="noopener"
+                >Browse issues</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.8 FAQ -->
+      <section class="section section--surface faq" id="faq">
+        <div class="container container--narrow">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">FAQ</p>
+            <h2 class="section__title">Questions, answered.</h2>
+            <p class="section__lede">The things people ask before they try it.</p>
+          </header>
+
+          <div class="accordion" data-accordion data-reveal>
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-1"
+                  id="faq-1-trigger"
+                >
+                  <span>What is TeleVault?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-1" role="region" aria-labelledby="faq-1-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    TeleVault is an open-source desktop file manager for your Telegram cloud storage. It gives
+                    your files folders, search, previews and drag-and-drop upload in one window.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-2"
+                  id="faq-2-trigger"
+                >
+                  <span>Is it free and open source?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-2" role="region" aria-labelledby="faq-2-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Yes. TeleVault is free and released under the MIT license. The source is on GitHub, so you
+                    can read it, build it and change it.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-3"
+                  id="faq-3-trigger"
+                >
+                  <span>Do I need a Telegram account?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-3" role="region" aria-labelledby="faq-3-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Yes. TeleVault works with the Telegram account you already have, and your files stay in
+                    your own Telegram storage.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-4"
+                  id="faq-4-trigger"
+                >
+                  <span>Where are my files stored?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-4" role="region" aria-labelledby="faq-4-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    In your Telegram account. TeleVault is a client for the storage you already have, not a
+                    separate cloud drive.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-5"
+                  id="faq-5-trigger"
+                >
+                  <span>Can TeleVault see my files?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-5" role="region" aria-labelledby="faq-5-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    TeleVault talks to Telegram on your behalf and does not run a server that stores your
+                    files. Because it is open source, you can audit exactly what it sends and receives.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-6"
+                  id="faq-6-trigger"
+                >
+                  <span>Which platforms are supported?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-6" role="region" aria-labelledby="faq-6-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    TeleVault is a desktop app. Check the releases page on GitHub for the current list of
+                    supported platforms and builds.
+                  </p>
+                  <!-- VERIFY: supported platforms and whether any release builds exist -->
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-7"
+                  id="faq-7-trigger"
+                >
+                  <span>Is it affiliated with Telegram?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-7" role="region" aria-labelledby="faq-7-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    No. TeleVault is an independent open-source project and is not affiliated with or endorsed
+                    by Telegram.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-8"
+                  id="faq-8-trigger"
+                >
+                  <span>Are there file size limits?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-8" role="region" aria-labelledby="faq-8-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Any limit comes from Telegram and your account, not from TeleVault. The app uses the same
+                    limits Telegram applies to your uploads.
+                  </p>
+                  <!-- VERIFY: file size limits come from Telegram, not TeleVault -->
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-9"
+                  id="faq-9-trigger"
+                >
+                  <span>How do I report a bug or request a feature?</span
+                  ><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-9" role="region" aria-labelledby="faq-9-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Open an issue on the
+                    <a href="https://github.com/hsay123/TeleVaultt/issues" target="_blank" rel="noopener"
+                      >GitHub repository</a
+                    >. The bug report and feature request templates ask for the details maintainers need.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-10"
+                  id="faq-10-trigger"
+                >
+                  <span>How can I contribute?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-10" role="region" aria-labelledby="faq-10-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Read the <a href="contribute.html">contributing guide</a>, pick an open issue labelled
+                    good first issue, and open a pull request. Documentation and design contributions are
+                    welcome too.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-11"
+                  id="faq-11-trigger"
+                >
+                  <span>Can I build it from source?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-11" role="region" aria-labelledby="faq-11-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Yes. Clone the repository, install dependencies with <code>npm install</code>, and run the
+                    development command. The <a href="contribute.html#setup">contributing guide</a> walks
+                    through the full setup.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.9 Final CTA -->
+      <section class="final" aria-labelledby="finalTitle">
+        <div class="final__bg" aria-hidden="true"></div>
+        <div class="final__tint" aria-hidden="true"></div>
+        <div class="final__inner" data-reveal>
+          <h2 class="final__title" id="finalTitle">
+            Your <span class="hl-script">vault</span> is one click away.
+          </h2>
+          <p class="final__lede">Free and open source. MIT licensed.</p>
+          <div class="final__actions">
+            <a class="btn btn--primary btn--lg" href="https://github.com/hsay123/TeleVaultt" data-download
+              >Get TeleVault</a
+            >
+            <a
+              class="btn btn--ghost btn--lg"
+              href="https://github.com/hsay123/TeleVaultt"
+              target="_blank"
+              rel="noopener"
+            >
+              <i data-lucide="star" aria-hidden="true"></i>Star on GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <img
+              src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+              alt="TeleVault"
+              width="193"
+              height="44"
+              loading="lazy"
+            />
+            <p>A desktop file manager for the storage you already have.</p>
+          </div>
+
+          <nav class="footer__cols" aria-label="Footer">
+            <div class="footer__col">
+              <h2 class="footer__heading">Product</h2>
+              <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#security">Security</a></li>
+                <li><a href="https://github.com/hsay123/TeleVaultt" data-download>Download</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Open source</h2>
+              <ul>
+                <li><a href="#contribute">Contribute</a></li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt" target="_blank" rel="noopener">GitHub</a>
+                </li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt/issues" target="_blank" rel="noopener"
+                    >Issues</a
+                  >
+                </li>
+                <li>
+                  <a href="https://github.com/hsay123/TeleVaultt/discussions" target="_blank" rel="noopener"
+                    >Discussions</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/CHANGELOG.md"
+                    target="_blank"
+                    rel="noopener"
+                    >Changelog</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Community</h2>
+              <ul>
+                <li><a href="contribute.html">Contributing guide</a></li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/CODE_OF_CONDUCT.md"
+                    target="_blank"
+                    rel="noopener"
+                    >Code of Conduct</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/SECURITY.md"
+                    target="_blank"
+                    rel="noopener"
+                    >Security policy</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/LICENSE"
+                    target="_blank"
+                    rel="noopener"
+                    >License</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <p class="footer__legal">
+          TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram.
+        </p>
+        <p class="footer__copy">© 2026 TeleVault contributors · MIT License</p>
+      </div>
+      <svg class="footer__wordmark" aria-hidden="true" focusable="false" role="none">
+        <text x="50%" y="0.78em" text-anchor="middle">TeleVault</text>
+      </svg>
+    </footer>
+
+    <script src="assets/vendor/lenis/lenis.min.js"></script>
+    <script src="assets/vendor/gsap/gsap.min.js"></script>
+    <script src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
+    <script src="assets/vendor/lucide/lucide-subset.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
 </html>
