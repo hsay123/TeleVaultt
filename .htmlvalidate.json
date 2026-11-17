@@ -1,0 +1,10 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "doctype-style": ["error", { "style": "lowercase" }],
+    "void-style": ["error", { "style": "selfclosing" }],
+    "attr-quotes": ["error", { "style": "double" }],
+    "no-autoplay": "off",
+    "prefer-native-element": "off"
+  }
+}

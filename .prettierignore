@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Vendored, minified browser libraries — never reformat these.
+assets/vendor/
+
+# Generated font CSS and binary font files.
+assets/fonts.css
+assets/fonts/
+
+# Binary media.
+assets/videos/
+assets/img/
+
+# Lockfile is generated.
+package-lock.json
+
+# Local tooling output.
+.lighthouseci/
+coverage/
+dist/
