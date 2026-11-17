@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found — TeleVault</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#14181F" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="assets/img/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png" />
+
+    <!--
+      This page is intentionally self-contained: inline styles and no external
+      requests. GitHub Pages serves it for missing URLs at any depth, so relative
+      asset paths would resolve differently depending on the requested path.
+    -->
+    <style>
+      :root {
+        --ink: #14181f;
+        --sky-light: #dce9f5;
+        --sky-deep: #5c86ac;
+        --paper: #ffffff;
+        --surface: #f6f9fc;
+        --line: rgba(20, 24, 31, 0.08);
+        --line-strong: rgba(20, 24, 31, 0.14);
+        --accent: #2aabee;
+        --muted-ink: rgba(20, 24, 31, 0.65);
+        --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --body: 'Poppins', 'Inter', system-ui, sans-serif;
+        --ui: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+        --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: var(--sans);
+        color: var(--ink);
+        background: var(--paper);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font-family: var(--ui);
+        font-size: 15px;
+        text-decoration: none;
+        transform: translateY(-200%);
+      }
+
+      .skip-link:focus-visible {
+        transform: translateY(0);
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .bar {
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.82);
+      }
+
+      .bar__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 clamp(20px, 5vw, 40px);
+        min-height: 72px;
+      }
+
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-family: var(--sans);
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .bar__back {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-family: var(--ui);
+        font-size: 15px;
+        color: var(--muted-ink);
+        text-decoration: none;
+      }
+
+      .bar__back:hover {
+        color: var(--ink);
+      }
+
+      main {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: clamp(56px, 10vw, 120px) clamp(20px, 5vw, 40px);
+        background: radial-gradient(700px 380px at 50% 0%, var(--sky-light), transparent 70%), var(--paper);
+      }
+
+      .panel {
+        width: 100%;
+        max-width: 640px;
+        text-align: center;
+      }
+
+      .code {
+        margin: 0 0 8px;
+        font-family: var(--sans);
+        font-size: clamp(72px, 18vw, 132px);
+        font-weight: 500;
+        line-height: 0.9;
+        letter-spacing: -0.06em;
+        color: rgba(20, 24, 31, 0.1);
+        user-select: none;
+      }
+
+      h1 {
+        margin: 0 0 14px;
+        font-size: clamp(28px, 4.4vw, 40px);
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+      }
+
+      p {
+        margin: 0 auto 28px;
+        max-width: 46ch;
+        font-family: var(--body);
+        font-size: 16.5px;
+        line-height: 1.65;
+        color: var(--muted-ink);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-family: var(--ui);
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+        transition:
+          transform 150ms ease,
+          background-color 150ms ease,
+          border-color 150ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn--primary {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .btn--primary:hover {
+        background: #232a35;
+      }
+
+      .btn--ghost {
+        color: var(--ink);
+        border-color: var(--line-strong);
+      }
+
+      .btn--ghost:hover {
+        border-color: var(--ink);
+      }
+
+      .footer {
+        padding: 22px clamp(20px, 5vw, 40px) 28px;
+        border-top: 1px solid var(--line);
+        font-family: var(--ui);
+        font-size: 13px;
+        color: var(--muted-ink);
+        text-align: center;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition-duration: 0.001ms !important;
+          animation-duration: 0.001ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="bar">
+      <div class="bar__inner">
+        <a class="wordmark" href="index.html" aria-label="TeleVault home">TeleVault</a>
+        <a class="bar__back" href="index.html">Back to the site</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="panel">
+        <p class="code" aria-hidden="true">404</p>
+        <h1>This page is not in the vault.</h1>
+        <p>
+          The address you opened does not exist, or it moved. Your files are still safe — nothing was deleted.
+        </p>
+        <div class="actions">
+          <a class="btn btn--primary" href="index.html">Go to the homepage</a>
+          <a
+            class="btn btn--ghost"
+            href="https://github.com/hsay123/TeleVaultt/issues/new?template=bug_report.yml"
+            target="_blank"
+            rel="noopener"
+            >Report a broken link</a
+          >
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>
+        TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram.
+      </p>
+    </footer>
+  </body>
+</html>
