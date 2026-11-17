@@ -7,6 +7,7 @@ node_modules/
 dist/
 build/
 coverage/
+public/
 .lighthouseci/
 test-results/
 playwright-report/
@@ -29,3 +30,6 @@ Thumbs.db
 # Temporary files
 .cache/
 tmp/
+
+# Vercel
+.vercel/

@@ -69,7 +69,9 @@ cd TeleVaultt
 npm install && npm run dev
 ```
 
-The site is served at <http://127.0.0.1:4173>. There is no build step: the browser loads `index.html`, `styles.css` and `script.js` directly.
+The site is served at <http://127.0.0.1:4173>. There is no build step for local development: the browser loads `index.html`, `styles.css` and `script.js` directly.
+
+Deployment is on Vercel at <https://televault-silk.vercel.app>. Every push to `main` builds and deploys automatically; `vercel.json` runs `scripts/build-site.mjs`, which copies only the files the site serves into `public/`, so repository scaffolding is never published. Run `vercel --prod` to deploy the current working tree by hand.
 
 Useful commands:
 
@@ -119,8 +121,10 @@ TGDrive/
 │   ├── vendor/           Lenis, GSAP, ScrollTrigger, Lucide
 │   └── videos/           Showcase video and poster
 ├── scripts/vendor.mjs    Copies pinned libraries from npm
+├── scripts/build-site.mjs Assembles public/ for Vercel
 ├── docs/seed-issues.md   Drafts for good first issues
 ├── design.md             Design tokens, type and motion rules
+├── vercel.json           Vercel build and output settings
 └── package.json          Scripts and pinned dependencies
 ```
 

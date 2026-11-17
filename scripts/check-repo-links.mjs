@@ -24,7 +24,7 @@ const APP = 'TGDrive';
 const WEB = 'TeleVaultt';
 const ALLOWED = new Set([APP, WEB]);
 const SCAN_EXT = new Set(['.html', '.js', '.mjs', '.md', '.yml', '.yaml', '.json']);
-const SKIP_DIRS = new Set(['node_modules', '.git', 'assets', 'release', 'dist']);
+const SKIP_DIRS = new Set(['node_modules', '.git', 'assets', 'release', 'dist', 'public']);
 const SELF = 'scripts/check-repo-links.mjs';
 
 const errors = [];

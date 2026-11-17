@@ -58,8 +58,10 @@ The site is served at <http://127.0.0.1:4173>. There is no build step: the brows
 │   ├── vendor/           Lenis, GSAP, ScrollTrigger, Lucide
 │   └── videos/           Showcase video and poster
 ├── scripts/vendor.mjs    Copies pinned libraries from npm
+├── scripts/build-site.mjs Assembles public/ for Vercel
 ├── docs/seed-issues.md   Drafts for good first issues
 ├── design.md             Design tokens, type and motion rules
+├── vercel.json           Vercel build and output settings
 └── package.json          Scripts and pinned dependencies
 ```
 
@@ -81,6 +83,20 @@ The hero layout is intentionally frozen. Its canvas is a 1728 × 1117 design sca
 | Lucide  | 1.73.0  | Icon set                 |
 
 They are self-hosted in `assets/vendor/`. Run `npm run vendor` after changing a version in `package.json`.
+
+## Deployment
+
+The site is deployed on [Vercel](https://vercel.com/) at https://televault-silk.vercel.app. Vercel is connected to this repository, so every push to `main` builds and deploys automatically.
+
+`vercel.json` runs `scripts/build-site.mjs`, which copies only the files the site serves into `public/`. Repository scaffolding — docs, workflows, tests, package manifests — is never published. `404.html` is served for unmatched routes.
+
+To deploy the current working tree by hand:
+
+```bash
+vercel --prod
+```
+
+If the site moves to a custom domain, update the canonical links in `index.html` and `contribute.html`, the Open Graph and Twitter image URLs, `sitemap.xml`, `robots.txt`, the JSON-LD `url`, and `.github/ISSUE_TEMPLATE/config.yml`.
 
 ## Accessibility
 

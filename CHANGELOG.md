@@ -18,13 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Contributor documentation: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`,
   `SECURITY.md`, issue and pull request templates, `CODEOWNERS` and label set.
 - `404.html`, `robots.txt`, `sitemap.xml` and a web app manifest.
-- CI workflow (format, lint, link check, Lighthouse) and GitHub Pages deploy
-  workflow.
+- CI workflow (format, lint, link check, repo-link guard, browser tests,
+  Lighthouse) and a Vercel deployment (`vercel.json` + `scripts/build-site.mjs`).
 - Self-hosted fonts and pinned browser libraries (Lenis, GSAP, ScrollTrigger,
   Lucide) under `assets/`.
 
 ### Changed
 
+- The site deploys on Vercel at `https://televault-silk.vercel.app` instead of
+  GitHub Pages. Canonical, Open Graph, sitemap, robots and JSON-LD URLs use the
+  Vercel host, and only the files the site serves are published.
 - Split repository links: product links (Contribute, downloads, issues, stats,
   JSON-LD) now point at the app repository `hsay123/TGDrive`, while website and
   documentation links stay on `hsay123/TeleVaultt`.
