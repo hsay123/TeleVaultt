@@ -119,7 +119,13 @@ function initHeader() {
 
   let threshold = 0;
   const measure = () => {
-    threshold = Math.max(0, heroPin.offsetHeight - window.innerHeight - 24);
+    // On desktop the hero is pinned for one viewport of scroll, so its
+    // background starts moving away when the pin ends. On mobile there is no
+    // pin, so the hero's own height is the reference.
+    threshold =
+      window.innerWidth > 768
+        ? Math.max(0, window.innerHeight - 24)
+        : Math.max(0, heroPin.offsetHeight - window.innerHeight - 24);
   };
   measure();
   window.addEventListener('resize', measure);
