@@ -265,6 +265,16 @@ body {
   color: #fffafa;
 }
 
+/*
+ * Over the photo the bar is transparent, so the links take the same ink the
+ * hero headline uses. White measured 1.6-2.2:1 against the light sky; ink
+ * holds 7.9-11.2:1 and matches the logo. Once the glass fills in past the hero
+ * the links are already ink, so this only affects the transparent state.
+ */
+.site-header:not(.is-blurred) .nav__link {
+  color: var(--ink);
+}
+
 .nav__link:hover,
 .nav__link.is-active {
   color: var(--ink);

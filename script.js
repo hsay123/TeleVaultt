@@ -117,22 +117,21 @@ function initHeader() {
   const heroPin = $('#heroPin');
   if (!header || !heroPin) return;
 
-  let threshold = 0;
-  const measure = () => {
-    // On desktop the hero is pinned for one viewport of scroll, so its
-    // background starts moving away when the pin ends. On mobile there is no
-    // pin, so the hero's own height is the reference.
-    threshold =
-      window.innerWidth > 768
-        ? Math.max(0, window.innerHeight - 24)
-        : Math.max(0, heroPin.offsetHeight - window.innerHeight - 24);
-  };
-  measure();
-  window.addEventListener('resize', measure);
-
+  /*
+   * The chrome only gains its glass fill once the hero has actually scrolled
+   * past the bar, so the sky stays visible behind a transparent header.
+   * Comparing the two edges rather than a scroll offset keeps that true in
+   * both layouts: the desktop hero is pinned, so its background stays behind
+   * the bar long after the page starts moving, and the mobile sky is fixed to
+   * the viewport. A scroll threshold fired the glass early in both cases and
+   * painted a white rectangle over the photo.
+   */
   const update = () => {
-    header.classList.toggle('is-blurred', window.scrollY > threshold);
+    const pastHero = heroPin.getBoundingClientRect().bottom <= header.getBoundingClientRect().bottom;
+    header.classList.toggle('is-blurred', pastHero);
   };
+
+  window.addEventListener('resize', update);
 
   update();
   if (state.lenis) state.lenis.on('scroll', update);

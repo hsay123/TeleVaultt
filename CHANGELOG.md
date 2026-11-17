@@ -62,6 +62,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fades through pale blue into the hero fade so the image never meets the page
   with a hard line. The mobile fade carries the same hand-off, and the fixed
   mobile sky no longer paints over the fade and trust strip.
+- Navbar: the header no longer paints a white glass rectangle over the hero
+  photo. The glass state was triggered by a scroll offset while the pinned hero
+  still held the sky behind the bar; it now engages only once the hero's bottom
+  edge passes the header, so the sky stays visible behind a transparent bar.
+  Over the photo the nav links take the same ink colour as the hero headline so
+  they stay readable on the light sky.
 
 <!-- VERIFY: release dates and version numbers. This project has no tagged release yet; the section above is a draft. -->
 
