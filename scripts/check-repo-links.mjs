@@ -149,7 +149,7 @@ if (!index) {
   fail('index.html: file not found');
 } else {
   assertAppLinks('index.html', 'header', region(index, '<header class="site-header"', '</header>'));
-  assertAppLinks('index.html', 'menu sheet', region(index, 'id="menuSheet"', 'class="hero-pin"'));
+  assertAppLinks('index.html', 'menu panel', region(index, 'id="menuPanel"', 'class="hero-pin"'));
   assertAppLinks('index.html', 'hero', region(index, '<div class="hero" id="hero">', '<main id="main">'));
   assertAppLinks('index.html', 'Contribute section', region(index, 'id="contribute"', '<!-- 3.8 FAQ -->'));
   assertAppLinks('index.html', 'footer', region(index, '<footer class="footer">', '</footer>'), [
