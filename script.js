@@ -797,19 +797,23 @@ function initProblemSort() {
   const { gsap } = window;
   const { ScrollTrigger } = window;
 
-  gsap.set(cards, { opacity: 0, y: 14 });
+  /* Keep a readable floor: the scrub de-emphasises the old chat, it never
+     renders either pane as a disabled skeleton. */
+  gsap.set(cards, { opacity: 0.7, y: 10 });
   gsap.set(rows, { opacity: 1 });
 
   gsap
     .timeline({
       scrollTrigger: {
         trigger: root,
-        start: 'top 78%',
-        end: 'bottom 58%',
+        /* Finish as the section settles into view so the comparison is
+           always read at full clarity, never mid-fade. */
+        start: 'top bottom',
+        end: 'top 72%',
         scrub: 0.6,
       },
     })
-    .to(rows, { opacity: 0.18, y: -6, stagger: 0.06, duration: 1 }, 0)
+    .to(rows, { opacity: 0.85, y: -3, stagger: 0.06, duration: 1 }, 0)
     .to(cards, { opacity: 1, y: 0, stagger: 0.07, duration: 1 }, 0.25);
 
   ScrollTrigger.refresh();

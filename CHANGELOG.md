@@ -44,6 +44,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   is preserved, and the panel closes on a second click, an outside click,
   Escape, link selection or scroll while staying inside the viewport at every
   breakpoint.
+- Problem → solution: the Saved Messages and TeleVault panes use a scoped slate
+  palette with stronger borders, readable file rows, file-type icon tiles,
+  Telegram bookmark avatars, a real app sidebar, bordered folder cards and a
+  visible transformation arrow. The scroll scrub keeps a readable floor and
+  finishes as the section enters view, so neither pane reads as a disabled
+  skeleton.
 - Removed all pricing and purchase language. Download links point at the
   repository because no releases are published yet.
 - Removed the Tailwind CDN; the page ships hand-written CSS only.
