@@ -196,33 +196,37 @@
         type="button"
         aria-label="Open menu"
         aria-expanded="false"
-        aria-controls="menuSheet"
+        aria-controls="menuPanel"
         id="menuToggle"
       >
-        <i data-lucide="menu"></i>
+        <span class="menu-toggle__bars" aria-hidden="true">
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </span>
       </button>
     </header>
 
-    <div class="menu-sheet" id="menuSheet" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
-      <div class="menu-sheet__top">
-        <span class="menu-sheet__brand">TeleVault</span>
-        <button class="menu-sheet__close" type="button" aria-label="Close menu" id="menuClose">
-          <i data-lucide="x"></i>
-        </button>
+    <div class="menu-panel" id="menuPanel" hidden>
+      <span class="menu-panel__surface" aria-hidden="true"></span>
+      <span class="menu-panel__flood" aria-hidden="true"></span>
+      <div class="menu-panel__body">
+        <span class="menu-panel__brand">TeleVault</span>
+        <nav class="menu-panel__nav" aria-label="Menu">
+          <a class="menu-item" href="#top"><span class="menu-item__label">Home</span></a>
+          <a class="menu-item" href="#features"><span class="menu-item__label">Features</span></a>
+          <a class="menu-item" href="#how-it-works"><span class="menu-item__label">How it Works</span></a>
+          <a class="menu-item" href="#security"><span class="menu-item__label">Security</span></a>
+          <a class="menu-item" href="#contribute"><span class="menu-item__label">Contribute</span></a>
+          <a class="menu-item" href="#faq"><span class="menu-item__label">FAQ</span></a>
+        </nav>
+        <div class="menu-panel__divider" role="none"></div>
+        <a class="btn btn--primary menu-panel__cta" href="https://github.com/hsay123/TGDrive" data-download
+          >Get TeleVault</a
+        >
+        <a class="menu-panel__gh" href="https://github.com/hsay123/TGDrive" target="_blank" rel="noopener">
+          <span class="menu-item__label">View on GitHub</span>
+        </a>
       </div>
-      <nav class="menu-sheet__nav" aria-label="Mobile">
-        <a href="#features">Features</a>
-        <a href="#how-it-works">How it Works</a>
-        <a href="#security">Security</a>
-        <a href="#contribute">Contribute</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a class="btn btn--primary menu-sheet__cta" href="https://github.com/hsay123/TGDrive" data-download
-        >Get TeleVault</a
-      >
-      <a class="menu-sheet__gh" href="https://github.com/hsay123/TGDrive" target="_blank" rel="noopener">
-        View on GitHub
-      </a>
     </div>
 
     <section class="hero-pin" id="heroPin" aria-label="Intro">

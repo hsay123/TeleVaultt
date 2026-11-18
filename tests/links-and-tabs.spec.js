@@ -19,7 +19,7 @@ test.describe('repository link mapping', () => {
     await expect(page.locator('.hero__cta[data-download]')).toHaveAttribute('href', APP);
     await expect(page.locator('.hero .cta__alt')).toHaveAttribute('href', APP);
     await expect(page.locator('.hero .cta__alt')).toHaveText(/view on github/i);
-    await expect(page.locator('.menu-sheet__gh')).toHaveAttribute('href', APP);
+    await expect(page.locator('.menu-panel__gh')).toHaveAttribute('href', APP);
 
     const footer = page.locator('.footer');
     await expect(footer.getByRole('link', { name: 'GitHub', exact: true })).toHaveAttribute('href', APP);

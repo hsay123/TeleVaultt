@@ -37,6 +37,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   repository.
 - Navigation: "Pricing" is replaced by "Contribute"; the hero secondary action
   now reads "View on GitHub" and opens the repository in a new tab.
+- Header menu: the full-screen overlay is replaced by a compact liquid-morph
+  panel anchored under the hamburger. The pill expands into a dark rounded
+  surface on one easing curve, a disc floods up from the bottom, labels roll in
+  with a stagger and the hamburger rotates into a close icon. Every destination
+  is preserved, and the panel closes on a second click, an outside click,
+  Escape, link selection or scroll while staying inside the viewport at every
+  breakpoint.
 - Removed all pricing and purchase language. Download links point at the
   repository because no releases are published yet.
 - Removed the Tailwind CDN; the page ships hand-written CSS only.

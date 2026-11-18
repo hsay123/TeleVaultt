@@ -289,9 +289,8 @@ body {
   border-radius: 50%;
   background: rgba(187, 187, 187, 0.26);
   border: 1px solid #d7d5d5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   color: var(--ink);
   cursor: pointer;
   padding: 0;
@@ -807,101 +806,313 @@ video {
   background: var(--ink);
 }
 
-/* Mobile menu sheet -------------------------------------------------------- */
+/* Header menu — liquid morph ----------------------------------------------- */
 
-.menu-sheet {
+/*
+ * A compact pill anchored under the hamburger that morphs into a rounded
+ * panel. The mechanics follow the 21st.dev liquid-morph menu: width, height
+ * and radius interpolate on one easing curve, a dark disc floods up from the
+ * bottom, and the labels roll in with a stagger. The panel stays outside the
+ * header so the header's desktop scale transform does not shrink its type;
+ * script.js measures the button and the bar to place it at every breakpoint.
+ */
+.menu-panel {
   position: fixed;
-  inset: 0;
+  top: 0;
+  right: 0;
   z-index: 120;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 22px 24px 32px;
-  background: rgba(246, 249, 252, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  opacity: 0;
-  transform: translateY(-8px);
-  transition:
-    opacity 220ms var(--ease-out),
-    transform 220ms var(--ease-out);
-}
-
-.menu-sheet[hidden] {
-  display: none;
-}
-
-.menu-sheet.is-open {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.menu-sheet__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.menu-sheet__brand {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: -0.03em;
-}
-
-.menu-sheet__close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  background: #fff;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.menu-sheet__nav {
-  display: flex;
-  flex-direction: column;
-  padding: 12px 0;
-}
-
-.menu-sheet__nav a {
-  display: flex;
-  align-items: center;
-  min-height: 56px;
-  border-bottom: 1px solid var(--line);
-  font-family: var(--font-sans);
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.menu-sheet__cta {
-  margin-top: 20px;
-  width: 100%;
-}
-
-.menu-sheet__gh {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  margin-top: 8px;
-  font-family: var(--font-ui);
-  font-size: 16px;
-  color: var(--muted-ink);
-  text-decoration: none;
-}
-
-body.menu-open {
+  width: var(--menu-closed-w, 45px);
+  height: var(--menu-closed-h, 45px);
+  max-height: var(--menu-max-h, calc(100vh - 24px));
+  border: 0;
+  border-radius: 999px;
   overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    width 800ms var(--ease-out),
+    height 150ms var(--ease-out),
+    border-radius 800ms var(--ease-out),
+    opacity 120ms var(--ease-out),
+    visibility 0s linear 820ms;
+  will-change: width, height;
+}
+
+.menu-panel.is-open {
+  width: var(--menu-open-w, 280px);
+  height: var(--menu-open-h, 420px);
+  border-radius: 24px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    width 800ms var(--ease-out),
+    height 800ms var(--ease-out),
+    border-radius 800ms var(--ease-out),
+    opacity 100ms var(--ease-out),
+    visibility 0s;
+}
+
+/* The pale capsule surface the dark flood rises over. */
+.menu-panel__surface {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transition: border-color 100ms var(--ease-out);
+}
+
+.menu-panel.is-open .menu-panel__surface {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* The disc that expands from the bottom of the container. */
+.menu-panel__flood {
+  position: absolute;
+  left: 50%;
+  bottom: -200%;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  background: #10151c;
+  transform: translateX(-50%);
+  transition: bottom 800ms var(--ease-out);
+}
+
+.menu-panel.is-open .menu-panel__flood {
+  bottom: -20%;
+  transition-delay: 100ms;
+}
+
+.menu-panel__body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 240px;
+  max-height: 100%;
+  padding: 10px;
+  overflow-y: hidden;
+  overscroll-behavior: contain;
+  color: #f4f7fa;
+}
+
+/* Only allow scrolling once the morph has finished, so the panel never shows
+   a scrollbar while it is still growing. */
+.menu-panel.is-settled .menu-panel__body {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.24) transparent;
+}
+
+.menu-panel__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu-panel__body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.menu-panel__brand {
+  display: block;
+  padding: 4px 12px 8px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 247, 250, 0.5);
+}
+
+.menu-panel__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.menu-item,
+.menu-panel__gh {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #eef3f8;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 400ms var(--ease-out),
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+/* Staggered entrance, matching the 400ms + 80ms per item of the reference. */
+.menu-panel.is-open .menu-item,
+.menu-panel.is-open .menu-panel__gh {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(400ms + var(--i, 0) * 80ms), calc(400ms + var(--i, 0) * 80ms), 0ms, 0ms;
+}
+
+.menu-item:hover,
+.menu-item:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.menu-panel__divider {
+  height: 1px;
+  margin: 6px 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.menu-panel__cta {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  background: #f4f7fa;
+  color: #10151c;
+  font-size: 15px;
+}
+
+.menu-panel__cta:hover {
+  background: #ffffff;
+}
+
+.menu-panel__gh {
+  justify-content: center;
+  min-height: 38px;
+  margin-top: 2px;
+  font-size: 14px;
+  color: rgba(244, 247, 250, 0.62);
+}
+
+.menu-panel__gh:hover,
+.menu-panel__gh:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+
+.menu-panel :focus-visible {
+  outline-color: rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+/* Character roll ----------------------------------------------------------
+ * Each label is split into two stacked copies of every character by
+ * script.js. Hovering rolls the column up one line, one character at a time.
+ */
+.menu-item__label {
+  display: inline-flex;
+  height: 1em;
+  line-height: 1em;
+  overflow: hidden;
+}
+
+.roll__char {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.roll__track {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 220ms var(--ease-out);
+}
+
+.roll__glyph {
+  display: block;
+  height: 1em;
+  line-height: 1em;
+}
+
+.menu-item:hover .roll__track,
+.menu-item:focus-visible .roll__track,
+.menu-panel__gh:hover .roll__track,
+.menu-panel__gh:focus-visible .roll__track {
+  transform: translateY(-50%);
+  transition-duration: 800ms;
+  transition-delay: calc(var(--c, 0) * 30ms);
+}
+
+/* Hamburger → close ------------------------------------------------------- */
+
+.menu-toggle__bars {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.menu-toggle__bar {
+  position: absolute;
+  top: 9px;
+  left: 1px;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 400ms var(--ease-out);
+}
+
+.menu-toggle__bar:first-child {
+  transform: translateY(-3px);
+}
+
+.menu-toggle__bar:last-child {
+  transform: translateY(3px);
+}
+
+.header__avatar[aria-expanded='true'] .menu-toggle__bar:first-child {
+  transform: rotate(45deg);
+}
+
+.header__avatar[aria-expanded='true'] .menu-toggle__bar:last-child {
+  transform: rotate(-45deg);
+}
+
+/* Comfortable touch targets on small screens and any coarse pointer. */
+@media (max-width: 768px), (pointer: coarse) {
+  .menu-item,
+  .menu-panel__gh,
+  .menu-panel__cta {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel,
+  .menu-panel.is-open,
+  .menu-panel__flood,
+  .menu-panel__surface,
+  .menu-item,
+  .menu-panel__gh,
+  .roll__track,
+  .menu-toggle__bar {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .menu-panel.is-open .menu-item,
+  .menu-panel.is-open .menu-panel__gh {
+    transition-delay: 0ms !important;
+  }
 }
 
 /* Hero hand-off ------------------------------------------------------------ */

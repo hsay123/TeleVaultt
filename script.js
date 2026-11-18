@@ -68,7 +68,6 @@ function initLenis() {
     if (!target) return;
 
     event.preventDefault();
-    closeMenu();
     lenis.scrollTo(target, { offset: -state.headerOffset, duration: 1.1 });
     if (history.pushState) history.pushState(null, '', hash);
   });
@@ -210,93 +209,186 @@ function initScrollSpy() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Mobile menu                                                                */
+/* Header menu                                                                */
 /* -------------------------------------------------------------------------- */
 
-function openMenu() {
-  const sheet = $('#menuSheet');
+function initMenu() {
+  const panel = $('#menuPanel');
   const toggle = $('#menuToggle');
-  if (!sheet || !toggle) return;
+  const header = $('#siteHeader');
+  if (!panel || !toggle || !header) return;
 
-  sheet.hidden = false;
-  document.body.classList.add('menu-open');
-  toggle.setAttribute('aria-expanded', 'true');
-  toggle.setAttribute('aria-label', 'Close menu');
+  const body = $('.menu-panel__body', panel);
+  if (!body) return;
 
-  requestAnimationFrame(() => sheet.classList.add('is-open'));
+  const reduced = prefersReducedMotion();
+  const morphMs = reduced ? 0 : 800;
+  const hideMs = reduced ? 0 : 820;
+  let open = false;
+  let openY = 0;
+  let hideTimer = 0;
+  let settleTimer = 0;
 
-  const focusable = $$('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])', sheet);
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
+  /*
+   * Split every label into two stacked copies so a hover can roll the
+   * characters up one line, one character at a time. The anchor keeps the
+   * readable text as its accessible name while the visual copy is hidden
+   * from assistive technology.
+   */
+  $$('.menu-item__label', panel).forEach((label, index) => {
+    const link = label.closest('a');
+    const text = label.textContent.trim();
+    if (!link || !text) return;
 
-  const trap = (event) => {
-    if (event.key !== 'Tab') return;
-    if (!focusable.length) return;
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
+    link.setAttribute('aria-label', text);
+    link.style.setProperty('--i', String(index));
+    label.setAttribute('aria-hidden', 'true');
+    label.textContent = '';
+
+    [...text].forEach((char, charIndex) => {
+      const clip = document.createElement('span');
+      clip.className = 'roll__char';
+      clip.style.setProperty('--c', String(charIndex));
+
+      const track = document.createElement('span');
+      track.className = 'roll__track';
+
+      for (let copy = 0; copy < 2; copy += 1) {
+        const glyph = document.createElement('span');
+        glyph.className = 'roll__glyph';
+        glyph.textContent = char === ' ' ? '\u00a0' : char;
+        if (copy === 1) glyph.setAttribute('aria-hidden', 'true');
+        track.append(glyph);
+      }
+
+      clip.append(track);
+      label.append(clip);
+    });
+  });
+
+  /*
+   * On desktop the header is a 1728px canvas scaled down to the viewport, so
+   * measuring the button and the bar anchors the panel to both at every
+   * breakpoint. The panel itself lives outside the header and keeps its type
+   * at the intended size.
+   */
+  const place = () => {
+    const button = toggle.getBoundingClientRect();
+    const bar = header.getBoundingClientRect();
+    const top = Math.round(Math.max(button.bottom, bar.bottom) + 6);
+    const right = Math.round(Math.max(8, window.innerWidth - button.right));
+    const room = Math.min(window.innerWidth - right - 12, button.right - 12);
+    const width = Math.max(200, Math.min(280, Math.round(room)));
+
+    panel.style.top = `${top}px`;
+    panel.style.right = `${right}px`;
+    panel.style.setProperty('--menu-closed-w', `${Math.round(button.width)}px`);
+    panel.style.setProperty('--menu-closed-h', `${Math.round(button.height)}px`);
+    panel.style.setProperty('--menu-open-w', `${width}px`);
+    panel.style.setProperty('--menu-max-h', `${Math.max(180, window.innerHeight - top - 12)}px`);
+
+    return width;
+  };
+
+  /*
+   * The panel's own height is still the closed pill when this runs, so read
+   * the body's scroll height instead: it reports the full content even while
+   * the panel clips it.
+   */
+  const measure = (width) => {
+    const previousWidth = panel.style.width;
+    const previousVisibility = panel.style.visibility;
+
+    panel.style.transition = 'none';
+    panel.style.visibility = 'hidden';
+    panel.style.width = `${width}px`;
+    const height = body.scrollHeight;
+    panel.style.width = previousWidth;
+    panel.style.visibility = previousVisibility;
+    void panel.offsetHeight;
+    panel.style.transition = '';
+
+    return height;
+  };
+
+  const fit = (width) => {
+    const max = Number.parseFloat(panel.style.getPropertyValue('--menu-max-h')) || window.innerHeight;
+    panel.style.setProperty('--menu-open-h', `${Math.min(measure(width), max)}px`);
+  };
+
+  const setOpen = (next, { restoreFocus = false } = {}) => {
+    if (next === open) return;
+    open = next;
+    window.clearTimeout(hideTimer);
+    window.clearTimeout(settleTimer);
+
+    toggle.setAttribute('aria-expanded', String(next));
+    toggle.setAttribute('aria-label', next ? 'Close menu' : 'Open menu');
+
+    if (next) {
+      openY = window.scrollY;
+      const width = place();
+      panel.hidden = false;
+      panel.classList.remove('is-settled');
+      fit(width);
+
+      requestAnimationFrame(() => {
+        if (!open) return;
+        panel.classList.add('is-open');
+        // The panel is visibility:hidden until this frame, so focus has to
+        // wait for it to become visible.
+        $('a[href]', panel)?.focus({ preventScroll: true });
+        settleTimer = window.setTimeout(() => {
+          if (open) panel.classList.add('is-settled');
+        }, morphMs);
+      });
+      return;
     }
+
+    panel.classList.remove('is-open', 'is-settled');
+    hideTimer = window.setTimeout(() => {
+      if (!open) panel.hidden = true;
+    }, hideMs);
+    if (restoreFocus) toggle.focus({ preventScroll: true });
   };
 
-  const onKey = (event) => {
-    if (event.key === 'Escape') closeMenu();
-  };
-
-  sheet._trap = trap;
-  sheet._onKey = onKey;
-  document.addEventListener('keydown', trap);
-  document.addEventListener('keydown', onKey);
-
-  first?.focus();
-}
-
-function closeMenu() {
-  const sheet = $('#menuSheet');
-  const toggle = $('#menuToggle');
-  if (!sheet || sheet.hidden) return;
-
-  sheet.classList.remove('is-open');
-  document.body.classList.remove('menu-open');
-  toggle?.setAttribute('aria-expanded', 'false');
-  toggle?.setAttribute('aria-label', 'Open menu');
-
-  if (sheet._trap) document.removeEventListener('keydown', sheet._trap);
-  if (sheet._onKey) document.removeEventListener('keydown', sheet._onKey);
-
-  const onEnd = () => {
-    sheet.hidden = true;
-    sheet.removeEventListener('transitionend', onEnd);
-  };
-  sheet.addEventListener('transitionend', onEnd);
-  setTimeout(() => {
-    if (!sheet.classList.contains('is-open')) sheet.hidden = true;
-  }, 260);
-
-  toggle?.focus();
-}
-
-function initMobileMenu() {
-  const toggle = $('#menuToggle');
-  const close = $('#menuClose');
-  const sheet = $('#menuSheet');
-  if (!toggle || !sheet) return;
-
-  toggle.addEventListener('click', () => {
-    if (sheet.hidden) openMenu();
-    else closeMenu();
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setOpen(!open);
   });
 
-  close?.addEventListener('click', closeMenu);
-
-  $$('a[href^="#"]', sheet).forEach((link) => {
-    link.addEventListener('click', () => closeMenu());
+  panel.addEventListener('click', (event) => {
+    if (event.target.closest('a[href]')) setOpen(false);
   });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!open) return;
+    if (panel.contains(event.target) || toggle.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!open || event.key !== 'Escape') return;
+    event.preventDefault();
+    setOpen(false, { restoreFocus: true });
+  });
+
+  document.addEventListener('focusin', (event) => {
+    if (!open) return;
+    if (panel.contains(event.target) || toggle.contains(event.target)) return;
+    setOpen(false);
+  });
+
+  const closeOnScroll = () => {
+    if (!open) return;
+    if (Math.abs(window.scrollY - openY) > 4) setOpen(false);
+  };
+  if (state.lenis) state.lenis.on('scroll', closeOnScroll);
+  else window.addEventListener('scroll', closeOnScroll, { passive: true });
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) closeMenu();
+    if (!open) return;
+    fit(place());
   });
 }
 
@@ -1068,7 +1160,7 @@ function boot() {
   initReveals();
   initHeader();
   initScrollSpy();
-  initMobileMenu();
+  initMenu();
   initAccordion();
   initGithubStats();
   initCopyButtons();
