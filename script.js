@@ -10,12 +10,29 @@ const CONFIG = {
   // This website and its contributor documentation.
   WEB_REPO: 'hsay123/TeleVaultt',
   WEB_URL: 'https://github.com/hsay123/TeleVaultt',
-  // TGDrive has no published release yet, so downloads point at the app repository.
-  DOWNLOAD_URL: 'https://github.com/hsay123/TGDrive',
+  // CTAs always land on the dedicated download page, never on the repo root.
+  DOWNLOAD_URL: 'download.html',
 };
 
+/* -------------------------------------------------------------------------- */
+/* Release state — edited by scripts/set-release.mjs                          */
+/* -------------------------------------------------------------------------- */
+
+// "" = no published installer yet (or a stable release when BETA is false).
+const RELEASE_TAG = '';
+const BETA = true;
+const APP_VERSION = '0.1.0'; // televault/package.json
+
 const CACHE_KEY = 'televault:github:v1';
+const RELEASE_CACHE_KEY = 'televault:release:v1';
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+const RELEASE_ASSETS = {
+  windows: 'TeleVault-windows-x64.exe',
+  'mac-arm64': 'TeleVault-macos-arm64.dmg',
+  'mac-x64': 'TeleVault-macos-x64.dmg',
+  linux: 'TeleVault-linux-x64.AppImage',
+};
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -416,9 +433,9 @@ function initAccordion() {
 /* GitHub data                                                                */
 /* -------------------------------------------------------------------------- */
 
-function readCache() {
+function readCache(key = CACHE_KEY) {
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(key);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed.ts !== 'number') return null;
@@ -429,9 +446,9 @@ function readCache() {
   }
 }
 
-function writeCache(data) {
+function writeCache(data, key = CACHE_KEY) {
   try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+    localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data }));
   } catch {
     /* storage disabled — ignore */
   }
@@ -1151,6 +1168,281 @@ function initSetupTabs() {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Download page                                                              */
+/* -------------------------------------------------------------------------- */
+
+async function detectOS() {
+  // Client hints are opt-in and unavailable in many browsers; the UA is the fallback.
+  try {
+    if (navigator.userAgentData?.getHighEntropyValues) {
+      const hints = await navigator.userAgentData.getHighEntropyValues(['platform', 'architecture']);
+      const platform = (hints.platform || navigator.userAgentData.platform || '').toLowerCase();
+      if (platform.includes('win')) return { id: 'windows', label: 'Windows' };
+      if (platform.includes('mac')) return { id: 'macos', label: 'macOS' };
+      if (platform.includes('android')) return { id: 'mobile', label: 'your phone or tablet' };
+      if (platform.includes('linux')) return { id: 'linux', label: 'Linux' };
+    }
+  } catch {
+    /* fall through to the user agent */
+  }
+
+  const ua = navigator.userAgent || '';
+  if (/android|iphone|ipad|ipod/i.test(ua)) return { id: 'mobile', label: 'your phone or tablet' };
+  if (/windows/i.test(ua)) return { id: 'windows', label: 'Windows' };
+  if (/mac os x|macintosh/i.test(ua)) return { id: 'macos', label: 'macOS' };
+  if (/linux|x11|cros/i.test(ua)) return { id: 'linux', label: 'Linux' };
+  return { id: 'unknown', label: 'your system' };
+}
+
+function formatSize(bytes) {
+  if (typeof bytes !== 'number' || !Number.isFinite(bytes) || bytes <= 0) return '';
+  const mb = bytes / (1024 * 1024);
+  return mb >= 1 ? `${Math.round(mb)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+async function loadReleaseInfo() {
+  const state = document.documentElement.dataset.releaseState;
+  if (state === 'none') return null;
+
+  const cached = readCache(RELEASE_CACHE_KEY);
+  if (cached && typeof cached.version === 'string') return cached;
+
+  const path = state === 'tag' && RELEASE_TAG ? `/releases/tags/${RELEASE_TAG}` : '/releases/latest';
+  const release = await fetchJson(`https://api.github.com/repos/${CONFIG.APP_REPO}${path}`);
+  const assets = Array.isArray(release.assets) ? release.assets : [];
+  const data = {
+    version: String(release.tag_name || '').replace(/^v/, ''),
+    sizes: Object.fromEntries(
+      assets
+        .filter((asset) => asset && typeof asset.name === 'string' && typeof asset.size === 'number')
+        .map((asset) => [asset.name, asset.size]),
+    ),
+  };
+  if (data.version) writeCache(data, RELEASE_CACHE_KEY);
+  return data;
+}
+
+let toastTimer = null;
+
+function showToast(message) {
+  const toast = $('[data-dl-toast]');
+  if (!toast) return;
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.hidden = true;
+  }, 2600);
+}
+
+async function initDownloadPage() {
+  const root = document.documentElement;
+  if (!root.hasAttribute('data-release-state')) return;
+
+  // The static state attribute is authoritative: the page is correct with JS off.
+  const releaseState = root.dataset.releaseState;
+  const isSet = releaseState !== 'none';
+  const os = await detectOS();
+  let macChip = 'arm64';
+  let releaseInfo = null;
+
+  const heroLink = $('.dl-hero__actions [data-dl-asset]');
+  const osTitle = $('[data-dl-os-title]');
+  const osSuffix = $('[data-dl-os-suffix]');
+  const fileExt = $('[data-dl-hero-file-ext]');
+
+  const currentAsset = () => {
+    if (os.id === 'windows') return RELEASE_ASSETS.windows;
+    if (os.id === 'linux') return RELEASE_ASSETS.linux;
+    if (os.id === 'macos') return RELEASE_ASSETS[macChip === 'x64' ? 'mac-x64' : 'mac-arm64'];
+    return RELEASE_ASSETS.windows;
+  };
+
+  const heroLabel = () => {
+    if (os.id === 'macos') return macChip === 'x64' ? 'Download for Mac (Intel)' : 'Download for Mac';
+    if (os.id === 'unknown' || os.id === 'mobile') return 'Download for your system';
+    return `Download for ${os.label}`;
+  };
+
+  const updateSizes = () => {
+    const sizes = releaseInfo?.sizes || {};
+    const sizeChip = $('[data-dl-size]');
+    $$('[data-dl-size-for]').forEach((node) => {
+      node.textContent = formatSize(sizes[node.dataset.dlSizeFor]);
+    });
+    if (sizeChip) {
+      const value = formatSize(sizes[currentAsset()]);
+      sizeChip.textContent = value;
+      sizeChip.hidden = !value;
+    }
+  };
+
+  const applyOS = () => {
+    const asset = currentAsset();
+    // Keep the same wording shape as the static HTML. Longer mobile labels
+    // ("your phone or tablet") would wrap to a new line and shift the card.
+    const label = os.id === 'mobile' || os.id === 'unknown' ? 'your system' : os.label;
+    if (osTitle) osTitle.textContent = `Download for ${label}`;
+    if (osSuffix) osSuffix.textContent = ` for ${label}`;
+    if (fileExt) {
+      fileExt.textContent =
+        os.id === 'windows'
+          ? ', .exe'
+          : os.id === 'linux'
+            ? ', .AppImage'
+            : os.id === 'macos'
+              ? ', .dmg'
+              : '';
+    }
+
+    $$('[data-dl-card]').forEach((card) => {
+      card.classList.toggle('is-highlighted', card.dataset.dlCard === os.id);
+    });
+
+    const source = $$('[data-dl-asset]').find((link) => link.dataset.dlAsset === asset);
+    if (heroLink && source && isSet) {
+      heroLink.setAttribute('href', source.getAttribute('href'));
+      heroLink.dataset.dlAsset = asset;
+      heroLink.textContent = heroLabel();
+    }
+    updateSizes();
+  };
+
+  const macButtons = $$('[data-dl-mac-toggle]');
+  const macPanels = $$('[data-dl-mac-panel]');
+  const setMacChip = (chip) => {
+    macChip = chip;
+    macButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.dlMacToggle === chip));
+    });
+    macPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.dlMacPanel !== chip;
+    });
+    if (os.id === 'macos') applyOS();
+  };
+  macButtons.forEach((button) => {
+    button.addEventListener('click', () => setMacChip(button.dataset.dlMacToggle));
+  });
+
+  applyOS();
+  setMacChip('arm64');
+
+  // Attach interactions before any network request, so a slow API cannot
+  // delay a click, a copy or the email link.
+  $$('[data-dl-asset]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const version = ($('[data-dl-version]')?.textContent || '').trim() || 'beta';
+      showToast(`Downloading TeleVault ${version}…`);
+    });
+  });
+
+  const copyButton = $('[data-dl-copy-link]');
+  if (copyButton) {
+    copyButton.addEventListener('click', async () => {
+      try {
+        if (!(await copyText(location.href))) return;
+        const label = $('span', copyButton);
+        if (label) label.textContent = 'Copied';
+        showToast('Link copied');
+        setTimeout(() => {
+          if (label) label.textContent = 'Copy link';
+        }, 2000);
+      } catch {
+        /* clipboard unavailable — leave the label alone */
+      }
+    });
+  }
+
+  const emailLink = $('[data-dl-email-link]');
+  if (emailLink) {
+    emailLink.href = `mailto:?subject=${encodeURIComponent('TeleVault download')}&body=${encodeURIComponent(
+      `TeleVault for your desktop: ${location.href}`,
+    )}`;
+  }
+
+  // Version and size come from the GitHub API. On failure the static version
+  // chip stays and the size chip is hidden, so no dead values appear.
+  if (isSet) {
+    const sizeChip = $('[data-dl-size]');
+    if (sizeChip) sizeChip.hidden = false;
+    const timeout = setTimeout(() => {
+      if (sizeChip) sizeChip.hidden = true;
+    }, 10000);
+
+    try {
+      releaseInfo = await loadReleaseInfo();
+      if (releaseInfo?.version) {
+        const versionChip = $('[data-dl-version]');
+        if (versionChip) versionChip.textContent = `v${releaseInfo.version}`;
+      }
+      updateSizes();
+    } catch {
+      if (sizeChip) sizeChip.hidden = true;
+      $$('[data-dl-size-for]').forEach((node) => {
+        node.textContent = '';
+      });
+    } finally {
+      clearTimeout(timeout);
+      const skeleton = sizeChip ? $('[data-skeleton]', sizeChip) : null;
+      if (skeleton) skeleton.remove();
+    }
+  }
+}
+
+function initDownloadTabs() {
+  const root = $('[data-dl-tabs]');
+  if (!root) return;
+
+  const tabs = $$('[data-dl-tab]', root);
+  const panels = $$('[data-dl-panel]', root);
+  if (!tabs.length || !panels.length) return;
+
+  const names = tabs.map((tab) => tab.dataset.dlTab);
+  const activate = (name, moveFocus = false) => {
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.dlTab === name;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      if (selected && moveFocus) tab.focus();
+    });
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.dlPanel !== name;
+    });
+  };
+
+  const nameFromHash = () => {
+    const hash = window.location.hash.slice(1);
+    return names.includes(hash) ? hash : names[0];
+  };
+
+  activate(nameFromHash());
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      const name = tab.dataset.dlTab;
+      activate(name);
+      history.replaceState(null, '', `#${name}`);
+    });
+
+    tab.addEventListener('keydown', (event) => {
+      const last = tabs.length - 1;
+      let next = null;
+      if (event.key === 'ArrowRight') next = index === last ? 0 : index + 1;
+      else if (event.key === 'ArrowLeft') next = index === 0 ? last : index - 1;
+      else if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = last;
+      if (next === null) return;
+      event.preventDefault();
+      const target = tabs[next];
+      activate(target.dataset.dlTab, true);
+      history.replaceState(null, '', `#${target.dataset.dlTab}`);
+    });
+  });
+
+  window.addEventListener('hashchange', () => activate(nameFromHash()));
+}
+
+/* -------------------------------------------------------------------------- */
 /* Boot                                                                       */
 /* -------------------------------------------------------------------------- */
 
@@ -1174,6 +1466,8 @@ function boot() {
   initTilt();
   initDocsToc();
   initSetupTabs();
+  initDownloadTabs();
+  initDownloadPage();
 }
 
 if (document.readyState === 'loading') {

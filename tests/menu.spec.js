@@ -125,7 +125,7 @@ test.describe('header menu popover', () => {
     await expect(links.nth(5)).toHaveAttribute('href', '#faq');
 
     await expect(page.locator('.menu-panel__brand')).toHaveText('TeleVault');
-    await expect(page.locator('.menu-panel__cta')).toHaveAttribute('href', APP);
+    await expect(page.locator('.menu-panel__cta')).toHaveAttribute('href', 'download.html');
     await expect(page.locator('.menu-panel__gh')).toHaveAttribute('href', APP);
 
     // Every label keeps a readable accessible name after being split into

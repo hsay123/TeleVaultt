@@ -227,7 +227,7 @@ if (!script) {
     ['APP_URL', APP],
     ['WEB_REPO', WEB],
     ['WEB_URL', WEB],
-    ['DOWNLOAD_URL', APP],
+    ['DOWNLOAD_URL', 'download.html'],
   ];
 
   for (const [key, repo] of expected) {
@@ -240,6 +240,53 @@ if (!script) {
     if (actual !== repo) {
       fail(`script.js: CONFIG.${key} points at ${actual}, expected ${repo}`);
     }
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Download links                                                             */
+/* -------------------------------------------------------------------------- */
+
+// Every CTA marked data-download must land on the dedicated page, never on a
+// repository root. Only real installer URLs may point at a release asset.
+for (const [file, text] of contents) {
+  if (!file.endsWith('.html')) continue;
+  for (const tag of text.matchAll(/<a\b[^>]*\bdata-download\b[^>]*>/g)) {
+    const href = tag[0].match(/href="([^"]+)"/)?.[1];
+    if (!href || !/(^|\/)download\.html$/.test(href)) {
+      fail(`${file}: data-download link points at "${href ?? 'nothing'}", expected download.html`);
+    }
+  }
+}
+
+const download = contents.get('download.html');
+if (!download) {
+  fail('download.html: file not found');
+} else {
+  assertAppLinks('download.html', 'header', region(download, '<header class="doc-header"', '</header>'));
+  assertAppLinks('download.html', 'footer', region(download, '<footer class="footer">', '</footer>'), [
+    'Website source',
+    'Code of Conduct',
+    'Security policy',
+    'License',
+  ]);
+
+  const releasePrefix = `https://github.com/hsay123/${APP}/releases/`;
+  for (const href of [...download.matchAll(/href="([^"]+)"/g)].map((match) => match[1])) {
+    const isRelease = /\/releases\/(?:download|latest\/download)\//.test(href);
+    if (isRelease && !href.startsWith(releasePrefix)) {
+      fail(`download.html: release asset link "${href}" is not under ${APP_URL}`);
+    }
+  }
+  if (
+    /data-download-asset="[^"]+"\s+href="(?!https:\/\/github\.com\/hsay123\/TGDrive\/releases\/)/.test(
+      download,
+    )
+  ) {
+    fail('download.html: a download asset link does not use an APP_URL release URL');
+  }
+  if (/href="https:\/\/github\.com\/hsay123\/TGDrive">Download</.test(download)) {
+    fail('download.html: the Download link still points at the repository root');
   }
 }
 

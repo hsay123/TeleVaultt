@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const APP = 'https://github.com/hsay123/TGDrive';
 const WEB = 'https://github.com/hsay123/TeleVaultt';
+const DOWNLOAD_PAGE = 'https://televault-silk.vercel.app/download.html';
 
 const githubAnchors = (page) =>
   page.locator('a[href*="github.com/hsay123"]').evaluateAll((links) =>
@@ -15,11 +16,16 @@ test.describe('repository link mapping', () => {
   test('product links point at TGDrive and docs links at TeleVaultt', async ({ page }) => {
     await page.goto('/index.html');
 
-    await expect(page.locator('.header__cta[data-download]')).toHaveAttribute('href', APP);
-    await expect(page.locator('.hero__cta[data-download]')).toHaveAttribute('href', APP);
+    await expect(page.locator('.header__cta[data-download]')).toHaveAttribute('href', 'download.html');
+    await expect(page.locator('.hero__cta[data-download]')).toHaveAttribute('href', 'download.html');
     await expect(page.locator('.hero .cta__alt')).toHaveAttribute('href', APP);
     await expect(page.locator('.hero .cta__alt')).toHaveText(/view on github/i);
     await expect(page.locator('.menu-panel__gh')).toHaveAttribute('href', APP);
+    await expect(page.locator('.menu-panel__cta')).toHaveAttribute('href', 'download.html');
+    await expect(page.locator('.footer').getByRole('link', { name: 'Download' })).toHaveAttribute(
+      'href',
+      'download.html',
+    );
 
     const footer = page.locator('.footer');
     await expect(footer.getByRole('link', { name: 'GitHub', exact: true })).toHaveAttribute('href', APP);
@@ -38,7 +44,7 @@ test.describe('repository link mapping', () => {
     expect(anchors.filter((a) => a.href.startsWith(APP) && /[?&]template=/.test(a.href))).toEqual([]);
 
     const jsonLd = await page.locator('script[type="application/ld+json"]').first().textContent();
-    expect(JSON.parse(jsonLd)).toMatchObject({ downloadUrl: APP, codeRepository: APP });
+    expect(JSON.parse(jsonLd)).toMatchObject({ downloadUrl: DOWNLOAD_PAGE, codeRepository: APP });
   });
 
   test('contribute guide separates app and website work', async ({ page }) => {
@@ -151,8 +157,8 @@ test.describe('without JavaScript', () => {
   test('product links and app setup work from static HTML', async ({ page }) => {
     await page.goto('/index.html');
 
-    await expect(page.locator('.header__cta[data-download]')).toHaveAttribute('href', APP);
-    await expect(page.locator('.hero__cta[data-download]')).toHaveAttribute('href', APP);
+    await expect(page.locator('.header__cta[data-download]')).toHaveAttribute('href', 'download.html');
+    await expect(page.locator('.hero__cta[data-download]')).toHaveAttribute('href', 'download.html');
     await expect(page.locator('.hero .cta__alt')).toHaveAttribute('href', APP);
     await expect(page.locator('.footer').getByRole('link', { name: 'Website source' })).toHaveAttribute(
       'href',

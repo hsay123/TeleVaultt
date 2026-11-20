@@ -6,6 +6,7 @@ import { cp, mkdir, rm } from 'node:fs/promises';
 const entries = [
   'index.html',
   'contribute.html',
+  'download.html',
   '404.html',
   'styles.css',
   'script.js',
