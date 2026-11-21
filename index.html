@@ -52,6 +52,19 @@
       crossorigin
     />
     <link rel="preload" href="assets/img/hero-sky.avif" as="image" type="image/avif" />
+    <link rel="preload" href="assets/videos/televault-poster.jpg" as="image" fetchpriority="high" />
+
+    <script>
+      // Apply the desktop hero scale before first paint. script.js owns the
+      // same calculation for resizes; this only removes the initial jump.
+      (function () {
+        if (window.innerWidth <= 768) return;
+        var scale = Math.min(1, window.innerWidth / 1728);
+        var style = document.createElement('style');
+        style.textContent = '#hero,#siteHeader{transform:scale(' + scale + ')}';
+        document.head.appendChild(style);
+      })();
+    </script>
 
     <link rel="stylesheet" href="assets/fonts.css" />
     <link rel="stylesheet" href="assets/vendor/lenis/lenis.css" />
