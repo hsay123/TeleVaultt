@@ -19,9 +19,9 @@ const CONFIG = {
 /* -------------------------------------------------------------------------- */
 
 // "" = no published installer yet (or a stable release when BETA is false).
-const RELEASE_TAG = '';
+const RELEASE_TAG = 'v0.1.0-rc.1';
 const BETA = true;
-const APP_VERSION = '0.1.0'; // televault/package.json
+const APP_VERSION = '0.1.0-rc.1'; // televault/package.json
 
 const CACHE_KEY = 'televault:github:v1';
 const RELEASE_CACHE_KEY = 'televault:release:v1';
@@ -32,7 +32,14 @@ const RELEASE_ASSETS = {
   'mac-arm64': 'TeleVault-macos-arm64.dmg',
   'mac-x64': 'TeleVault-macos-x64.dmg',
   linux: 'TeleVault-linux-x64.AppImage',
+  'linux-deb': 'TeleVault-linux-x64.deb',
+  'linux-rpm': 'TeleVault-linux-x64.rpm',
+  checksums: 'SHA256SUMS.txt',
 };
+
+// Release-build status. The beta is not distributed through a store or with a
+// Developer ID, so the website never claims otherwise.
+const SIGNED = { windows: false, macos: false };
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1331,8 +1338,9 @@ async function initDownloadPage() {
   // delay a click, a copy or the email link.
   $$('[data-dl-asset]').forEach((link) => {
     link.addEventListener('click', () => {
-      const version = ($('[data-dl-version]')?.textContent || '').trim() || 'beta';
-      showToast(`Downloading TeleVault ${version}…`);
+      // Use the bound app version, not the chip text: the chip may be updated
+      // by the API and may carry a ", pre-release" suffix.
+      showToast(`Downloading TeleVault v${APP_VERSION}…`);
     });
   });
 
@@ -1373,7 +1381,10 @@ async function initDownloadPage() {
       releaseInfo = await loadReleaseInfo();
       if (releaseInfo?.version) {
         const versionChip = $('[data-dl-version]');
-        if (versionChip) versionChip.textContent = `v${releaseInfo.version}`;
+        if (versionChip) {
+          const prerelease = versionChip.textContent.includes('pre-release') ? ', pre-release' : '';
+          versionChip.textContent = `v${releaseInfo.version}${prerelease}`;
+        }
       }
       updateSizes();
     } catch {

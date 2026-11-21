@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Terms — TeleVault</title>
+    <meta
+      name="description"
+      content="Plain-language terms for using the independently developed TeleVault desktop app."
+    />
+    <link rel="canonical" href="https://televault-silk.vercel.app/terms.html" />
+
+    <meta name="theme-color" content="#14181F" />
+    <meta name="color-scheme" content="light" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="TeleVault" />
+    <meta property="og:title" content="Terms — TeleVault" />
+    <meta
+      property="og:description"
+      content="Plain-language terms for using the independently developed TeleVault desktop app."
+    />
+    <meta property="og:url" content="https://televault-silk.vercel.app/terms.html" />
+    <meta property="og:image" content="https://televault-silk.vercel.app/assets/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Terms — TeleVault" />
+    <meta
+      name="twitter:description"
+      content="Plain-language terms for using the independently developed TeleVault desktop app."
+    />
+    <meta name="twitter:image" content="https://televault-silk.vercel.app/assets/img/og.jpg" />
+
+    <link rel="icon" href="assets/img/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="assets/img/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <link rel="preload" href="assets/fonts/inter-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/poppins-500-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <link rel="stylesheet" href="assets/fonts.css" />
+    <link rel="stylesheet" href="assets/vendor/lenis/lenis.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="doc-header">
+      <div class="container doc-header__inner">
+        <a class="doc-header__logo" href="index.html" aria-label="TeleVault home">
+          <img
+            src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+            alt="TeleVault"
+            width="148"
+            height="34"
+          />
+        </a>
+        <nav class="doc-header__nav" aria-label="Secondary">
+          <a href="index.html" aria-label="Back to site"
+            ><i data-lucide="arrow-left" aria-hidden="true"></i><span>Back to site</span></a
+          >
+          <a
+            href="https://github.com/hsay123/TGDrive"
+            target="_blank"
+            rel="noopener"
+            aria-label="TeleVault on GitHub"
+            ><i data-lucide="star" aria-hidden="true"></i><span>GitHub</span></a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="docs-hero">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li><a href="index.html">TeleVault</a></li>
+            <li aria-hidden="true"><i data-lucide="chevron-right"></i></li>
+            <li aria-current="page">Terms</li>
+          </ol>
+          <h1>Terms</h1>
+          <p>How this independent open-source project can be used.</p>
+          <p class="dl-callout"><strong>Plain-language drafts, not legal advice.</strong></p>
+        </div>
+      </div>
+
+      <div class="dl-content">
+        <div class="container container--narrow">
+          <section class="dl-section" id="independent" aria-labelledby="independentTitle">
+            <div class="dl-section__head">
+              <h2 id="independentTitle">Independent project</h2>
+            </div>
+            <p>
+              TeleVault is an independent open-source project. It is not affiliated with or endorsed by
+              Telegram. You supply your own Telegram account and API credentials, and you are responsible for
+              following
+              <a href="https://telegram.org/tos" target="_blank" rel="noopener"
+                >Telegram's Terms of Service</a
+              >
+              when you use the app.
+            </p>
+          </section>
+
+          <section class="dl-section" id="files" aria-labelledby="filesTitle">
+            <div class="dl-section__head">
+              <h2 id="filesTitle">Your files and your key</h2>
+            </div>
+            <p>
+              File contents are encrypted on your device when encryption is on, but file names, paths, sizes
+              and folder names are not encrypted. The encryption key stays in your operating system keychain.
+              If you lose it, encrypted files cannot be read. This beta has no recovery-key export, so keep a
+              backup of your keychain. More detail is on the <a href="privacy.html">privacy page</a>.
+            </p>
+          </section>
+
+          <section class="dl-section" id="deletion" aria-labelledby="deletionTitle">
+            <div class="dl-section__head">
+              <h2 id="deletionTitle">Deletion and sync</h2>
+            </div>
+            <p>
+              “Delete permanently” is irreversible: it deletes the file's recorded Telegram messages and its
+              local records. Cached thumbnails, old sync snapshots and archived version messages are not
+              removed. Trash expires after 30 days with a local-only purge, so those messages stay in your
+              Telegram account. Sync is last-writer-wins, and a local backup is made before a pull is applied.
+            </p>
+          </section>
+
+          <section class="dl-section" id="updates" aria-labelledby="updatesTitle">
+            <div class="dl-section__head">
+              <h2 id="updatesTitle">Updates</h2>
+            </div>
+            <p>
+              The startup update check contacts GitHub and sends a random local ID. A failed check is silent.
+              An installer is downloaded only after you choose to download it. Installers and verification
+              steps are on the <a href="download.html">download page</a>.
+            </p>
+          </section>
+
+          <section class="dl-section" id="license" aria-labelledby="licenseTitle">
+            <div class="dl-section__head">
+              <h2 id="licenseTitle">License and warranty</h2>
+            </div>
+            <p>
+              TeleVault is free and released under the MIT License. The software is provided “as is”, without
+              warranty of any kind, express or implied, including but not limited to the warranties of
+              merchantability, fitness for a particular purpose and non-infringement. In no event shall the
+              authors or copyright holders be liable for any claim, damages or other liability, whether in an
+              action of contract, tort or otherwise, arising from, out of or in connection with the software
+              or the use or other dealings in it.
+            </p>
+            <p>
+              Source code, issues and the full license text are on
+              <a href="https://github.com/hsay123/TGDrive" target="_blank" rel="noopener">GitHub</a>.
+            </p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <img
+              src="assets/ChatGPT_Image_Jul_12__2026__01_16_38_AM-removebg-preview.png"
+              alt="TeleVault"
+              width="193"
+              height="44"
+              loading="lazy"
+            />
+            <p>A desktop file manager for the storage you already have.</p>
+          </div>
+          <nav class="footer__cols" aria-label="Footer">
+            <div class="footer__col">
+              <h2 class="footer__heading">Product</h2>
+              <ul>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#security">Security</a></li>
+                <li><a href="download.html" data-download>Download</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Open source</h2>
+              <ul>
+                <li>
+                  <a href="https://github.com/hsay123/TGDrive" target="_blank" rel="noopener">GitHub</a>
+                </li>
+                <li><a href="contribute.html">Contributing guide</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h2 class="footer__heading">Legal</h2>
+              <ul>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="terms.html" aria-current="page">Terms</a></li>
+                <li>
+                  <a
+                    href="https://github.com/hsay123/TeleVaultt/blob/main/LICENSE"
+                    target="_blank"
+                    rel="noopener"
+                    >License</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <p class="footer__legal">
+          TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram.
+        </p>
+        <p class="footer__copy">© 2026 TeleVault contributors · MIT License</p>
+      </div>
+      <svg class="footer__wordmark" aria-hidden="true" focusable="false" role="none">
+        <text x="50%" y="0.78em" text-anchor="middle">TeleVault</text>
+      </svg>
+    </footer>
+
+    <script src="assets/vendor/lenis/lenis.min.js"></script>
+    <script src="assets/vendor/gsap/gsap.min.js"></script>
+    <script src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
+    <script src="assets/vendor/lucide/lucide-subset.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

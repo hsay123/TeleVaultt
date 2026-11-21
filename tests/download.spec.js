@@ -5,6 +5,7 @@ import { expect, test } from '@playwright/test';
 const APP = 'https://github.com/hsay123/TGDrive';
 const TAG = 'v0.1.0-rc.1';
 const PREFIX = `${APP}/releases/download/${TAG}/`;
+const CHIP = `${TAG}, pre-release`;
 const ASSETS = [
   'TeleVault-windows-x64.exe',
   'TeleVault-macos-arm64.dmg',
@@ -30,26 +31,39 @@ const UA = {
 const htmlSource = readFileSync(fileURLToPath(new URL('../download.html', import.meta.url)), 'utf8');
 const scriptSource = readFileSync(fileURLToPath(new URL('../script.js', import.meta.url)), 'utf8');
 
-function setReleaseFixtures() {
-  const html = htmlSource
-    .replace(/<html lang="en" data-release-state="[^"]+">/, '<html lang="en" data-release-state="tag">')
-    .replace(/(<span class="dl-chip dl-chip--version" data-dl-version>)[^<]*(<\/span>)/, `$1${TAG}$2`)
+const SLOT_PATTERN = /<!-- dl-slot asset="([^"]+)" label="([^"]+)" -->[\s\S]*?<!-- \/dl-slot -->/g;
+
+function fixtureHtml(state) {
+  const body =
+    state === 'none'
+      ? '<span class="dl-soon">Coming soon</span>'
+      : '<a class="dl-download" data-dl-asset="$1" href="' + PREFIX + '$1">$2</a>';
+  return htmlSource
+    .replace(/<html lang="en" data-release-state="[^"]+">/, `<html lang="en" data-release-state="${state}">`)
     .replace(
-      /<!-- dl-slot asset="([^"]+)" label="([^"]+)" -->[\s\S]*?<!-- \/dl-slot -->/g,
-      (_full, asset, label) =>
-        `<!-- dl-slot asset="${asset}" label="${label}" -->\n                <a class="dl-download" data-dl-asset="${asset}" href="${PREFIX}${asset}">${label}</a>\n                <!-- /dl-slot -->`,
+      /(<span class="dl-chip dl-chip--version" data-dl-version>)[^<]*(<\/span>)/,
+      `$1${state === 'none' ? 'v0.1.0, pre-release' : CHIP}$2`,
+    )
+    .replace(SLOT_PATTERN, (_full, asset, label) =>
+      body.replaceAll('$1', asset).replaceAll('$2', label).replace(/^\s*/, ''),
     );
-  const script = scriptSource.replace(/const RELEASE_TAG = '[^']*';/, `const RELEASE_TAG = '${TAG}';`);
-  return { html, script };
 }
 
-async function serveSetRelease(page) {
-  const { html, script } = setReleaseFixtures();
+function fixtureScript(state) {
+  const tag = state === 'tag' ? TAG : '';
+  const version = state === 'tag' ? TAG.slice(1) : '0.1.0';
+  return scriptSource
+    .replace(/const RELEASE_TAG = '[^']*';/, `const RELEASE_TAG = '${tag}';`)
+    .replace(/const APP_VERSION = '[^']*';/, `const APP_VERSION = '${version}';`)
+    .replace(/const BETA = (?:true|false);/, 'const BETA = true;');
+}
+
+async function serveState(page, state) {
   await page.route('**/download.html', (route) =>
-    route.fulfill({ status: 200, contentType: 'text/html', body: html }),
+    route.fulfill({ status: 200, contentType: 'text/html', body: fixtureHtml(state) }),
   );
   await page.route('**/script.js', (route) =>
-    route.fulfill({ status: 200, contentType: 'application/javascript', body: script }),
+    route.fulfill({ status: 200, contentType: 'application/javascript', body: fixtureScript(state) }),
   );
 }
 
@@ -65,8 +79,9 @@ test('homepage "Get TeleVault" lands on the download page', async ({ page }) => 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Download TeleVault.');
 });
 
-test.describe('none state (current repository state)', () => {
+test.describe('none state (fixture)', () => {
   test('shows coming soon with no download links or dead hrefs', async ({ page }) => {
+    await serveState(page, 'none');
     await page.goto('/download.html');
 
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Download TeleVault.');
@@ -96,6 +111,7 @@ test.describe('none state (current repository state)', () => {
     for (const [userAgent, card, label] of cases) {
       const context = await browser.newContext({ userAgent });
       const page = await context.newPage();
+      await serveState(page, 'none');
       await page.goto('/download.html');
 
       await expect(page.locator(`[data-dl-card="${card}"]`)).toHaveClass(/is-highlighted/);
@@ -109,6 +125,7 @@ test.describe('none state (current repository state)', () => {
     for (const userAgent of [UA.android, UA.ios]) {
       const context = await browser.newContext({ userAgent });
       const page = await context.newPage();
+      await serveState(page, 'none');
       await page.goto('/download.html');
 
       await expect(page.locator('[data-dl-card].is-highlighted')).toHaveCount(0);
@@ -127,11 +144,13 @@ test.describe('none state (current repository state)', () => {
         },
       });
     });
+    await serveState(page, 'none');
     await page.goto('/download.html');
     await expect(page.locator('[data-dl-card="macos"]')).toHaveClass(/is-highlighted/);
   });
 
   test('tabs work by click, keyboard and URL hash', async ({ page }) => {
+    await serveState(page, 'none');
     await page.goto('/download.html');
 
     const windowsTab = page.locator('[data-dl-tab="windows"]');
@@ -164,6 +183,7 @@ test.describe('none state (current repository state)', () => {
 
   test('reduced motion keeps the page visible and disables transitions', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
+    await serveState(page, 'none');
     await page.goto('/download.html');
     await expect(page.locator('.dl-hero__card')).toBeVisible();
     const duration = await page
@@ -174,13 +194,17 @@ test.describe('none state (current repository state)', () => {
   });
 });
 
-test.describe('published state', () => {
-  test('static HTML contains real installer hrefs without JavaScript', async ({ browser }) => {
+test.describe('published tag state', () => {
+  test('static HTML contains the pre-release chip and real installer hrefs without JavaScript', async ({
+    browser,
+  }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
-    await serveSetRelease(page);
+    await serveState(page, 'tag');
     await page.goto('/download.html');
 
+    await expect(page.locator('[data-dl-version]')).toHaveText(CHIP);
+    await expect(page.locator('[data-dl-only="beta"]').first()).toBeVisible();
     const hrefs = await page
       .locator('[data-dl-asset]')
       .evaluateAll((links) => links.map((link) => link.getAttribute('href')));
@@ -189,7 +213,7 @@ test.describe('published state', () => {
   });
 
   test('shows a toast on click without starting a download', async ({ page }) => {
-    await serveSetRelease(page);
+    await serveState(page, 'tag');
     await page.goto('/download.html');
     await page.evaluate(() => {
       document.addEventListener(
@@ -209,7 +233,7 @@ test.describe('published state', () => {
   test('Apple Silicon / Intel toggle switches the visible macOS build', async ({ browser }) => {
     const context = await browser.newContext({ userAgent: UA.macos });
     const page = await context.newPage();
-    await serveSetRelease(page);
+    await serveState(page, 'tag');
     await page.goto('/download.html');
 
     const armPanel = page.locator('[data-dl-mac-panel="arm64"]');
@@ -234,13 +258,13 @@ test.describe('published state', () => {
   });
 
   test('fills version and size chips from a successful API response', async ({ page }) => {
-    await serveSetRelease(page);
+    await serveState(page, 'tag');
     await page.route('https://api.github.com/**', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(mockRelease) }),
     );
     await page.goto('/download.html');
 
-    await expect(page.locator('[data-dl-version]')).toHaveText('v0.1.0-rc.1');
+    await expect(page.locator('[data-dl-version]')).toHaveText(CHIP);
     await expect(page.locator('[data-dl-size]')).toBeVisible();
     await expect(page.locator('[data-dl-size]')).toHaveText('137 MB');
     await expect(page.locator('[data-dl-size-for="TeleVault-windows-x64.exe"]')).toHaveText('137 MB');
@@ -251,7 +275,7 @@ test.describe('published state', () => {
     ['rate limit', 403],
   ]) {
     test(`hides dynamic chips on ${label}`, async ({ page }) => {
-      await serveSetRelease(page);
+      await serveState(page, 'tag');
       await page.route('https://api.github.com/**', (route) =>
         route.fulfill({
           status,
@@ -263,10 +287,39 @@ test.describe('published state', () => {
       await page.goto('/download.html');
 
       await expect(page.locator('[data-dl-size]')).toBeHidden();
-      await expect(page.locator('[data-dl-version]')).toHaveText(TAG);
+      await expect(page.locator('[data-dl-version]')).toHaveText(CHIP);
       await expect(page.locator('[data-dl-card="windows"] [data-dl-asset]')).toBeVisible();
     });
   }
+
+  test('install instructions cover each platform without signing or automatic-download claims', async ({
+    page,
+  }) => {
+    await serveState(page, 'tag');
+    await page.goto('/download.html');
+    // textContent includes panels hidden behind the install tabs.
+    const body = await page.locator('body').textContent();
+
+    expect(body).toContain('More info');
+    expect(body).toContain('Run anyway');
+    expect(body).toContain('Open Anyway');
+    expect(body).toContain('chmod +x TeleVault-linux-x64.AppImage');
+    expect(body).toContain('--appimage-extract');
+    expect(body).toContain('sudo apt install ./TeleVault-linux-x64.deb');
+    expect(body).toContain('sudo dnf install ./TeleVault-linux-x64.rpm');
+    expect(body).toContain('Electron 45.3.3');
+    expect(body).not.toMatch(/notarized|Developer-ID signed|digitally signed|verified publisher/i);
+    expect(body).not.toMatch(/downloads automatically|automatic download/i);
+  });
+
+  test('checksums section links the SHA-256 manifest', async ({ page }) => {
+    await serveState(page, 'tag');
+    await page.goto('/download.html');
+    await expect(page.getByRole('link', { name: /SHA256SUMS\.txt/ }).first()).toHaveAttribute(
+      'href',
+      `${PREFIX}SHA256SUMS.txt`,
+    );
+  });
 });
 
 test('copy link and email link work on the mobile note', async ({ page, context }) => {

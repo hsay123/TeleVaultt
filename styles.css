@@ -1912,6 +1912,15 @@ video {
   color: var(--sky-deep);
 }
 
+.security__note {
+  max-width: 68ch;
+  margin: 20px 0 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted-ink);
+}
+
 /* Contribute --------------------------------------------------------------- */
 
 .contribute__panel {

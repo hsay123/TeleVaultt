@@ -115,7 +115,7 @@
             "name": "Can TeleVault see my files?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "TeleVault talks to Telegram on your behalf and does not run a server that stores your files. Because it is open source, you can audit exactly what it sends and receives."
+              "text": "File contents are encrypted on your device when encryption is on. File names, paths, sizes and folder names are not encrypted, and the Telegram session is stored locally. TeleVault does not run a server that stores your files."
             }
           },
           {
@@ -123,7 +123,7 @@
             "name": "Which platforms are supported?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "TeleVault is a desktop app. Check the releases page on GitHub for the current list of supported platforms and builds."
+              "text": "TeleVault is a desktop app for Windows 10+, macOS Ventura 13+ and Linux x64. Current installers, system requirements and checksums are on the download page."
             }
           },
           {
@@ -131,7 +131,7 @@
             "name": "Is TeleVault affiliated with Telegram?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram."
+              "text": "No. TeleVault is an independent open-source project and is not affiliated with or endorsed by Telegram. You use it with your own Telegram account and are responsible for following Telegram's Terms of Service."
             }
           },
           {
@@ -139,7 +139,7 @@
             "name": "Are there file size limits?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Any limit comes from Telegram and your account, not from TeleVault. The app uses the same limits Telegram applies to your uploads."
+              "text": "TeleVault does not advertise a fixed per-file limit. Files are uploaded to your own Telegram account, so any practical limit comes from Telegram and your account."
             }
           },
           {
@@ -164,6 +164,38 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Yes. Clone the repository, install the dependencies with npm install, and run the development command. The contributing guide walks through the full setup."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does Delete permanently do?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is irreversible. It deletes the file's recorded Telegram messages and its local records. Cached thumbnails, old sync snapshots and archived version messages are not removed."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens when trash expires?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Trash entries expire after 30 days. The sweep removes local references only, so the messages stay in your Telegram account until you delete them there."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does sync handle conflicts?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sync is last-writer-wins: the most recently pushed device can overwrite newer local metadata. TeleVault makes a local backup before applying a pull."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it download updates automatically?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The startup update check contacts GitHub and sends a random ID generated on your device. A failed check is silent. An installer is downloaded only after you choose to download it."
             }
           }
         ]
@@ -295,7 +327,7 @@
           <li class="trust__item trust__item--stars" data-github-stars hidden>
             <i data-lucide="star" aria-hidden="true"></i><span data-stat="stars">0</span> on GitHub
           </li>
-          <!-- VERIFY: supported desktop platforms (Windows, macOS, Linux) — not documented in the repo -->
+          <!-- Confirmed by the Electron 45.3.3 support table and the published v0.1.0-rc.1 assets. -->
           <li class="trust__item"><i data-lucide="monitor" aria-hidden="true"></i>Windows · macOS · Linux</li>
           <li class="trust__item">
             <i data-lucide="code-2" aria-hidden="true"></i>
@@ -687,8 +719,8 @@
               <h3><i data-lucide="check" aria-hidden="true"></i>What TeleVault does</h3>
               <ul class="security__list">
                 <li>
-                  <i data-lucide="check" aria-hidden="true"></i>Talks to Telegram on your behalf, using your
-                  account
+                  <i data-lucide="check" aria-hidden="true"></i>Encrypts file contents on your device when
+                  encryption is on
                 </li>
                 <li>
                   <i data-lucide="check" aria-hidden="true"></i>Keeps files in your existing Telegram storage
@@ -704,7 +736,8 @@
               <ul class="security__list">
                 <li><i data-lucide="x" aria-hidden="true"></i>Runs a server that stores your files</li>
                 <li><i data-lucide="x" aria-hidden="true"></i>Creates an account with us</li>
-                <li><i data-lucide="x" aria-hidden="true"></i>Claims encryption beyond what the code does</li>
+                <li><i data-lucide="x" aria-hidden="true"></i>Encrypts file names, paths or sizes</li>
+                <li><i data-lucide="x" aria-hidden="true"></i>Offers a recovery key export yet</li>
               </ul>
             </article>
           </div>
@@ -716,7 +749,11 @@
               <i data-lucide="server-off" aria-hidden="true"></i>Nothing stored on our servers
             </li>
           </ul>
-          <!-- VERIFY: all security claims. The repository contains the website only, so the app's data handling cannot be confirmed here. -->
+          <p class="security__note">
+            File contents are encrypted with AES-256-GCM on your device when encryption is on, and the key
+            stays in your OS keychain. File names, paths, sizes and folder names are not encrypted. If you
+            lose the key, encrypted files cannot be read; there is no recovery-key export in this beta.
+          </p>
         </div>
       </section>
 
@@ -998,8 +1035,9 @@ npm install &amp;&amp; npm run dev</code></pre>
               <div class="accordion__panel" id="faq-5" role="region" aria-labelledby="faq-5-trigger">
                 <div class="accordion__inner">
                   <p>
-                    TeleVault talks to Telegram on your behalf and does not run a server that stores your
-                    files. Because it is open source, you can audit exactly what it sends and receives.
+                    File contents are encrypted on your device when encryption is on. File names, paths, sizes
+                    and folder names are not encrypted, and the Telegram session is stored locally. TeleVault
+                    does not run a server that stores your files.
                   </p>
                 </div>
               </div>
@@ -1020,10 +1058,10 @@ npm install &amp;&amp; npm run dev</code></pre>
               <div class="accordion__panel" id="faq-6" role="region" aria-labelledby="faq-6-trigger">
                 <div class="accordion__inner">
                   <p>
-                    TeleVault is a desktop app. Check the releases page on GitHub for the current list of
-                    supported platforms and builds.
+                    TeleVault is a desktop app for Windows 10+, macOS Ventura 13+ and Linux x64. Current
+                    installers, system requirements and checksums are on the
+                    <a href="download.html">download page</a>.
                   </p>
-                  <!-- VERIFY: supported platforms and whether any release builds exist -->
                 </div>
               </div>
             </div>
@@ -1044,7 +1082,10 @@ npm install &amp;&amp; npm run dev</code></pre>
                 <div class="accordion__inner">
                   <p>
                     No. TeleVault is an independent open-source project and is not affiliated with or endorsed
-                    by Telegram.
+                    by Telegram. You use it with your own Telegram account and are responsible for following
+                    <a href="https://telegram.org/tos" target="_blank" rel="noopener"
+                      >Telegram's Terms of Service</a
+                    >.
                   </p>
                 </div>
               </div>
@@ -1065,10 +1106,9 @@ npm install &amp;&amp; npm run dev</code></pre>
               <div class="accordion__panel" id="faq-8" role="region" aria-labelledby="faq-8-trigger">
                 <div class="accordion__inner">
                   <p>
-                    Any limit comes from Telegram and your account, not from TeleVault. The app uses the same
-                    limits Telegram applies to your uploads.
+                    TeleVault does not advertise a fixed per-file limit. Files are uploaded to your own
+                    Telegram account, so any practical limit comes from Telegram and your account.
                   </p>
-                  <!-- VERIFY: file size limits come from Telegram, not TeleVault -->
                 </div>
               </div>
             </div>
@@ -1139,6 +1179,96 @@ npm install &amp;&amp; npm run dev</code></pre>
                     Yes. Clone the repository, install dependencies with <code>npm install</code>, and run the
                     development command. The <a href="contribute.html#setup">contributing guide</a> walks
                     through the full setup.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-12"
+                  id="faq-12-trigger"
+                >
+                  <span>What does “Delete permanently” do?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-12" role="region" aria-labelledby="faq-12-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    It is irreversible. It deletes the file's recorded Telegram messages and its local
+                    records. Cached thumbnails, old sync snapshots and archived version messages are not
+                    removed.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-13"
+                  id="faq-13-trigger"
+                >
+                  <span>What happens when trash expires?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-13" role="region" aria-labelledby="faq-13-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Trash entries expire after 30 days. The sweep removes local references only, so the
+                    messages stay in your Telegram account until you delete them there.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-14"
+                  id="faq-14-trigger"
+                >
+                  <span>How does sync handle conflicts?</span><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-14" role="region" aria-labelledby="faq-14-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    Sync is last-writer-wins: the most recently pushed device can overwrite newer local
+                    metadata. TeleVault makes a local backup before applying a pull.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion__item">
+              <h3 class="accordion__heading">
+                <button
+                  class="accordion__trigger"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="faq-15"
+                  id="faq-15-trigger"
+                >
+                  <span>Does it download updates automatically?</span
+                  ><i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </h3>
+              <div class="accordion__panel" id="faq-15" role="region" aria-labelledby="faq-15-trigger">
+                <div class="accordion__inner">
+                  <p>
+                    The startup update check contacts GitHub and sends a random ID generated on your device. A
+                    failed check is silent. An installer is downloaded only after you choose to download it.
                   </p>
                 </div>
               </div>
@@ -1250,6 +1380,8 @@ npm install &amp;&amp; npm run dev</code></pre>
                     >License</a
                   >
                 </li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="terms.html">Terms</a></li>
               </ul>
             </div>
           </nav>

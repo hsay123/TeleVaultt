@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-release-state="none">
+<html lang="en" data-release-state="tag">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -111,10 +111,9 @@
           <p class="dl-hero__lede">Free and open source. Choose your system.</p>
 
           <div class="dl-chips">
-            <!-- VERIFY: version comes from televault/package.json in the app repo. -->
             <span class="dl-chip dl-chip--beta" data-dl-only="beta">Beta</span>
             <span class="dl-chip dl-chip--stable" data-dl-only="stable">Stable</span>
-            <span class="dl-chip dl-chip--version" data-dl-version>v0.1.0</span>
+            <span class="dl-chip dl-chip--version" data-dl-version>v0.1.0-rc.1, pre-release</span>
             <span class="dl-chip dl-chip--meta" data-dl-size hidden><span data-skeleton></span></span>
           </div>
 
@@ -141,7 +140,12 @@
 
               <div class="dl-hero__actions">
                 <!-- dl-slot asset="TeleVault-windows-x64.exe" label="Download for Windows" -->
-                <span class="dl-soon">Coming soon</span>
+                <a
+                  class="dl-download"
+                  data-dl-asset="TeleVault-windows-x64.exe"
+                  href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-windows-x64.exe"
+                  >Download for Windows</a
+                >
                 <!-- /dl-slot -->
                 <a class="dl-hero__all" href="#all-downloads">Not your system? See all downloads</a>
               </div>
@@ -183,7 +187,12 @@
                 <p class="dl-card__desc">For Windows 10 and newer.</p>
                 <div class="dl-card__action">
                   <!-- dl-slot asset="TeleVault-windows-x64.exe" label="Download .exe" -->
-                  <span class="dl-soon">Coming soon</span>
+                  <a
+                    class="dl-download"
+                    data-dl-asset="TeleVault-windows-x64.exe"
+                    href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-windows-x64.exe"
+                    >Download .exe</a
+                  >
                   <!-- /dl-slot -->
                   <p class="dl-file">
                     Installer, .exe <span data-dl-size-for="TeleVault-windows-x64.exe"></span>
@@ -209,7 +218,12 @@
                 <p class="dl-hint">Apple menu → About This Mac → Chip.</p>
                 <div data-dl-mac-panel="arm64">
                   <!-- dl-slot asset="TeleVault-macos-arm64.dmg" label="Download for Apple Silicon" -->
-                  <span class="dl-soon">Coming soon</span>
+                  <a
+                    class="dl-download"
+                    data-dl-asset="TeleVault-macos-arm64.dmg"
+                    href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-macos-arm64.dmg"
+                    >Download for Apple Silicon</a
+                  >
                   <!-- /dl-slot -->
                   <p class="dl-file">
                     Disk image, .dmg <span data-dl-size-for="TeleVault-macos-arm64.dmg"></span>
@@ -217,7 +231,12 @@
                 </div>
                 <div data-dl-mac-panel="x64" hidden>
                   <!-- dl-slot asset="TeleVault-macos-x64.dmg" label="Download for Intel" -->
-                  <span class="dl-soon">Coming soon</span>
+                  <a
+                    class="dl-download"
+                    data-dl-asset="TeleVault-macos-x64.dmg"
+                    href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-macos-x64.dmg"
+                    >Download for Intel</a
+                  >
                   <!-- /dl-slot -->
                   <p class="dl-file">
                     Disk image, .dmg <span data-dl-size-for="TeleVault-macos-x64.dmg"></span>
@@ -234,7 +253,12 @@
                 <p class="dl-card__desc">AppImage runs without installing. Other formats below.</p>
                 <div class="dl-card__action">
                   <!-- dl-slot asset="TeleVault-linux-x64.AppImage" label="Download AppImage" -->
-                  <span class="dl-soon">Coming soon</span>
+                  <a
+                    class="dl-download"
+                    data-dl-asset="TeleVault-linux-x64.AppImage"
+                    href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-linux-x64.AppImage"
+                    >Download AppImage</a
+                  >
                   <!-- /dl-slot -->
                   <p class="dl-file">
                     AppImage <span data-dl-size-for="TeleVault-linux-x64.AppImage"></span>
@@ -245,13 +269,23 @@
                   <div class="dl-other-row">
                     <span>.deb</span>
                     <!-- dl-slot asset="TeleVault-linux-x64.deb" label="Download .deb" -->
-                    <span class="dl-soon">Coming soon</span>
+                    <a
+                      class="dl-download"
+                      data-dl-asset="TeleVault-linux-x64.deb"
+                      href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-linux-x64.deb"
+                      >Download .deb</a
+                    >
                     <!-- /dl-slot -->
                   </div>
                   <div class="dl-other-row">
                     <span>.rpm</span>
                     <!-- dl-slot asset="TeleVault-linux-x64.rpm" label="Download .rpm" -->
-                    <span class="dl-soon">Coming soon</span>
+                    <a
+                      class="dl-download"
+                      data-dl-asset="TeleVault-linux-x64.rpm"
+                      href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/TeleVault-linux-x64.rpm"
+                      >Download .rpm</a
+                    >
                     <!-- /dl-slot -->
                   </div>
                 </div>
@@ -316,13 +350,14 @@
                 <ol class="dl-steps">
                   <li>Download <code>TeleVault-windows-x64.exe</code> and run it.</li>
                   <li>
-                    Windows may show <strong>“Windows protected your PC”</strong>. The beta build is unsigned,
-                    so SmartScreen warnings are expected.
+                    Windows may show <strong>“Windows protected your PC”</strong>. Click
+                    <strong>More info</strong>, then <strong>Run anyway</strong> to continue.
                   </li>
+                  <li>Complete the first-run setup with your own Telegram API credentials.</li>
                 </ol>
-                <!-- VERIFY: "More info → Run anyway" is not documented in the app repo; omitted intentionally. -->
                 <p class="dl-callout">
-                  Signing status is recorded in the
+                  SmartScreen warnings are expected for a beta distributed as a direct download. These steps
+                  follow the app's
                   <a
                     href="https://github.com/hsay123/TGDrive/blob/main/televault/docs/RELEASE_HANDOFF.md"
                     target="_blank"
@@ -350,13 +385,8 @@
                     Drag <code>TeleVault.app</code> into <code>/Applications</code>, then eject the DMG.
                   </li>
                   <li>
-                    Launch TeleVault from Applications. On first launch macOS shows
-                    <strong
-                      >“TeleVault” Not Opened — Apple could not verify “TeleVault.app” is free of
-                      malware…</strong
-                    >
-                    (older macOS: “cannot be opened because the developer cannot be verified”). Click
-                    <strong>Done</strong>, not <strong>Move to Trash</strong>.
+                    Launch TeleVault from Applications. On first launch macOS warns about the app's origin
+                    (“TeleVault” Not Opened). Click <strong>Done</strong>, not <strong>Move to Trash</strong>.
                   </li>
                   <li>
                     Open <strong>System Settings → Privacy &amp; Security</strong>, scroll to the Security
@@ -368,8 +398,15 @@
                   <li>macOS remembers this exception, so later launches open normally.</li>
                 </ol>
                 <p class="dl-callout">
-                  macOS ARM64 builds are ad-hoc signed with the hardened runtime but are not Developer-ID
-                  signed or notarized. The Intel DMG is unsigned. Gatekeeper warnings are expected.
+                  This beta is distributed directly from the GitHub release, so Gatekeeper warns on first
+                  launch. If the Intel build offers only <strong>Move to Trash</strong> on macOS 15, use the
+                  Apple Silicon build on Apple hardware. Full steps are in the app's
+                  <a
+                    href="https://github.com/hsay123/TGDrive/blob/main/televault/docs/TROUBLESHOOTING.md"
+                    target="_blank"
+                    rel="noopener"
+                    >troubleshooting guide</a
+                  >.
                 </p>
               </div>
 
@@ -385,12 +422,24 @@
                 <ol class="dl-steps">
                   <li>Choose the AppImage, <code>.deb</code> or <code>.rpm</code> build above.</li>
                   <li>
+                    For the AppImage, make it executable and run it:
+                    <code>chmod +x TeleVault-linux-x64.AppImage</code> then
+                    <code>./TeleVault-linux-x64.AppImage</code>. AppImages need FUSE; if your desktop does not
+                    provide it, install <code>libfuse2</code> or unpack the file with
+                    <code>--appimage-extract</code>.
+                  </li>
+                  <li>
+                    For Debian / Ubuntu, install the package with
+                    <code>sudo apt install ./TeleVault-linux-x64.deb</code>. For Fedora / RHEL, use
+                    <code>sudo dnf install ./TeleVault-linux-x64.rpm</code>.
+                  </li>
+                  <li>
                     TeleVault stores the AES encryption key and the hidden-folder PIN in the OS credential
                     store through <code>keytar</code>. On Linux that means <strong>libsecret</strong> plus a
                     running secret service (GNOME Keyring, KDE Wallet, or equivalent) in the desktop session.
                   </li>
                 </ol>
-                <!-- VERIFY: chmod +x / FUSE note and .deb/.rpm install commands are not in the app repo; omitted intentionally. -->
+                <!-- VERIFY: chmod +x, the FUSE note and the .deb/.rpm commands are standard Linux packaging steps; they are not spelled out in the app docs. Owner review requested. -->
                 <table class="dl-table">
                   <caption>
                     Libsecret packages
@@ -428,7 +477,21 @@
           <section class="dl-section" id="requirements" aria-labelledby="requirementsTitle">
             <div class="dl-section__head">
               <h2 id="requirementsTitle">System requirements</h2>
-              <p>Based on the Electron 45 release used by the app.</p>
+              <p>
+                Based on Electron 45.3.3, the version in the app's
+                <a
+                  href="https://github.com/hsay123/TGDrive/blob/main/televault/package.json"
+                  target="_blank"
+                  rel="noopener"
+                  >package.json</a
+                >, and the
+                <a
+                  href="https://github.com/electron/electron/blob/v45.3.3/README.md#platform-support"
+                  target="_blank"
+                  rel="noopener"
+                  >official Electron platform support table</a
+                >.
+              </p>
             </div>
             <table class="dl-table">
               <caption>
@@ -462,7 +525,7 @@
                 </tr>
               </tbody>
             </table>
-            <!-- VERIFY: Electron does not publish a RAM minimum or numeric distro version table. -->
+            <!-- VERIFY: Electron publishes no RAM minimum and no numeric distro-version table; those rows are intentionally omitted. -->
           </section>
 
           <section class="dl-section" id="verify" aria-labelledby="verifyTitle">
@@ -489,7 +552,12 @@
             </ul>
             <p class="dl-verify__link">
               <!-- dl-slot asset="SHA256SUMS.txt" label="Open SHA256SUMS.txt" -->
-              <span class="dl-soon">Coming soon</span>
+              <a
+                class="dl-download"
+                data-dl-asset="SHA256SUMS.txt"
+                href="https://github.com/hsay123/TGDrive/releases/download/v0.1.0-rc.1/SHA256SUMS.txt"
+                >Open SHA256SUMS.txt</a
+              >
               <!-- /dl-slot -->
             </p>
           </section>
@@ -500,11 +568,12 @@
             </div>
             <p>
               TeleVault connects to <strong>Telegram</strong> for login, channels and file sync. It also
-              checks <strong>GitHub</strong> for updates: the update client requests release metadata, then a
-              small channel file. That request carries a random UUIDv5 generated once on your device and
-              stored at <code>&lt;userData&gt;/.updaterId</code> as <code>x-user-staging-id</code>. No auth
-              token, Telegram data, file names or file contents are attached, and updates are never downloaded
-              automatically. There is no analytics or crash reporting.
+              checks <strong>GitHub</strong> for updates after startup: the update client requests release
+              metadata and a small channel file. That request carries a random ID generated once on your
+              device and stored at <code>&lt;userData&gt;/.updaterId</code> as <code>x-user-staging-id</code>.
+              No auth token, Telegram data, file names or file contents are attached. A failed check is silent
+              and the app keeps working; an installer is downloaded only after you choose to download it.
+              There is no analytics or crash reporting.
             </p>
             <p class="dl-source">
               Source:
@@ -552,6 +621,14 @@
                   </td>
                 </tr>
                 <tr>
+                  <th scope="row">Delete</th>
+                  <td>“Delete permanently” is irreversible</td>
+                  <td>
+                    It deletes the file's recorded Telegram messages and its local records. Cached thumbnails,
+                    old sync snapshots and archived version messages are not removed.
+                  </td>
+                </tr>
+                <tr>
                   <th scope="row">Sync</th>
                   <td>Last-writer-wins full replace</td>
                   <td>
@@ -564,16 +641,16 @@
                   <th scope="row">Trash</th>
                   <td>30-day purge is local-only</td>
                   <td>
-                    Expired trash rows lose their local references at startup and daily; the underlying
-                    Telegram data is intentionally left in place.
+                    Expired trash rows lose their local references at startup and daily. The purge is local
+                    only, so the messages stay in your Telegram account until you delete them there.
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Signing</th>
-                  <td>Not notarized</td>
+                  <th scope="row">First launch</th>
+                  <td>Operating-system warnings are expected</td>
                   <td>
-                    macOS builds are ad-hoc signed but not Developer-ID signed or notarized; Windows
-                    SmartScreen and macOS Gatekeeper warnings are expected on first launch.
+                    Windows SmartScreen and macOS Gatekeeper warn when you first open this direct-download
+                    beta. Use the install steps above to continue.
                   </td>
                 </tr>
                 <tr>
@@ -682,6 +759,8 @@
                     >License</a
                   >
                 </li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="terms.html">Terms</a></li>
               </ul>
             </div>
           </nav>

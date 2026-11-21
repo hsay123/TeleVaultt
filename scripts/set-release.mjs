@@ -102,9 +102,10 @@ async function buildOutputs(release) {
     return `<!-- dl-slot asset="${asset}" label="${label}" -->\n${indent}${body}\n${indent}<!-- /dl-slot -->`;
   });
 
+  const chipSuffix = mode === 'stable' ? '' : ', pre-release';
   nextHtml = nextHtml.replace(
     /(<span class="dl-chip dl-chip--version" data-dl-version>)[^<]*(<\/span>)/,
-    `$1v${version}$2`,
+    `$1v${version}${chipSuffix}$2`,
   );
 
   if (

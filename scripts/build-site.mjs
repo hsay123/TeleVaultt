@@ -7,6 +7,8 @@ const entries = [
   'index.html',
   'contribute.html',
   'download.html',
+  'privacy.html',
+  'terms.html',
   '404.html',
   'styles.css',
   'script.js',

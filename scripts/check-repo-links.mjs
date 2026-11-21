@@ -105,7 +105,10 @@ for (const file of files) {
 /* Region helpers                                                             */
 /* -------------------------------------------------------------------------- */
 
-const ANCHOR_PATTERN = /<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi;
+// `[^<>]` (not `[^>]`) keeps the attribute scan inside the opening tag; `[^>]`
+// can swallow `<` and make one anchor appear to span several links. Prettier
+// also formats closing tags as `</a\n>`, so allow whitespace before `>`.
+const ANCHOR_PATTERN = /<a\b[^<>]*href="([^"]+)"[^<>]*>([\s\S]*?)<\/a\s*>/gi;
 
 function anchors(html) {
   return [...html.matchAll(ANCHOR_PATTERN)].map((match) => ({
