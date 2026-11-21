@@ -16,13 +16,15 @@
     "check:links": "start-server-and-test dev http://127.0.0.1:4173 check:links:run",
     "check:links:run": "linkinator http://127.0.0.1:4173 --recurse --skip \"github\\.com|github\\.io|shields\\.io|opensource\\.org|vercel\\.app\" --silent",
     "check:repos": "node scripts/check-repo-links.mjs",
+    "check:site-url": "node scripts/check-site-url.mjs",
     "check:downloads": "node scripts/check-downloads.mjs",
     "check:downloads:online": "node scripts/check-downloads.mjs --online",
     "set-release": "node scripts/set-release.mjs",
+    "set-site-url": "node scripts/set-site-url.mjs",
     "build": "node scripts/build-site.mjs",
     "test": "playwright test",
     "lighthouse": "lhci autorun",
-    "check": "npm run format:check && npm run lint && npm run check:repos && npm run check:downloads && npm run check:links",
+    "check": "npm run format:check && npm run lint && npm run check:site-url && npm run check:repos && npm run check:downloads && npm run check:links",
     "vendor": "node scripts/vendor.mjs"
   },
   "dependencies": {
