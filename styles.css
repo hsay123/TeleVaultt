@@ -222,9 +222,6 @@ body {
   align-items: center;
   gap: 26px;
   padding: 0 24px;
-  border-radius: 40px;
-  background: rgba(187, 187, 187, 0.26);
-  border: 1px solid #d7d5d5;
 }
 
 .nav__pill {
@@ -233,9 +230,6 @@ body {
   left: 0;
   height: 30px;
   width: 0;
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.62);
-  box-shadow: 0 1px 2px rgba(20, 24, 31, 0.08);
   opacity: 0;
   transition:
     left 250ms var(--ease-out),
@@ -255,29 +249,28 @@ body {
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
-  color: var(--paper);
+  color: var(--ink);
   text-decoration: none;
   white-space: nowrap;
   z-index: 1;
 }
 
 .nav__link--warm {
-  color: #fffafa;
+  color: var(--ink);
 }
 
 /*
- * Over the photo the bar is transparent, so the links take the same ink the
- * hero headline uses. White measured 1.6-2.2:1 against the light sky; ink
- * holds 7.9-11.2:1 and matches the logo. Once the glass fills in past the hero
- * the links are already ink, so this only affects the transparent state.
+ * The hero sky behind the bar is light (193,208,219 at the top edge), so ink
+ * links hold 7.9-11.2:1 contrast there while white would be 1.6-2.2:1. Hover
+ * and active are carried by an underline instead of a pale pill, keeping the
+ * header free of any fill.
  */
-.site-header:not(.is-blurred) .nav__link {
-  color: var(--ink);
-}
-
 .nav__link:hover,
 .nav__link.is-active {
   color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 .header__avatar {
@@ -287,8 +280,9 @@ body {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background: rgba(187, 187, 187, 0.26);
-  border: 1px solid #d7d5d5;
+  background: transparent;
+  border: none;
+  appearance: none;
   display: grid;
   place-items: center;
   color: var(--ink);
@@ -782,25 +776,8 @@ video {
   font-size: 17px;
 }
 
-/* Header glass past the hero ---------------------------------------------- */
-
-.site-header {
-  transition:
-    background-color 250ms ease,
-    backdrop-filter 250ms ease,
-    box-shadow 250ms ease;
-}
-
-.site-header.is-blurred {
-  background-color: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  box-shadow: 0 1px 0 var(--line);
-}
-
-.site-header.is-blurred .nav__link {
-  color: var(--ink);
-}
+/* The header stays transparent at every scroll state; only the CTA keeps its
+   existing solid fill once the hero has passed. */
 
 .site-header.is-blurred .header__cta {
   background: var(--ink);
@@ -3624,10 +3601,6 @@ video {
   .header__nav,
   .header__cta {
     display: none;
-  }
-
-  .site-header.is-blurred {
-    background-color: rgba(255, 255, 255, 0.82);
   }
 
   .section {
